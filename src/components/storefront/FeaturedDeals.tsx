@@ -89,8 +89,8 @@ export default function FeaturedDeals() {
           </Link>
         </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Products Grid - 2 per row on mobile */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
           {products.map((prod) => {
             const retailPrice = prod.retailPrice || 0;
             const communityPrice = prod.communityPrice || 0;
@@ -100,21 +100,21 @@ export default function FeaturedDeals() {
               <Link
                 key={prod._id}
                 href={`/product/${prod.slug}`}
-                className="group bg-white rounded-3xl border border-gray-200 overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+                className="group bg-white rounded-2xl sm:rounded-3xl border border-gray-200 overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
               >
                 {/* Product Image */}
                 <div
-                  className="h-56 bg-cover bg-center bg-gray-50 border-b border-gray-100 transition-transform duration-500 group-hover:scale-101"
+                  className="h-36 sm:h-56 bg-cover bg-center bg-gray-50 border-b border-gray-100 transition-transform duration-500 group-hover:scale-101"
                   style={{ backgroundImage: `url('${prod.images[0] || '/images/hero_banner.png'}')` }}
                 />
 
                 {/* Card body */}
-                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                  <div className="space-y-1.5">
+                <div className="p-3 sm:p-6 flex-1 flex flex-col justify-between space-y-2 sm:space-y-4">
+                  <div className="space-y-1">
                     {/* Stars */}
                     <div className="flex gap-0.5 text-amber-500">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-3.5 h-3.5 fill-current" />
+                        <Star key={i} className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current" />
                       ))}
                     </div>
                     {/* Title */}

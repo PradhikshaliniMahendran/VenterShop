@@ -125,7 +125,7 @@ export default function ProductCard({ product }: { product: IProductData }) {
         </div>
 
         {/* Product Image Panel */}
-        <Link href={`/product/${product.slug}`} className="relative h-56 w-full block bg-gray-50 overflow-hidden border-b border-gray-100">
+        <Link href={`/product/${product.slug}`} className="relative h-36 sm:h-56 w-full block bg-gray-50 overflow-hidden border-b border-gray-100">
           <div
             className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-103"
             style={{
@@ -148,7 +148,7 @@ export default function ProductCard({ product }: { product: IProductData }) {
         </Link>
 
         {/* Content Info */}
-        <div className="p-4 flex-1 flex flex-col justify-between space-y-4">
+        <div className="p-2.5 sm:p-4 flex-1 flex flex-col justify-between space-y-2 sm:space-y-4">
           <div className="space-y-1">
             <div className="flex justify-between items-start gap-2">
               <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">

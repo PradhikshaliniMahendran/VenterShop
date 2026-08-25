@@ -312,7 +312,7 @@ export default function ShopContent() {
 
           {/* Product Grid / Loader / Empty State */}
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
               {[...Array(6)].map((_, i) => (
                 <div key={i} className="bg-white rounded-xl h-96 shadow-sm border border-gray-100 flex flex-col p-4 space-y-4">
                   <div className="flex-1 bg-gray-200 rounded-lg animate-pulse" />
@@ -339,7 +339,7 @@ export default function ShopContent() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
               {products.map((product) => (
                 <ProductCard key={product._id} product={product} />
               ))}

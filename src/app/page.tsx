@@ -15,7 +15,7 @@ export const metadata = {
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#F5F5F5] font-sans antialiased text-xs font-semibold">
+    <div className="flex flex-col min-h-screen w-full overflow-x-hidden bg-[#F5F5F5] font-sans antialiased text-xs font-semibold">
       {/* Navigation Header */}
       <Suspense fallback={<div className="h-20 bg-white border-b border-gray-100" />}>
         <Header />

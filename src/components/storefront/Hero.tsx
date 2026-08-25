@@ -24,7 +24,7 @@ export default function Hero() {
   }, [slides.length]);
 
   return (
-    <section className="relative min-h-[90vh] sm:min-h-screen flex items-center justify-center bg-[#101A2D] overflow-hidden pt-20 pb-24 text-xs font-semibold">
+    <section className="relative w-full min-h-[90vh] sm:min-h-screen flex items-center justify-center bg-[#101A2D] overflow-hidden pt-20 pb-24 text-xs font-semibold">
       
       {/* Background Images with slideshow transitions */}
       {slides.map((url, idx) => (

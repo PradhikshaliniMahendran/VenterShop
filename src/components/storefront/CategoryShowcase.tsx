@@ -75,7 +75,7 @@ export default function CategoryShowcase() {
   }
 
   return (
-    <section id="categories" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#1A2A4A] text-white relative z-10 scroll-mt-20 overflow-hidden text-xs font-semibold">
+    <section id="categories" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#1A2A4A] text-white relative z-10 scroll-mt-20 overflow-hidden text-xs font-semibold w-full">
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Section Header */}
@@ -112,7 +112,7 @@ export default function CategoryShowcase() {
           {/* Horizonal scrollable area */}
           <div
             id="category-carousel-scroll"
-            className="flex gap-6 sm:gap-8 overflow-x-auto pb-6 pt-2 px-4 scrollbar-none snap-x snap-mandatory scroll-smooth items-center justify-start"
+            className="flex gap-6 sm:gap-8 overflow-x-auto pb-6 pt-2 px-8 md:px-12 scrollbar-none snap-x snap-mandatory scroll-smooth items-center justify-start"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {categories.map((category) => (
