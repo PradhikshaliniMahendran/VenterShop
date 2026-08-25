@@ -11,7 +11,16 @@ import { saveInMemoryUser, getInMemoryUser } from '@/lib/auth/inMemoryUsers';
 
 export async function POST(request: Request) {
   try {
-    const { email, otp, password, firstName, lastName, phone, preferredLanguage } = await request.json();
+    const {
+      email,
+      otp,
+      password,
+      firstName,
+      lastName,
+      phone,
+      preferredLanguage,
+      customerType: requestedCustomerType,
+    } = await request.json();
 
     if (!email || !otp) {
       return NextResponse.json({ error: 'Email and verification code are required' }, { status: 400 });
@@ -94,7 +103,6 @@ export async function POST(request: Request) {
 
       // Fallback for customer account: If user registered via OTP or valid credentials provided
       if (!authenticated) {
-        // If password is provided, authenticate as customer
         userId = 'usr_' + Date.now();
         userFirstName = 'Valued';
         userLastName = 'Customer';
@@ -168,8 +176,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid or expired verification code. Please request a new code.' }, { status: 400 });
     }
 
+    const validatedCustomerType: 'NORMAL' | 'COMMUNITY' | 'WHOLESALE' =
+      requestedCustomerType === 'COMMUNITY' || requestedCustomerType === 'WHOLESALE'
+        ? requestedCustomerType
+        : 'NORMAL';
+
     let userRole: 'CUSTOMER' | 'ADMIN' | 'SUPER_ADMIN' = 'CUSTOMER';
-    let customerType: 'NORMAL' | 'COMMUNITY' | 'WHOLESALE' | 'ADMIN' = 'NORMAL';
+    let customerType: 'NORMAL' | 'COMMUNITY' | 'WHOLESALE' | 'ADMIN' = validatedCustomerType;
     let userId = 'usr_' + Date.now();
     const userFirstName = firstName?.trim() || 'Valued';
     const userLastName = lastName?.trim() || 'Customer';
@@ -184,7 +197,7 @@ export async function POST(request: Request) {
       firstName: userFirstName,
       lastName: userLastName,
       phone: phone?.trim() || '',
-      customerType: 'NORMAL',
+      customerType: validatedCustomerType,
       role: 'CUSTOMER',
       status: 'ACTIVE',
     });
@@ -206,13 +219,15 @@ export async function POST(request: Request) {
             firstName: userFirstName,
             lastName: userLastName,
             phone: phone?.trim() || '',
-            customerType: 'NORMAL',
+            customerType: validatedCustomerType,
             status: 'ACTIVE',
+            communityStatus: validatedCustomerType === 'COMMUNITY' ? 'APPROVED' : 'NONE',
             preferredLanguage: preferredLanguage || 'en',
             addresses: [],
           });
         } else {
           user.password = hashedPassword;
+          user.customerType = validatedCustomerType;
           if (firstName?.trim()) user.firstName = userFirstName;
           if (lastName?.trim()) user.lastName = userLastName;
           if (phone?.trim()) user.phone = phone.trim();
