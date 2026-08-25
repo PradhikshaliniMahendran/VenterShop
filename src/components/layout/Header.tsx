@@ -305,7 +305,6 @@ export default function Header() {
                 <X className="w-5 h-5" />
               </button>
             </div>
-            {/* Navigation Links */}
             <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
               {navItems.map((item, index) => (
                 <Link
@@ -317,15 +316,61 @@ export default function Header() {
                   {item.label}
                 </Link>
               ))}
-              <div className="border-t border-gray-100 my-4 pt-4">
-                <Link
-                  href="/dashboard/wishlist"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-2.5 text-[#071B5C] hover:bg-gray-50 rounded-lg text-sm font-black uppercase tracking-wider"
-                >
-                  <Heart className="w-5 h-5 text-gray-500" />
-                  {t('dashWishlist')}
-                </Link>
+
+              {/* ── Account Section ── */}
+              <div className="border-t border-gray-150 mt-4 pt-4 space-y-1">
+                {user ? (
+                  <>
+                    {/* Profile info card */}
+                    <div className="flex items-center gap-3 px-4 py-3 bg-[#1A2A4A] rounded-xl mb-2">
+                      <div className="w-9 h-9 rounded-full bg-white text-[#1A2A4A] flex items-center justify-center font-black text-sm shrink-0">
+                        {user.firstName[0]}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-extrabold text-xs text-white truncate">{user.firstName} {user.lastName}</p>
+                        <p className="text-[10px] text-gray-300 truncate">{user.email}</p>
+                      </div>
+                    </div>
+
+                    {/* Dashboard nav links */}
+                    {[
+                      { label: language === 'ta' ? 'கணினி பொது' : 'My Dashboard', href: '/dashboard' },
+                      { label: language === 'ta' ? 'சுயவிவரம்' : 'My Profile', href: '/dashboard/profile' },
+                      { label: language === 'ta' ? 'ஆர்டர்கள்' : 'My Orders', href: '/dashboard/orders' },
+                      { label: language === 'ta' ? 'வௌச்சர்கள்' : 'My Vouchers', href: '/dashboard/vouchers' },
+                      { label: language === 'ta' ? 'விருப்பப்பட்டியல்' : 'My Wishlist', href: '/dashboard/wishlist' },
+                      { label: language === 'ta' ? 'முகவரிகள்' : 'My Addresses', href: '/dashboard/addresses' },
+                    ].map((item, idx) => (
+                      <Link
+                        key={idx}
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-3 px-4 py-2.5 text-[#333333] hover:text-[#E53935] hover:bg-red-50 rounded-lg text-xs font-bold uppercase tracking-wider transition-all"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#E53935] shrink-0" />
+                        {item.label}
+                      </Link>
+                    ))}
+
+                    {/* Logout */}
+                    <button
+                      onClick={() => { setMobileMenuOpen(false); logoutUser(); }}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-red-600 hover:bg-red-50 rounded-lg text-xs font-bold uppercase tracking-wider transition-all mt-1"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      {t('navLogout')}
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    href="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 mx-2 py-3 bg-[#071B5C] hover:bg-[#0d216d] text-white rounded-xl text-xs font-black uppercase tracking-wider transition-colors"
+                  >
+                    <User className="w-4 h-4 text-[#D4AF37]" />
+                    {t('navLogin')}
+                  </Link>
+                )}
               </div>
             </div>
           </div>
