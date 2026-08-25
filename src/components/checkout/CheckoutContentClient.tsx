@@ -60,6 +60,7 @@ export default function CheckoutContentClient() {
   // Shipping Address Fields State
   const [addressForm, setAddressForm] = useState({
     fullName: '',
+    email: '',
     addressLine1: '',
     addressLine2: '',
     city: '',
@@ -81,6 +82,7 @@ export default function CheckoutContentClient() {
       const defaultAddr = user.addresses.find((addr) => addr.isDefault) || user.addresses[0];
       setAddressForm({
         fullName: defaultAddr.fullName || '',
+        email: user.email || '',
         addressLine1: defaultAddr.addressLine1 || '',
         addressLine2: defaultAddr.addressLine2 || '',
         city: defaultAddr.city || '',
@@ -92,6 +94,7 @@ export default function CheckoutContentClient() {
       setAddressForm((prev) => ({
         ...prev,
         fullName: `${user.firstName} ${user.lastName}`,
+        email: user.email || prev.email,
         phone: user.phone || '',
       }));
     }
@@ -138,6 +141,7 @@ export default function CheckoutContentClient() {
     if (selected) {
       setAddressForm({
         fullName: selected.fullName,
+        email: user.email || '',
         addressLine1: selected.addressLine1,
         addressLine2: selected.addressLine2 || '',
         city: selected.city,
@@ -325,13 +329,27 @@ export default function CheckoutContentClient() {
               <form onSubmit={handleNextStep} className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold">
                 
                 {/* Full name */}
-                <div className="space-y-1.5 sm:col-span-2">
+                <div className="space-y-1.5">
                   <label className="text-[#333333] font-bold">{t('checkoutFullName')} *</label>
                   <input
                     type="text"
                     name="fullName"
                     required
                     value={addressForm.fullName}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:bg-white focus:border-[#1A2A4A] text-gray-900 font-bold"
+                  />
+                </div>
+
+                {/* Email for Order Receipt */}
+                <div className="space-y-1.5">
+                  <label className="text-[#333333] font-bold">Email (for Order Confirmation) *</label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="customer@example.com"
+                    value={addressForm.email}
                     onChange={handleInputChange}
                     className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:bg-white focus:border-[#1A2A4A] text-gray-900 font-bold"
                   />
@@ -458,7 +476,7 @@ export default function CheckoutContentClient() {
                     <strong>{addressForm.fullName}</strong><br />
                     {addressForm.addressLine1}{addressForm.addressLine2 ? `, ${addressForm.addressLine2}` : ''}<br />
                     {addressForm.city}, {addressForm.province} {addressForm.postalCode}<br />
-                    Phone: {addressForm.phone}
+                    Phone: {addressForm.phone} | Email: <strong>{addressForm.email}</strong>
                   </p>
                 </div>
                 <button

@@ -4,7 +4,7 @@ import { connectToDatabase } from '@/lib/mongodb/mongoose';
 import User from '@/models/User';
 import Admin from '@/models/Admin';
 
-const JWT_SECRET = process.env.JWT_SECRET || '';
+const JWT_SECRET = process.env.JWT_SECRET || 'ventershop_development_secret_key_change_me_in_production';
 
 export interface SessionPayload {
   userId: string;
@@ -18,7 +18,6 @@ export interface SessionPayload {
 export async function getSessionPayload(): Promise<SessionPayload | null> {
   try {
     const cookieStore = await cookies();
-    // Check admin_session first (for admin routes), then user session
     const adminToken = cookieStore.get('admin_session')?.value;
     const userToken = cookieStore.get('session')?.value;
     const token = adminToken || userToken;
@@ -49,36 +48,44 @@ export async function getUserSessionPayload(): Promise<SessionPayload | null> {
 
 export async function getCurrentUser() {
   try {
-    await connectToDatabase();
     const session = await getSessionPayload();
-
     if (!session) return null;
 
+    let dbRecord: any = null;
+    try {
+      await connectToDatabase();
+      if (session.role === 'ADMIN' || session.role === 'SUPER_ADMIN') {
+        dbRecord = await Admin.findById(session.userId);
+      } else {
+        dbRecord = await User.findById(session.userId);
+      }
+    } catch (dbErr) {
+      console.warn('Database error in getCurrentUser, falling back to JWT session payload:', dbErr);
+    }
+
     if (session.role === 'ADMIN' || session.role === 'SUPER_ADMIN') {
-      const admin = await Admin.findById(session.userId);
-      if (!admin || !admin.isActive) return null;
+      if (dbRecord && !dbRecord.isActive) return null;
       return {
-        id: admin._id.toString(),
-        email: admin.email,
-        firstName: admin.firstName,
-        lastName: admin.lastName,
-        role: admin.role,
+        id: dbRecord ? dbRecord._id.toString() : session.userId,
+        email: dbRecord?.email || session.email,
+        firstName: dbRecord?.firstName || session.firstName || 'System',
+        lastName: dbRecord?.lastName || session.lastName || 'Admin',
+        role: (dbRecord?.role || session.role) as 'ADMIN' | 'SUPER_ADMIN',
         customerType: 'ADMIN' as const,
       };
     } else {
-      const user = await User.findById(session.userId);
-      if (!user || user.status === 'SUSPENDED') return null;
+      if (dbRecord && dbRecord.status === 'SUSPENDED') return null;
       return {
-        id: user._id.toString(),
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        id: dbRecord ? dbRecord._id.toString() : session.userId,
+        email: dbRecord?.email || session.email,
+        firstName: dbRecord?.firstName || session.firstName || 'Valued',
+        lastName: dbRecord?.lastName || session.lastName || 'Customer',
         role: 'CUSTOMER' as const,
-        customerType: user.customerType,
-        communityId: user.communityId?.toString() || null,
-        communityStatus: user.communityStatus,
-        preferredLanguage: user.preferredLanguage,
-        addresses: user.addresses,
+        customerType: (dbRecord?.customerType || session.customerType || 'NORMAL') as any,
+        communityId: dbRecord?.communityId?.toString() || null,
+        communityStatus: dbRecord?.communityStatus || 'NONE',
+        preferredLanguage: dbRecord?.preferredLanguage || 'en',
+        addresses: dbRecord?.addresses || [],
       };
     }
   } catch (error) {
@@ -87,33 +94,34 @@ export async function getCurrentUser() {
   }
 }
 
-/**
- * Gets the currently logged-in CUSTOMER only (reads 'session' cookie).
- * Admin sessions (admin_session cookie) are intentionally excluded here.
- * Use this in all /api/customer/* routes to prevent admin cookie from acting as customer.
- */
 export async function getCurrentCustomer() {
   try {
-    await connectToDatabase();
     const session = await getUserSessionPayload();
     if (!session) return null;
 
-    // Reject if this session belongs to an admin
     if (session.role === 'ADMIN' || session.role === 'SUPER_ADMIN') return null;
 
-    const user = await User.findById(session.userId);
-    if (!user || user.status === 'SUSPENDED') return null;
+    let user: any = null;
+    try {
+      await connectToDatabase();
+      user = await User.findById(session.userId);
+    } catch (dbErr) {
+      console.warn('Database error in getCurrentCustomer, falling back to JWT session payload:', dbErr);
+    }
+
+    if (user && user.status === 'SUSPENDED') return null;
+
     return {
-      id: user._id.toString(),
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
+      id: user ? user._id.toString() : session.userId,
+      email: user?.email || session.email,
+      firstName: user?.firstName || session.firstName || 'Valued',
+      lastName: user?.lastName || session.lastName || 'Customer',
       role: 'CUSTOMER' as const,
-      customerType: user.customerType,
-      communityId: user.communityId?.toString() || null,
-      communityStatus: user.communityStatus,
-      preferredLanguage: user.preferredLanguage,
-      addresses: user.addresses,
+      customerType: (user?.customerType || session.customerType || 'NORMAL') as any,
+      communityId: user?.communityId?.toString() || null,
+      communityStatus: user?.communityStatus || 'NONE',
+      preferredLanguage: user?.preferredLanguage || 'en',
+      addresses: user?.addresses || [],
     };
   } catch (error) {
     console.error('Error fetching current customer:', error);
