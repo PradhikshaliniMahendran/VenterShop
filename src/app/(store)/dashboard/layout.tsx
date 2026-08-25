@@ -14,8 +14,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <Suspense fallback={<div className="h-20 bg-white" />}>
         <Header />
       </Suspense>
-      <main className="flex-grow max-w-7xl w-full mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row gap-8 items-start">
+      <main className="flex-grow max-w-7xl w-full mx-auto py-4 sm:py-10 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 items-start">
           <DashboardSidebar />
           <div className="flex-grow w-full lg:max-w-4xl">
             {children}
