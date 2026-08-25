@@ -99,7 +99,7 @@ export default function AdminOverviewDashboard() {
     return (
       <div className="space-y-6">
         <div className="h-10 bg-gray-200 animate-pulse rounded-md w-1/4" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="bg-white rounded-xl h-24 border border-gray-150 animate-pulse" />
           ))}
@@ -127,7 +127,7 @@ export default function AdminOverviewDashboard() {
 
       {/* Stats KPI Grid */}
       {metrics && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           {/* Revenue */}
           <div className="bg-white p-5 rounded-xl border border-gray-150 shadow-2xs flex items-center gap-4">
             <div className="p-3 bg-emerald-50 text-emerald-600 rounded-lg border border-emerald-100 shrink-0">

@@ -602,8 +602,8 @@ export default function AdminVouchersPage() {
 
       {/* 2. CAMPAIGNS LIST TABLES */}
       {!formOpen && activeTab === 'vouchers' && (
-        <div className="bg-white rounded-xl border border-gray-150 shadow-2xs overflow-hidden">
-          <table className="w-full text-left border-collapse">
+        <div className="bg-white rounded-xl border border-gray-150 shadow-2xs overflow-x-auto">
+          <table className="w-full text-left border-collapse min-w-[700px]">
             <thead>
               <tr className="bg-gray-100 text-gray-500 uppercase font-bold border-b border-gray-150">
                 <th className="p-4">Coupon Code</th>
@@ -671,8 +671,8 @@ export default function AdminVouchersPage() {
       )}
 
       {!formOpen && activeTab === 'offers' && (
-        <div className="bg-white rounded-xl border border-gray-150 shadow-2xs overflow-hidden">
-          <table className="w-full text-left border-collapse">
+        <div className="bg-white rounded-xl border border-gray-150 shadow-2xs overflow-x-auto">
+          <table className="w-full text-left border-collapse min-w-[700px]">
             <thead>
               <tr className="bg-gray-100 text-gray-500 uppercase font-bold border-b border-gray-150">
                 <th className="p-4">Offer Name</th>

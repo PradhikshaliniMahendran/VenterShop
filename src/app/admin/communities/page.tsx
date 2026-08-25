@@ -192,8 +192,8 @@ export default function AdminCommunitiesPage() {
               <p className="text-[10px]">All membership requests have been processed.</p>
             </div>
           ) : (
-            <div className="bg-white rounded-xl border border-gray-150 shadow-2xs overflow-hidden">
-              <table className="w-full text-left border-collapse">
+            <div className="bg-white rounded-xl border border-gray-150 shadow-2xs overflow-x-auto">
+              <table className="w-full text-left border-collapse min-w-[650px]">
                 <thead>
                   <tr className="bg-amber-50 text-amber-700 uppercase font-bold border-b border-amber-100">
                     <th className="p-4">Customer</th>
@@ -320,8 +320,8 @@ export default function AdminCommunitiesPage() {
 
           {/* Grid list Table */}
           {!formOpen && (
-            <div className="bg-white rounded-xl border border-gray-150 shadow-2xs overflow-hidden">
-              <table className="w-full text-left border-collapse">
+            <div className="bg-white rounded-xl border border-gray-150 shadow-2xs overflow-x-auto">
+              <table className="w-full text-left border-collapse min-w-[650px]">
                 <thead>
                   <tr className="bg-gray-100 text-gray-500 uppercase font-bold border-b border-gray-150">
                     <th className="p-4">Group Name</th>

@@ -273,12 +273,12 @@ export default function ProductDetailClient({ product }: { product: IProductDeta
               <button
                 onClick={handleAddToCart}
                 disabled={isOutOfStock}
-                className={`flex-1 flex items-center justify-center gap-2 h-12 rounded-lg font-bold text-xs uppercase tracking-wider transition-all duration-150 ${
+                className={`flex-1 flex items-center justify-center gap-2 h-12 rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-150 shadow-md ${
                   isOutOfStock
                     ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200'
                     : added
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'bg-[#1A2A4A] hover:bg-[#101A2D] text-white shadow-md active:scale-98'
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-[#1A2A4A] hover:bg-[#101A2D] text-white active:scale-98'
                 }`}
               >
                 {added ? (
@@ -297,16 +297,17 @@ export default function ProductDetailClient({ product }: { product: IProductDeta
               <button
                 onClick={handleBuyNow}
                 disabled={isOutOfStock}
-                className="flex-1 flex items-center justify-center gap-2 h-12 rounded-lg font-bold text-xs uppercase tracking-wider bg-[#E53935] hover:bg-[#c62828] text-white shadow-md hover:shadow-lg active:scale-98 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-all"
+                className="flex-1 flex items-center justify-center gap-2 h-12 rounded-xl font-bold text-xs uppercase tracking-wider bg-[#E53935] hover:bg-[#c62828] text-white shadow-md hover:shadow-lg active:scale-98 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-all"
               >
                 <span>{t('cartBuyNow')}</span>
               </button>
 
               <button
-                className="p-3 border border-gray-300 hover:bg-gray-50 text-gray-500 hover:text-[#E53935] rounded-lg transition-colors"
+                className="h-12 px-4 flex items-center justify-center gap-2 border border-gray-300 hover:bg-gray-50 text-gray-600 hover:text-[#E53935] rounded-xl transition-colors shrink-0"
                 title="Add to Wishlist"
               >
-                <Heart className="w-5.5 h-5.5" />
+                <Heart className="w-5 h-5" />
+                <span className="sm:hidden text-xs font-bold uppercase tracking-wider">Wishlist</span>
               </button>
             </div>
           </div>
@@ -315,11 +316,11 @@ export default function ProductDetailClient({ product }: { product: IProductDeta
 
       {/* 3. TABS: DESCRIPTION AND SPECIFICATIONS */}
       <div className="bg-white rounded-2xl border border-gray-150 shadow-xs overflow-hidden mb-10">
-        {/* Tab Headers */}
+        {/* Tab Headers - 50/50 split on mobile */}
         <div className="flex border-b border-gray-150 bg-[#F5F5F5]">
           <button
             onClick={() => setActiveTab('desc')}
-            className={`px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider border-r border-gray-150 transition-colors ${
+            className={`flex-1 text-center py-3.5 px-4 text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors ${
               activeTab === 'desc'
                 ? 'bg-white text-[#1a2a4a] border-b-2 border-b-[#E53935]'
                 : 'text-gray-500 hover:text-black'
@@ -329,7 +330,7 @@ export default function ProductDetailClient({ product }: { product: IProductDeta
           </button>
           <button
             onClick={() => setActiveTab('specs')}
-            className={`px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider border-r border-gray-150 transition-colors ${
+            className={`flex-1 text-center py-3.5 px-4 text-xs sm:text-sm font-bold uppercase tracking-wider border-l border-gray-200 transition-colors ${
               activeTab === 'specs'
                 ? 'bg-white text-[#1a2a4a] border-b-2 border-b-[#E53935]'
                 : 'text-gray-500 hover:text-black'

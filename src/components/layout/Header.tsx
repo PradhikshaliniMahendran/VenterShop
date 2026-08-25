@@ -18,6 +18,7 @@ import {
   LogOut,
   MapPin,
   Phone,
+  ChevronRight,
 } from 'lucide-react';
 
 export default function Header() {
@@ -170,8 +171,8 @@ export default function Header() {
               )}
             </Link>
 
-            {/* Account Profile button */}
-            <div className="relative">
+            {/* Account Profile button - Visible on Desktop, accessed via hamburger menu on mobile */}
+            <div className="relative hidden md:block">
               {user ? (
                 <>
                   <button
@@ -318,44 +319,35 @@ export default function Header() {
               ))}
 
               {/* ── Account Section ── */}
-              <div className="border-t border-gray-150 mt-4 pt-4 space-y-1">
+              <div className="border-t border-gray-150 mt-4 pt-4 space-y-2">
                 {user ? (
                   <>
-                    {/* Profile info card */}
-                    <div className="flex items-center gap-3 px-4 py-3 bg-[#1A2A4A] rounded-xl mb-2">
-                      <div className="w-9 h-9 rounded-full bg-white text-[#1A2A4A] flex items-center justify-center font-black text-sm shrink-0">
-                        {user.firstName[0]}
+                    {/* Clickable Profile Card -> Go directly to Dashboard or Admin */}
+                    <Link
+                      href={user.customerType === 'ADMIN' ? '/admin' : '/dashboard'}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-between p-3.5 bg-gradient-to-r from-[#1A2A4A] to-[#071B5C] rounded-2xl text-white shadow-md hover:shadow-lg transition-all group"
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-10 h-10 rounded-full bg-white text-[#071B5C] flex items-center justify-center font-black text-sm border-2 border-[#D4AF37] shrink-0">
+                          {user.firstName[0]}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-extrabold text-xs text-white truncate group-hover:text-[#D4AF37] transition-colors">
+                            {user.firstName} {user.lastName}
+                          </p>
+                          <span className="text-[10px] text-blue-200 block truncate font-medium">
+                            {user.customerType === 'ADMIN' ? 'Admin Console →' : (language === 'ta' ? 'கணக்கு டாஷ்போர்டு →' : 'My Dashboard →')}
+                          </span>
+                        </div>
                       </div>
-                      <div className="min-w-0">
-                        <p className="font-extrabold text-xs text-white truncate">{user.firstName} {user.lastName}</p>
-                        <p className="text-[10px] text-gray-300 truncate">{user.email}</p>
-                      </div>
-                    </div>
+                      <ChevronRight className="w-4 h-4 text-white/70 group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0" />
+                    </Link>
 
-                    {/* Dashboard nav links */}
-                    {[
-                      { label: language === 'ta' ? 'கணினி பொது' : 'My Dashboard', href: '/dashboard' },
-                      { label: language === 'ta' ? 'சுயவிவரம்' : 'My Profile', href: '/dashboard/profile' },
-                      { label: language === 'ta' ? 'ஆர்டர்கள்' : 'My Orders', href: '/dashboard/orders' },
-                      { label: language === 'ta' ? 'வௌச்சர்கள்' : 'My Vouchers', href: '/dashboard/vouchers' },
-                      { label: language === 'ta' ? 'விருப்பப்பட்டியல்' : 'My Wishlist', href: '/dashboard/wishlist' },
-                      { label: language === 'ta' ? 'முகவரிகள்' : 'My Addresses', href: '/dashboard/addresses' },
-                    ].map((item, idx) => (
-                      <Link
-                        key={idx}
-                        href={item.href}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="flex items-center gap-3 px-4 py-2.5 text-[#333333] hover:text-[#E53935] hover:bg-red-50 rounded-lg text-xs font-bold uppercase tracking-wider transition-all"
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#E53935] shrink-0" />
-                        {item.label}
-                      </Link>
-                    ))}
-
-                    {/* Logout */}
+                    {/* Logout Button */}
                     <button
                       onClick={() => { setMobileMenuOpen(false); logoutUser(); }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-red-600 hover:bg-red-50 rounded-lg text-xs font-bold uppercase tracking-wider transition-all mt-1"
+                      className="w-full flex items-center justify-center gap-2 py-2.5 px-4 text-red-600 hover:bg-red-50 rounded-xl text-xs font-black uppercase tracking-wider transition-all border border-red-100"
                     >
                       <LogOut className="w-4 h-4" />
                       {t('navLogout')}
@@ -365,7 +357,7 @@ export default function Header() {
                   <Link
                     href="/login"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-center gap-2 mx-2 py-3 bg-[#071B5C] hover:bg-[#0d216d] text-white rounded-xl text-xs font-black uppercase tracking-wider transition-colors"
+                    className="flex items-center justify-center gap-2 mx-2 py-3 bg-[#071B5C] hover:bg-[#0d216d] text-white rounded-xl text-xs font-black uppercase tracking-wider transition-colors shadow-md"
                   >
                     <User className="w-4 h-4 text-[#D4AF37]" />
                     {t('navLogin')}
