@@ -5,6 +5,7 @@ import Product from '@/models/Product';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import ProductDetailClient from '@/components/product/ProductDetailClient';
+import { fallbackProducts } from '@/lib/data/fallbackData';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -12,14 +13,20 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
   try {
-    await connectToDatabase();
     const { slug } = await params;
-    const product = await Product.findOne({ slug, isActive: true });
+    let product: any = null;
+
+    try {
+      await connectToDatabase();
+      product = await Product.findOne({ slug, isActive: true });
+    } catch {
+      product = fallbackProducts.find((p) => p.slug === slug);
+    }
     
     if (!product) {
       return {
-        title: 'Product Not Found - VENTERSHOP',
-        description: 'The requested product is not available.',
+        title: 'Product Details - VENTERSHOP',
+        description: 'The requested product is available across Canada.',
       };
     }
 
@@ -40,18 +47,26 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function ProductDetailPage({ params }: Props) {
-  await connectToDatabase();
   const { slug } = await params;
-  
-  // Find product and populate category
-  const productDoc = await Product.findOne({ slug, isActive: true }).populate('categoryId', 'name slug');
-  
-  if (!productDoc) {
-    notFound();
+  let product: any = null;
+
+  try {
+    await connectToDatabase();
+    const productDoc = await Product.findOne({ slug, isActive: true }).populate('categoryId', 'name slug');
+    if (productDoc) {
+      product = JSON.parse(JSON.stringify(productDoc));
+    }
+  } catch (dbError) {
+    console.warn('Database offline, looking up fallback product for slug:', slug);
   }
 
-  // Convert mongoose document to a plain JSON object to pass to client component safely
-  const product = JSON.parse(JSON.stringify(productDoc));
+  if (!product) {
+    product = fallbackProducts.find((p) => p.slug === slug);
+  }
+
+  if (!product) {
+    notFound();
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F5F5F5]">

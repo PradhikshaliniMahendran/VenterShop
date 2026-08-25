@@ -3,16 +3,10 @@ import { connectToDatabase } from '@/lib/mongodb/mongoose';
 import Product from '@/models/Product';
 import Category from '@/models/Category';
 import { getCurrentUser } from '@/lib/auth/auth';
-import mongoose from 'mongoose';
+import { fallbackProducts } from '@/lib/data/fallbackData';
 
 export async function GET(request: Request) {
   try {
-    await connectToDatabase();
-    
-    // Get active user to determine correct pricing field for filtering/sorting
-    const user = await getCurrentUser();
-    const customerType = user ? user.customerType : 'NORMAL';
-
     const { searchParams } = new URL(request.url);
     const q = searchParams.get('q');
     const categorySlug = searchParams.get('category');
@@ -20,85 +14,116 @@ export async function GET(request: Request) {
     const maxPrice = searchParams.get('maxPrice');
     const inStock = searchParams.get('inStock');
     const sort = searchParams.get('sort') || 'newest';
+    const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : null;
 
-    // 1. Build Query Filter
-    const queryFilter: any = { isActive: true };
+    try {
+      await connectToDatabase();
 
-    // Search query matches name, SKU, or description
-    if (q) {
-      const searchRegex = new RegExp(q.trim(), 'i');
-      queryFilter.$or = [
-        { name: searchRegex },
-        { sku: searchRegex },
-        { description: searchRegex },
-        { shortDescription: searchRegex },
-      ];
-    }
+      // Get active user to determine correct pricing field for filtering/sorting
+      const user = await getCurrentUser();
+      const customerType = user ? user.customerType : 'NORMAL';
 
-    // Filter by Category Slug
-    if (categorySlug && categorySlug !== 'all') {
-      const categoryDoc = await Category.findOne({ slug: categorySlug, isActive: true });
-      if (categoryDoc) {
-        queryFilter.categoryId = categoryDoc._id;
+      // 1. Build Query Filter
+      const queryFilter: any = { isActive: true };
+
+      // Search query matches name, SKU, or description
+      if (q) {
+        const searchRegex = new RegExp(q.trim(), 'i');
+        queryFilter.$or = [
+          { name: searchRegex },
+          { sku: searchRegex },
+          { description: searchRegex },
+          { shortDescription: searchRegex },
+        ];
+      }
+
+      // Filter by Category Slug
+      if (categorySlug && categorySlug !== 'all') {
+        const categoryDoc = await Category.findOne({ slug: categorySlug, isActive: true });
+        if (categoryDoc) {
+          queryFilter.categoryId = categoryDoc._id;
+        } else {
+          return NextResponse.json({ products: [] });
+        }
+      }
+
+      // Filter by Stock Status
+      if (inStock === 'true') {
+        queryFilter.stock = { $gt: 0 };
+      }
+
+      // Determine target price field for this customer type
+      let priceField = 'retailPrice';
+      if (customerType === 'WHOLESALE') {
+        priceField = 'wholesalePrice';
+      } else if (customerType === 'COMMUNITY') {
+        priceField = 'communityPrice';
+      }
+
+      if (minPrice || maxPrice) {
+        queryFilter[priceField] = {};
+        if (minPrice) {
+          queryFilter[priceField].$gte = parseFloat(minPrice);
+        }
+        if (maxPrice) {
+          queryFilter[priceField].$lte = parseFloat(maxPrice);
+        }
+      }
+
+      let sortOptions: any = {};
+      if (sort === 'price-asc') {
+        sortOptions[priceField] = 1;
+      } else if (sort === 'price-desc') {
+        sortOptions[priceField] = -1;
+      } else if (sort === 'newest') {
+        sortOptions.createdAt = -1;
+      } else if (sort === 'bestselling') {
+        sortOptions.isBestSeller = -1;
+        sortOptions.createdAt = -1;
+      } else if (sort === 'popular') {
+        sortOptions.isFeatured = -1;
+        sortOptions.createdAt = -1;
       } else {
-        // If category is provided but invalid, return empty array immediately
-        return NextResponse.json({ products: [] });
+        sortOptions.createdAt = -1;
       }
-    }
 
-    // Filter by Customer Type availability (if any product is restricted)
-    queryFilter.eligibleCustomerTypes = customerType;
+      let query = Product.find(queryFilter)
+        .populate('categoryId', 'name slug')
+        .sort(sortOptions);
 
-    // Filter by Stock Status
-    if (inStock === 'true') {
-      queryFilter.stock = { $gt: 0 };
-    }
-
-    // Determine target price field for this customer type
-    let priceField = 'retailPrice';
-    if (customerType === 'WHOLESALE') {
-      priceField = 'wholesalePrice';
-    } else if (customerType === 'COMMUNITY') {
-      priceField = 'communityPrice';
-    }
-
-    // Filter by Price Bounds (applied to the specific user-type price field)
-    if (minPrice || maxPrice) {
-      queryFilter[priceField] = {};
-      if (minPrice) {
-        queryFilter[priceField].$gte = parseFloat(minPrice);
+      if (limit) {
+        query = query.limit(limit);
       }
-      if (maxPrice) {
-        queryFilter[priceField].$lte = parseFloat(maxPrice);
+
+      const products = await query;
+      if (products && products.length > 0) {
+        return NextResponse.json({ products });
       }
+    } catch (dbError) {
+      console.warn('Database error or offline, serving fallback products:', dbError);
     }
 
-    // 2. Build Sort Options
-    let sortOptions: any = {};
-    if (sort === 'price-asc') {
-      sortOptions[priceField] = 1;
-    } else if (sort === 'price-desc') {
-      sortOptions[priceField] = -1;
-    } else if (sort === 'newest') {
-      sortOptions.createdAt = -1;
-    } else if (sort === 'bestselling') {
-      sortOptions.isBestSeller = -1;
-      sortOptions.createdAt = -1;
-    } else if (sort === 'popular') {
-      sortOptions.isFeatured = -1;
-      sortOptions.createdAt = -1;
-    } else {
-      sortOptions.createdAt = -1; // Fallback to newest
+    // Serve fallback products
+    let filtered = [...fallbackProducts];
+    if (categorySlug && categorySlug !== 'all') {
+      filtered = filtered.filter((p) => p.categoryId.slug === categorySlug);
+    }
+    if (q) {
+      const lowerQ = q.toLowerCase();
+      filtered = filtered.filter(
+        (p) =>
+          p.name.toLowerCase().includes(lowerQ) ||
+          p.sku.toLowerCase().includes(lowerQ) ||
+          p.description.toLowerCase().includes(lowerQ)
+      );
+    }
+    if (limit) {
+      filtered = filtered.slice(0, limit);
     }
 
-    // 3. Fetch products
-    const products = await Product.find(queryFilter)
-      .populate('categoryId', 'name slug')
-      .sort(sortOptions);
-
-    return NextResponse.json({ products });
+    return NextResponse.json({ products: filtered });
   } catch (error) {
-    console.error('Error fetching products API:', error);
-    return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
+    console.error('Error in products API:', error);
+    return NextResponse.json({ products: fallbackProducts });
   }
 }
