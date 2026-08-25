@@ -150,10 +150,11 @@ export default function ProductCard({ product }: { product: IProductData }) {
         {/* Content Info */}
         <div className="p-2.5 sm:p-4 flex-1 flex flex-col justify-between space-y-2 sm:space-y-4">
           <div className="space-y-1">
-            <div className="flex justify-between items-start gap-2">
-              <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">
+            <div className="flex justify-between items-start gap-1">
+              <span className="hidden sm:block text-[10px] text-gray-400 font-bold uppercase tracking-wider">
                 SKU: {product.sku}
               </span>
+              <span className="sm:hidden text-[10px] text-gray-400 font-bold uppercase tracking-wider">&nbsp;</span>
               {stockBadge}
             </div>
             <Link href={`/product/${product.slug}`} className="block">
@@ -170,8 +171,8 @@ export default function ProductCard({ product }: { product: IProductData }) {
 
           <div className="space-y-3">
             {/* Price display & Roles indicators */}
-            <div className="flex flex-wrap items-baseline gap-2">
-              <span className="text-lg font-black text-[#1A2A4A]">{formattedPrice}</span>
+            <div className="flex flex-wrap items-baseline gap-1 sm:gap-2">
+              <span className="text-sm sm:text-lg font-black text-[#1A2A4A]">{formattedPrice}</span>
               {formattedCrossedPrice && (
                 <span className="text-xs text-gray-400 line-through font-semibold">
                   {formattedCrossedPrice}
@@ -189,7 +190,7 @@ export default function ProductCard({ product }: { product: IProductData }) {
             <button
               onClick={handleAddToCart}
               disabled={isOutOfStock}
-              className={`w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg font-bold text-xs uppercase tracking-wider transition-all duration-150 ${
+              className={`w-full flex items-center justify-center gap-1.5 py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg font-bold text-xs uppercase tracking-wider transition-all duration-150 ${
                 isOutOfStock
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200'
                   : added
@@ -200,12 +201,12 @@ export default function ProductCard({ product }: { product: IProductData }) {
               {added ? (
                 <>
                   <Check className="w-4 h-4 animate-scale-in" />
-                  <span>{t('cartAdded')}</span>
+                  <span className="hidden sm:inline">{t('cartAdded')}</span>
                 </>
               ) : (
                 <>
                   <ShoppingCart className="w-4 h-4" />
-                  <span>{isOutOfStock ? t('cartInventoryOut') : t('cartAdd')}</span>
+                  <span className="hidden sm:inline">{isOutOfStock ? t('cartInventoryOut') : t('cartAdd')}</span>
                 </>
               )}
             </button>

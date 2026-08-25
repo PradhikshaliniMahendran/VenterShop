@@ -163,7 +163,7 @@ function LoginContent() {
   };
 
   return (
-    <div className="max-w-md mx-auto my-12 p-6 sm:p-8 bg-white rounded-2xl border border-gray-150 shadow-xs space-y-6 text-xs font-semibold text-gray-800">
+    <div className="w-full max-w-md mx-auto my-8 sm:my-12 p-5 sm:p-8 bg-white rounded-2xl border border-gray-150 shadow-xs space-y-6 text-xs font-semibold text-gray-800">
       
       {/* Header Info */}
       <div className="text-center space-y-2">
@@ -397,7 +397,7 @@ export default function LoginPage() {
       <Suspense fallback={<div className="h-20 bg-white" />}>
         <Header />
       </Suspense>
-      <main className="flex-grow py-12 px-4 flex items-center justify-center">
+      <main className="flex-grow py-6 sm:py-12 px-4 flex items-center justify-center">
         <Suspense fallback={<div className="w-96 h-80 bg-white rounded-2xl animate-pulse" />}>
           <LoginContent />
         </Suspense>

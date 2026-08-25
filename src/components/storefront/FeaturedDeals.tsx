@@ -53,7 +53,7 @@ export default function FeaturedDeals() {
         <div className="max-w-7xl mx-auto px-4 text-center space-y-6">
           <div className="h-6 w-32 bg-gray-205 rounded animate-pulse mx-auto" />
           <div className="h-10 w-64 bg-gray-205 rounded animate-pulse mx-auto" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pt-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8 pt-8">
             {[...Array(3)].map((_, i) => (
               <div key={i} className="h-80 bg-white rounded-3xl border border-gray-150 animate-pulse" />
             ))}

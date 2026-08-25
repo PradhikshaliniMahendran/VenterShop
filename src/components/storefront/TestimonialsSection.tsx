@@ -64,14 +64,18 @@ export default function TestimonialsSection() {
           </p>
         </div>
 
-        {/* Reviews Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Reviews Cards - Horizontal Scroll Row */}
+        <div
+          className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
           {reviews.map((rev, idx) => (
             <div
               key={idx}
-              className="bg-gray-50/60 p-6 rounded-2xl border border-gray-150 flex flex-col justify-between space-y-4 hover:shadow-md transition-shadow relative"
+              className="bg-gray-50/60 p-5 rounded-2xl border border-gray-150 flex flex-col justify-between space-y-4 hover:shadow-md transition-shadow relative snap-start shrink-0"
+              style={{ width: '280px', minWidth: '280px' }}
             >
-              <Quote className="w-8 h-8 text-gray-200 absolute top-4 right-4" />
+              <Quote className="w-7 h-7 text-gray-200 absolute top-4 right-4" />
 
               <div className="space-y-3">
                 {/* Rating Stars */}
