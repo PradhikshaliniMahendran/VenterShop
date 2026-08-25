@@ -2,10 +2,10 @@ import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb/mongoose';
 import OTP from '@/models/OTP';
 import { sendEmail } from '@/lib/nodemailer/nodemailer';
+import { saveInMemoryOtp } from '@/lib/auth/inMemoryOtp';
 
 export async function POST(request: Request) {
   try {
-    await connectToDatabase();
     const { email } = await request.json();
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -14,29 +14,41 @@ export async function POST(request: Request) {
 
     const normalizedEmail = email.toLowerCase().trim();
 
-    // Check rate limit: 60 seconds cooldown between OTP requests
-    const lastOtp = await OTP.findOne({
-      email: normalizedEmail,
-      createdAt: { $gt: new Date(Date.now() - 60 * 1000) },
-    });
+    // Check rate limit: 60 seconds cooldown between OTP requests if DB is up
+    try {
+      await connectToDatabase();
+      const lastOtp = await OTP.findOne({
+        email: normalizedEmail,
+        createdAt: { $gt: new Date(Date.now() - 60 * 1000) },
+      });
 
-    if (lastOtp) {
-      return NextResponse.json(
-        { error: 'Please wait 60 seconds before requesting another code' },
-        { status: 429 }
-      );
+      if (lastOtp) {
+        return NextResponse.json(
+          { error: 'Please wait 60 seconds before requesting another code' },
+          { status: 429 }
+        );
+      }
+    } catch {
+      // Non-blocking fallback
     }
 
     // Generate 6-digit OTP code
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes expiration
 
-    // Save OTP to DB
-    await OTP.create({
-      email: normalizedEmail,
-      otp: otpCode,
-      expiresAt,
-    });
+    // Save in memory cache
+    saveInMemoryOtp(normalizedEmail, otpCode, 5 * 60 * 1000);
+
+    // Save to DB if connected
+    try {
+      await OTP.create({
+        email: normalizedEmail,
+        otp: otpCode,
+        expiresAt,
+      });
+    } catch {
+      // In-memory cache is active
+    }
 
     // Send email with premium HTML layout
     const subject = `Your VENTERSHOP Verification Code: ${otpCode}`;
@@ -61,11 +73,15 @@ export async function POST(request: Request) {
       </div>
     `;
 
-    await sendEmail({
-      to: normalizedEmail,
-      subject,
-      html: emailHtml,
-    });
+    try {
+      await sendEmail({
+        to: normalizedEmail,
+        subject,
+        html: emailHtml,
+      });
+    } catch (mailErr) {
+      console.warn('Email dispatch warning:', mailErr);
+    }
 
     const isDevelopment = process.env.NODE_ENV === 'development' || !process.env.SMTP_USER || process.env.SMTP_USER === 'placeholder';
 

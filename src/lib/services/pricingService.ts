@@ -3,6 +3,7 @@ import Product, { IProduct } from '@/models/Product';
 import Offer, { IOffer } from '@/models/Offer';
 import Setting from '@/models/Setting';
 import mongoose from 'mongoose';
+import { fallbackProducts } from '@/lib/data/fallbackData';
 
 export interface ICartItemInput {
   productId: string;
@@ -44,45 +45,56 @@ export class PricingService {
     customerType: 'NORMAL' | 'COMMUNITY' | 'WHOLESALE' = 'NORMAL',
     communityId: string | null = null
   ): Promise<ICartPricingBreakdown> {
-    await connectToDatabase();
+    const productMap = new Map<string, any>();
+    let activeOffers: any[] = [];
+    let freeDeliveryThreshold = 75;
+    const defaultDeliveryFee = 12.5;
 
-    // 1. Fetch products safely
-    const productIds = cartItems
-      .filter((item) => item.productId && mongoose.Types.ObjectId.isValid(item.productId))
-      .map((item) => new mongoose.Types.ObjectId(item.productId));
-    const products = await Product.find({ _id: { $in: productIds }, isActive: true });
+    try {
+      await connectToDatabase();
 
-    // Create a product map for fast lookup
-    const productMap = new Map<string, IProduct>();
-    products.forEach((p) => productMap.set(p._id.toString(), p));
+      const productIds = cartItems
+        .filter((item) => item.productId && mongoose.Types.ObjectId.isValid(item.productId))
+        .map((item) => new mongoose.Types.ObjectId(item.productId));
+      const products = await Product.find({ _id: { $in: productIds }, isActive: true });
 
-    // 2. Fetch active auto-applied offers (no voucher required)
-    const now = new Date();
-    const activeOffers = await Offer.find({
-      isActive: true,
-      voucherRequired: false,
-      startDate: { $lte: now },
-      endDate: { $gte: now },
-      customerTypes: customerType,
-    });
+      products.forEach((p) => productMap.set(p._id.toString(), p));
+
+      const now = new Date();
+      activeOffers = await Offer.find({
+        isActive: true,
+        voucherRequired: false,
+        startDate: { $lte: now },
+        endDate: { $gte: now },
+        customerTypes: customerType,
+      });
+
+      const settings = await Setting.findOne();
+      if (settings?.freeDeliveryThreshold) {
+        freeDeliveryThreshold = settings.freeDeliveryThreshold;
+      }
+    } catch (dbError) {
+      console.warn('Database error in calculateCart, using fallback data:', dbError);
+      fallbackProducts.forEach((p) => productMap.set(p._id, p));
+    }
 
     const parsedItemsBreakdown: IItemPricingBreakdown[] = [];
     let cartSubtotal = 0;
     let cartItemDiscounts = 0;
 
-    // 3. Process each item
     for (const cartItem of cartItems) {
-      const product = productMap.get(cartItem.productId);
-      if (!product) continue; // Skip if product doesn't exist or is inactive
+      let product = productMap.get(cartItem.productId);
+      if (!product) {
+        product = fallbackProducts.find((p) => p._id === cartItem.productId || p.slug === cartItem.productId);
+      }
+      if (!product) continue;
 
       const qty = cartItem.quantity;
 
-      // Determine customer type base price
-      let basePrice = product.retailPrice;
+      let basePrice = product.retailPrice || 0;
       if (customerType === 'WHOLESALE') {
-        basePrice = product.wholesalePrice;
+        basePrice = product.wholesalePrice || basePrice;
 
-        // Apply bulk pricing tier discounts if eligible
         if (product.bulkPricing && product.bulkPricing.length > 0) {
           let highestTierDiscount = 0;
           for (const tier of product.bulkPricing) {
@@ -95,39 +107,32 @@ export class PricingService {
           }
         }
       } else if (customerType === 'COMMUNITY') {
-        basePrice = product.communityPrice;
+        basePrice = product.communityPrice || basePrice;
       }
 
-      // Evaluate active offers applying to this product/category
       let bestDiscountAmount = 0;
       let appliedOfferName: string | undefined;
 
       const matchingOffers = activeOffers.filter((offer) => {
-        // Check community constraint
         if (offer.communityIds && offer.communityIds.length > 0) {
-          if (!communityId || !offer.communityIds.some((id) => id.toString() === communityId)) {
+          if (!communityId || !offer.communityIds.some((id: any) => id.toString() === communityId)) {
             return false;
           }
         }
-        // Check product constraint
         const hasProducts = offer.productIds && offer.productIds.length > 0;
-        const matchesProduct = hasProducts && offer.productIds.some((id) => id.toString() === product._id.toString());
+        const matchesProduct = hasProducts && offer.productIds.some((id: any) => id.toString() === product._id.toString());
 
-        // Check category constraint
         const hasCategories = offer.categoryIds && offer.categoryIds.length > 0;
         const matchesCategory =
-          hasCategories && offer.categoryIds.some((id) => id.toString() === product.categoryId.toString());
+          hasCategories && offer.categoryIds.some((id: any) => id.toString() === (product.categoryId?._id || product.categoryId).toString());
 
-        // If specific products or categories are defined, it must match them
         if (hasProducts || hasCategories) {
           return matchesProduct || matchesCategory;
         }
 
-        // Generic offer (applies to all products)
         return true;
       });
 
-      // Find the offer yielding the maximum discount
       for (const offer of matchingOffers) {
         let discount = 0;
         if (offer.discountType === 'PERCENTAGE') {
@@ -139,7 +144,6 @@ export class PricingService {
           discount = offer.discountValue;
         }
 
-        // Ensure we don't discount past the base price
         discount = Math.min(discount, basePrice);
 
         if (discount > bestDiscountAmount) {
@@ -160,7 +164,7 @@ export class PricingService {
         productId: product._id.toString(),
         name: product.name,
         sku: product.sku,
-        image: product.images[0] || '',
+        image: product.images?.[0] || '',
         basePrice,
         finalPrice,
         quantity: qty,
@@ -170,11 +174,6 @@ export class PricingService {
         appliedOfferName,
       });
     }
-
-    // 4. Fetch delivery thresholds
-    const settings = await Setting.findOne();
-    const freeDeliveryThreshold = settings?.freeDeliveryThreshold ?? 75;
-    const defaultDeliveryFee = 12.5; // Standard Canadian delivery fee
 
     const cartTotalAfterOffers = cartSubtotal - cartItemDiscounts;
     const deliveryFee = cartTotalAfterOffers >= freeDeliveryThreshold ? 0 : defaultDeliveryFee;
