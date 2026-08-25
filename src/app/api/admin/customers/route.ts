@@ -29,7 +29,7 @@ export async function GET() {
     });
   } catch (error) {
     console.error('Error fetching customers directory:', error);
-    return NextResponse.json({ error: 'Failed to fetch directory data' }, { status: 550 });
+    return NextResponse.json({ error: 'Failed to fetch directory data' }, { status: 500 });
   }
 }
 
@@ -109,6 +109,6 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: 'Invalid action payload' }, { status: 400 });
   } catch (error: any) {
     console.error('Error in administrative customer action:', error);
-    return NextResponse.json({ error: error.message || 'Action failed' }, { status: 550 });
+    return NextResponse.json({ error: error.message || 'Action failed' }, { status: 500 });
   }
 }

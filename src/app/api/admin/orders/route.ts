@@ -34,7 +34,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ orders });
   } catch (error) {
     console.error('Error fetching admin orders:', error);
-    return NextResponse.json({ error: 'Failed to fetch orders' }, { status: 550 });
+    return NextResponse.json({ error: 'Failed to fetch orders' }, { status: 500 });
   }
 }
 
@@ -91,6 +91,6 @@ export async function PUT(request: Request) {
     });
   } catch (error) {
     console.error('Error updating order:', error);
-    return NextResponse.json({ error: 'Failed to update order' }, { status: 550 });
+    return NextResponse.json({ error: 'Failed to update order' }, { status: 500 });
   }
 }

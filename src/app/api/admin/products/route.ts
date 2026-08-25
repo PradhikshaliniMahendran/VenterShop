@@ -21,7 +21,7 @@ export async function GET() {
     return NextResponse.json({ products });
   } catch (error) {
     console.error('Error fetching admin products:', error);
-    return NextResponse.json({ error: 'Failed to fetch products' }, { status: 550 });
+    return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
   }
 }
 
@@ -102,7 +102,7 @@ export async function POST(request: Request) {
     });
   } catch (error: any) {
     console.error('Error creating product:', error);
-    return NextResponse.json({ error: error.message || 'Failed to create product' }, { status: 550 });
+    return NextResponse.json({ error: error.message || 'Failed to create product' }, { status: 500 });
   }
 }
 
@@ -192,7 +192,7 @@ export async function PUT(request: Request) {
     });
   } catch (error: any) {
     console.error('Error updating product:', error);
-    return NextResponse.json({ error: error.message || 'Failed to update product' }, { status: 550 });
+    return NextResponse.json({ error: error.message || 'Failed to update product' }, { status: 500 });
   }
 }
 
@@ -223,6 +223,6 @@ export async function DELETE(request: Request) {
     });
   } catch (error) {
     console.error('Error deleting product:', error);
-    return NextResponse.json({ error: 'Failed to delete product' }, { status: 550 });
+    return NextResponse.json({ error: 'Failed to delete product' }, { status: 500 });
   }
 }

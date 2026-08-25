@@ -47,6 +47,6 @@ export async function PUT(request: Request) {
     });
   } catch (error) {
     console.error('Error updating customer profile:', error);
-    return NextResponse.json({ error: 'Failed to update profile' }, { status: 550 });
+    return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 });
   }
 }

@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     });
   } catch (error: any) {
     console.error('Error creating category:', error);
-    return NextResponse.json({ error: error.message || 'Failed to create category' }, { status: 550 });
+    return NextResponse.json({ error: error.message || 'Failed to create category' }, { status: 500 });
   }
 }
 
@@ -87,7 +87,7 @@ export async function PUT(request: Request) {
     });
   } catch (error: any) {
     console.error('Error updating category:', error);
-    return NextResponse.json({ error: error.message || 'Failed to update category' }, { status: 550 });
+    return NextResponse.json({ error: error.message || 'Failed to update category' }, { status: 500 });
   }
 }
 
@@ -127,6 +127,6 @@ export async function DELETE(request: Request) {
     });
   } catch (error) {
     console.error('Error deleting category:', error);
-    return NextResponse.json({ error: 'Failed to delete category' }, { status: 550 });
+    return NextResponse.json({ error: 'Failed to delete category' }, { status: 500 });
   }
 }

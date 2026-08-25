@@ -84,6 +84,6 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error('Error submitting wholesale application:', error);
-    return NextResponse.json({ error: 'Failed to submit application' }, { status: 550 });
+    return NextResponse.json({ error: 'Failed to submit application' }, { status: 500 });
   }
 }

@@ -36,7 +36,7 @@ export async function GET() {
     });
   } catch (error) {
     console.error('Error fetching vouchers & offers:', error);
-    return NextResponse.json({ error: 'Failed to fetch campaigns' }, { status: 550 });
+    return NextResponse.json({ error: 'Failed to fetch campaigns' }, { status: 500 });
   }
 }
 
@@ -128,7 +128,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid campaign type' }, { status: 400 });
   } catch (error: any) {
     console.error('Error creating campaign:', error);
-    return NextResponse.json({ error: error.message || 'Failed to create campaign' }, { status: 550 });
+    return NextResponse.json({ error: error.message || 'Failed to create campaign' }, { status: 500 });
   }
 }
 
@@ -216,7 +216,7 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: 'Invalid campaign type' }, { status: 400 });
   } catch (error: any) {
     console.error('Error updating campaign:', error);
-    return NextResponse.json({ error: error.message || 'Failed to update campaign' }, { status: 550 });
+    return NextResponse.json({ error: error.message || 'Failed to update campaign' }, { status: 500 });
   }
 }
 
@@ -253,6 +253,6 @@ export async function DELETE(request: Request) {
     });
   } catch (error) {
     console.error('Error deleting campaign:', error);
-    return NextResponse.json({ error: 'Failed to delete campaign' }, { status: 550 });
+    return NextResponse.json({ error: 'Failed to delete campaign' }, { status: 500 });
   }
 }
