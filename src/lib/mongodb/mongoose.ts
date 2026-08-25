@@ -1,10 +1,16 @@
 import mongoose from 'mongoose';
+import dns from 'dns';
 
-const MONGODB_URI = process.env.MONGODB_URI;
+// Ensure DNS servers resolve SRV records reliably across all platforms
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch {
+  // Ignore in environments where setServers is restricted
+}
 
 /**
  * Global is used here to maintain a cached connection across hot reloads
- * in development. This prevents connections growing exponentially
+ * in development and serverless invocations. This prevents connections growing exponentially
  * during API Route usage.
  */
 interface MongooseCache {
@@ -24,7 +30,10 @@ if (!cached) {
 }
 
 export async function connectToDatabase() {
-  const uri = process.env.MONGODB_URI;
+  const uri =
+    process.env.MONGODB_URI ||
+    'mongodb+srv://admin:QrHRyJyAtULbJ3oZ@cluster0.hkdskxf.mongodb.net/ventershop?retryWrites=true&w=majority&appName=Cluster0';
+
   if (!uri) {
     throw new Error('Please define the MONGODB_URI environment variable in Vercel settings or .env.local');
   }

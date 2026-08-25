@@ -1,6 +1,14 @@
 import fs from 'fs';
 import path from 'path';
+import dns from 'dns';
 import mongoose from 'mongoose';
+
+// Fix for Node.js SRV record lookups on Windows
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (e) {
+  // ignore
+}
 
 // 1. Parse .env.local manually to load environment variables
 try {
