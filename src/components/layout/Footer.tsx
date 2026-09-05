@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useTranslation } from '@/lib/i18n/LanguageContext';
+import BrandLogo from '@/components/common/BrandLogo';
 
 export default function Footer() {
   const { language } = useTranslation();
@@ -43,16 +44,7 @@ export default function Footer() {
           
           {/* Col 1: Brand & Socials (Span 4) */}
           <div className="lg:col-span-4 space-y-4 text-left">
-            <div>
-              <Link href="/" className="inline-block">
-                <span className="text-xl sm:text-2xl font-serif font-black tracking-tight text-white select-none">
-                  VENTERSHOP
-                </span>
-              </Link>
-              <p className="text-[11px] text-gray-300 font-normal leading-relaxed mt-1 max-w-sm">
-                Your trusted online store for quality products. Serving homes across Canada.
-              </p>
-            </div>
+            <BrandLogo variant="light" size="md" showSubtitle={true} />
 
             {/* Social Icons (FB, Instagram, WhatsApp, TikTok) */}
             <div className="flex items-center gap-2 pt-2">

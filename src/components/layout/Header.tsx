@@ -20,6 +20,7 @@ import {
   Home,
   ChevronDown,
 } from 'lucide-react';
+import BrandLogo from '@/components/common/BrandLogo';
 
 export default function Header() {
   const { t, language, setLanguage } = useTranslation();
@@ -113,29 +114,7 @@ export default function Header() {
           </button>
 
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-            {/* Red Floral Mandala Icon */}
-            <div className="w-9 h-9 flex items-center justify-center text-[#801414]">
-              <svg viewBox="0 0 48 48" className="w-9 h-9 fill-current" aria-hidden="true">
-                <circle cx="24" cy="24" r="5" fill="#801414" />
-                <path d="M24 4 C27 12 33 18 41 21 C33 24 27 30 24 38 C21 30 15 24 7 21 C15 18 21 12 24 4 Z" fill="#801414" opacity="0.9" />
-                <circle cx="24" cy="10" r="3" fill="#D4AF37" />
-                <circle cx="38" cy="24" r="3" fill="#D4AF37" />
-                <circle cx="24" cy="38" r="3" fill="#D4AF37" />
-                <circle cx="10" cy="24" r="3" fill="#D4AF37" />
-                <path d="M14 14 C18 19 23 21 29 21 C23 23 18 25 14 30 C15 24 13 18 14 14 Z" fill="#801414" opacity="0.6" />
-                <path d="M34 14 C30 19 25 21 19 21 C25 23 30 25 34 30 C33 24 35 18 34 14 Z" fill="#801414" opacity="0.6" />
-              </svg>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl sm:text-2xl font-black tracking-tight text-[#801414] font-serif leading-none">
-                VENTERSHOP
-              </span>
-              <span className="text-[9px] text-gray-500 font-medium tracking-tight">
-                Your Trusted Online Store for Quality Products
-              </span>
-            </div>
-          </Link>
+          <BrandLogo variant="dark" size="md" showSubtitle={true} />
 
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-5 text-gray-700 font-medium text-xs">
