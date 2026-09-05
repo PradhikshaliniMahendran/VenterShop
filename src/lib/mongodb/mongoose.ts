@@ -32,7 +32,7 @@ if (!cached) {
 export async function connectToDatabase() {
   const uri =
     process.env.MONGODB_URI ||
-    'mongodb+srv://admin:QrHRyJyAtULbJ3oZ@cluster0.hkdskxf.mongodb.net/ventershop?retryWrites=true&w=majority&appName=Cluster0';
+    'mongodb+srv://shalini252002sm_db_user:t8xQMt3LTgogs0c5@cluster0.rjcekup.mongodb.net/ventershop?retryWrites=true&w=majority&appName=Cluster0';
 
   if (!uri) {
     throw new Error('Please define the MONGODB_URI environment variable in Vercel settings or .env.local');
