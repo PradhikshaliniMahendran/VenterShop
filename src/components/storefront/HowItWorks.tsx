@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { useTranslation } from '@/lib/i18n/LanguageContext';
 import {
   PhoneCall,
@@ -9,10 +9,14 @@ import {
   ShoppingBag,
   Truck,
   HeartHandshake,
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
 } from 'lucide-react';
 
 export default function HowItWorks() {
   const { language } = useTranslation();
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const steps = [
     {
@@ -53,46 +57,97 @@ export default function HowItWorks() {
     },
   ];
 
+  const handleScroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = direction === 'left' ? -260 : 260;
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section className="py-12 sm:py-16 bg-[#FDFDFD] border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-10">
+    <section className="py-10 sm:py-14 bg-[#FDFDFD] border-b border-gray-100 overflow-hidden text-xs font-semibold">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         
-        {/* Section Heading */}
-        <h2 className="text-xl sm:text-2xl font-black text-gray-900 tracking-wider uppercase font-sans">
-          HOW VENTERSHOP WORKS?
-        </h2>
+        {/* Section Header with Navigation arrows */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#1B5E20] animate-pulse" />
+            <h2 className="text-base sm:text-lg font-black text-gray-900 tracking-wider uppercase font-sans">
+              HOW VENTERSHOP WORKS?
+            </h2>
+          </div>
 
-        {/* 6 Step Grid with connectors */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-4 relative">
-          {steps.map((step, idx) => {
-            const IconComponent = step.icon;
-            return (
-              <div key={idx} className="flex flex-col items-center text-center space-y-3 relative group">
-                
-                {/* Number Badge with Icon */}
-                <div className="relative flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-white border-2 border-dashed border-gray-300 group-hover:border-[#1B5E20] transition-colors flex items-center justify-center shadow-sm">
-                    <IconComponent className="w-7 h-7 text-gray-700 group-hover:text-[#1B5E20] transition-colors" />
-                  </div>
-                  {/* Green Step Number Pill */}
-                  <span className="absolute -top-1.5 -left-1.5 w-6 h-6 rounded-full bg-[#1B5E20] text-white text-[10px] font-black flex items-center justify-center shadow">
-                    {step.num}
-                  </span>
-                </div>
-
-                {/* Title & Desc */}
-                <div className="space-y-1">
-                  <h4 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-[#1B5E20] transition-colors">
-                    {step.title}
-                  </h4>
-                  <p className="text-[11px] text-gray-500 font-medium leading-relaxed">
-                    {step.desc}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+          {/* Desktop & Mobile Scroll arrows */}
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => handleScroll('left')}
+              className="w-8 h-8 rounded-full bg-white border border-gray-200 hover:border-[#1B5E20] hover:text-[#1B5E20] text-gray-600 flex items-center justify-center shadow-xs transition-colors cursor-pointer"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => handleScroll('right')}
+              className="w-8 h-8 rounded-full bg-white border border-gray-200 hover:border-[#1B5E20] hover:text-[#1B5E20] text-gray-600 flex items-center justify-center shadow-xs transition-colors cursor-pointer"
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
+
+        {/* Creative Single-line Horizontal Process Track */}
+        <div className="relative">
+          <div
+            ref={scrollRef}
+            className="flex items-stretch gap-4 overflow-x-auto pb-4 pt-2 scroll-smooth snap-x snap-mandatory scrollbar-none"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {steps.map((step, idx) => {
+              const IconComponent = step.icon;
+              const isLast = idx === steps.length - 1;
+              return (
+                <div
+                  key={idx}
+                  className="flex-shrink-0 w-52 sm:w-60 bg-white rounded-2xl border border-gray-200 p-4.5 shadow-xs hover:shadow-md hover:border-[#1B5E20] transition-all duration-300 flex flex-col justify-between snap-center group relative"
+                >
+                  {/* Top Step Pill & Number */}
+                  <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+                    <span className="w-7 h-7 rounded-xl bg-[#1B5E20] text-white text-[10px] font-black flex items-center justify-center shadow-xs">
+                      {step.num}
+                    </span>
+                    <div className="p-2 rounded-xl bg-green-50/70 text-[#1B5E20] group-hover:bg-[#1B5E20] group-hover:text-white transition-colors">
+                      <IconComponent className="w-4 h-4" />
+                    </div>
+                  </div>
+
+                  {/* Title & Desc */}
+                  <div className="pt-3 space-y-1">
+                    <h4 className="text-xs font-bold text-gray-900 group-hover:text-[#1B5E20] transition-colors line-clamp-1">
+                      {step.title}
+                    </h4>
+                    <p className="text-[11px] text-gray-500 font-medium leading-relaxed line-clamp-2">
+                      {step.desc}
+                    </p>
+                  </div>
+
+                  {/* Flow Connector Indicator at Bottom */}
+                  <div className="pt-3 flex items-center justify-between text-[10px] text-gray-400 font-bold border-t border-gray-50 mt-2">
+                    <span>Step {idx + 1} of 6</span>
+                    {!isLast ? (
+                      <span className="text-[#1B5E20] flex items-center gap-0.5">
+                        Next <ArrowRight className="w-3 h-3" />
+                      </span>
+                    ) : (
+                      <span className="text-emerald-600 font-extrabold">Complete 🎉</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
       </div>
     </section>
   );
