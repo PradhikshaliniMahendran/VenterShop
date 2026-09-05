@@ -131,15 +131,19 @@ export default function FeaturedProducts() {
                   </span>
                 </div>
 
-                {/* Image Container */}
+                {/* Image Container with Universal Auto-Fit */}
                 <Link
                   href={`/product/${prod.slug}`}
-                  className="w-full h-32 sm:h-36 flex items-center justify-center overflow-hidden rounded-lg bg-gray-50 pt-2"
+                  className="w-full h-32 sm:h-36 flex items-center justify-center overflow-hidden rounded-lg bg-[#FAF9F6] p-2"
                 >
                   <img
                     src={prod.image}
                     alt={prod.name}
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80';
+                    }}
+                    className="max-h-full max-w-full w-auto h-auto object-contain object-center group-hover:scale-106 transition-transform duration-300 drop-shadow-xs"
+                    loading="lazy"
                   />
                 </Link>
 

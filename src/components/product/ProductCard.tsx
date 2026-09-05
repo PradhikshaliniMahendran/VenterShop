@@ -108,16 +108,16 @@ export default function ProductCard({ product }: { product: IProductData }) {
         )}
       </div>
 
-      {/* Product Image Box with Error Fallback */}
+      {/* Product Image Box with Universal Auto-Fit Container */}
       <Link
         href={`/product/${product.slug}`}
-        className="relative h-44 sm:h-52 w-full flex items-center justify-center bg-gray-50 rounded-xl overflow-hidden mb-3 group-hover:bg-gray-100/60 transition-colors"
+        className="relative h-44 sm:h-52 w-full flex items-center justify-center bg-[#FAF9F6] rounded-xl overflow-hidden mb-3 group-hover:bg-[#F5F3ED] transition-colors p-2.5"
       >
         <img
           src={imgSrc}
           alt={product.name}
           onError={() => setImgSrc(FALLBACK_IMAGE)}
-          className="w-full h-full object-contain p-2 transform group-hover:scale-105 transition-transform duration-300"
+          className="max-h-full max-w-full w-auto h-auto object-contain object-center transform group-hover:scale-106 transition-transform duration-300 drop-shadow-xs"
           loading="lazy"
         />
       </Link>

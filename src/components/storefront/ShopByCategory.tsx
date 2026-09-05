@@ -3,7 +3,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useTranslation } from '@/lib/i18n/LanguageContext';
-import { ChevronLeft, ChevronRight, ArrowRight, ShoppingBag } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 
 interface ICategoryItem {
   _id?: string;
@@ -62,34 +62,28 @@ const DEFAULT_CATEGORIES: ICategoryItem[] = [
 
 const FALLBACK_CATEGORY_IMAGE = 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80';
 
-// Single Category Item Component with automatic image fitting and fallback
-function CategoryCardItem({ cat }: { cat: ICategoryItem }) {
+// Single Minimalist Category Item without outer card box
+function CategoryItem({ cat }: { cat: ICategoryItem }) {
   const [imgUrl, setImgUrl] = useState(cat.img || FALLBACK_CATEGORY_IMAGE);
 
   return (
     <Link
       href={`/shop?category=${cat.slug}`}
-      className="group flex-shrink-0 w-32 sm:w-40 flex flex-col items-center text-center p-3 rounded-2xl bg-white border border-gray-200 hover:border-[#801414] hover:shadow-md transition-all duration-300 snap-center select-none"
+      className="group flex-shrink-0 w-24 sm:w-28 flex flex-col items-center text-center p-1.5 snap-center select-none transition-transform duration-200"
     >
-      {/* 
-        Container with aspect-square and full-width auto-fitting:
-        Whatever aspect ratio an admin uploads (landscape, portrait, banner, etc.),
-        object-cover + object-center ensures it fills the box symmetrically without distortion!
-      */}
-      <div className="relative w-24 h-24 sm:w-28 sm:h-28 aspect-square rounded-2xl bg-gray-50 border border-gray-200 p-1.5 flex items-center justify-center overflow-hidden shadow-xs group-hover:scale-104 group-hover:border-red-200 transition-all duration-300">
+      {/* Square Rounded Graphic Frame */}
+      <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#F8F8F8] border border-gray-150 p-2 flex items-center justify-center overflow-hidden shadow-xs group-hover:scale-108 group-hover:shadow-md group-hover:border-red-200 transition-all duration-300">
         <img
           src={imgUrl}
           alt={cat.title}
           onError={() => setImgUrl(FALLBACK_CATEGORY_IMAGE)}
-          className="w-full h-full object-cover object-center rounded-xl bg-gray-100"
+          className="w-full h-full object-cover rounded-xl"
           loading="lazy"
         />
-        {/* Subtle hover gradient */}
-        <div className="absolute inset-0 rounded-xl bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity" />
       </div>
 
-      {/* Category Title */}
-      <span className="text-[11px] sm:text-xs font-bold text-gray-900 group-hover:text-[#801414] transition-colors whitespace-pre-line leading-snug mt-3 line-clamp-2">
+      {/* Category Label */}
+      <span className="text-[11px] font-bold text-gray-800 group-hover:text-[#801414] transition-colors whitespace-pre-line leading-tight mt-2 line-clamp-2">
         {cat.title}
       </span>
     </Link>
@@ -128,7 +122,7 @@ export default function ShopByCategory() {
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const scrollAmount = direction === 'left' ? -260 : 260;
+      const scrollAmount = direction === 'left' ? -240 : 240;
       scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
@@ -174,15 +168,15 @@ export default function ShopByCategory() {
           </div>
         </div>
 
-        {/* Creative Single-line Horizontal Category Track */}
+        {/* Minimalist Single-line Horizontal Category Track without Card Borders */}
         <div className="relative">
           <div
             ref={scrollRef}
-            className="flex items-center gap-4 sm:gap-6 overflow-x-auto pb-4 pt-1 scroll-smooth snap-x snap-mandatory scrollbar-none"
+            className="flex items-center gap-3 sm:gap-6 overflow-x-auto pb-3 pt-1 scroll-smooth snap-x snap-mandatory scrollbar-none"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {categories.map((cat, idx) => (
-              <CategoryCardItem key={cat._id || idx} cat={cat} />
+              <CategoryItem key={cat._id || idx} cat={cat} />
             ))}
           </div>
         </div>
