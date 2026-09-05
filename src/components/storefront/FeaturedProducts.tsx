@@ -131,10 +131,10 @@ export default function FeaturedProducts() {
                   </span>
                 </div>
 
-                {/* Image Container with Universal Auto-Fit */}
+                {/* Image Container with Uniform Aspect-Square Frame */}
                 <Link
                   href={`/product/${prod.slug}`}
-                  className="w-full h-32 sm:h-36 flex items-center justify-center overflow-hidden rounded-lg bg-[#FAF9F6] p-2"
+                  className="w-full aspect-square flex items-center justify-center overflow-hidden rounded-lg bg-[#FAF9F6] relative"
                 >
                   <img
                     src={prod.image}
@@ -142,7 +142,7 @@ export default function FeaturedProducts() {
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80';
                     }}
-                    className="max-h-full max-w-full w-auto h-auto object-contain object-center group-hover:scale-106 transition-transform duration-300 drop-shadow-xs"
+                    className="w-full h-full object-cover object-center group-hover:scale-106 transition-transform duration-300"
                     loading="lazy"
                   />
                 </Link>

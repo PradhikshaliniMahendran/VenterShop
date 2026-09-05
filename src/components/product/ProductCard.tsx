@@ -108,16 +108,16 @@ export default function ProductCard({ product }: { product: IProductData }) {
         )}
       </div>
 
-      {/* Product Image Box with Universal Auto-Fit Container */}
+      {/* Product Image Box with Uniform Aspect-Square Frame */}
       <Link
         href={`/product/${product.slug}`}
-        className="relative h-44 sm:h-52 w-full flex items-center justify-center bg-[#FAF9F6] rounded-xl overflow-hidden mb-3 group-hover:bg-[#F5F3ED] transition-colors p-2.5"
+        className="relative aspect-square w-full flex items-center justify-center bg-[#FAF9F6] rounded-xl overflow-hidden mb-3 group-hover:bg-[#F5F3ED] transition-colors"
       >
         <img
           src={imgSrc}
           alt={product.name}
           onError={() => setImgSrc(FALLBACK_IMAGE)}
-          className="max-h-full max-w-full w-auto h-auto object-contain object-center transform group-hover:scale-106 transition-transform duration-300 drop-shadow-xs"
+          className="w-full h-full object-cover object-center transform group-hover:scale-106 transition-transform duration-300"
           loading="lazy"
         />
       </Link>
