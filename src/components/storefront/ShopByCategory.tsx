@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { useTranslation } from '@/lib/i18n/LanguageContext';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
@@ -88,37 +88,7 @@ function CategoryItem({ cat }: { cat: ICategoryItem }) {
 export default function ShopByCategory() {
   const { language } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [categories, setCategories] = useState<ICategoryItem[]>(CANONICAL_CATEGORIES);
-
-  useEffect(() => {
-    async function fetchCategories() {
-      try {
-        const res = await fetch('/api/categories');
-        if (res.ok) {
-          const data = await res.json();
-          if (data.categories && data.categories.length > 0) {
-            // Map DB categories if available, maintaining clean structure
-            const mapped: ICategoryItem[] = data.categories.map((c: any) => {
-              // Find matching canonical image or use DB image
-              const matched = CANONICAL_CATEGORIES.find((item) => item.slug === c.slug);
-              return {
-                _id: c._id,
-                title: c.name.includes('\n') ? c.name : c.name.replace(' & ', ' &\n'),
-                slug: c.slug,
-                img: c.image || (matched ? matched.img : FALLBACK_CATEGORY_IMAGE),
-              };
-            });
-            if (mapped.length >= 4) {
-              setCategories(mapped);
-            }
-          }
-        }
-      } catch (e) {
-        console.error('Error fetching categories for slider:', e);
-      }
-    }
-    fetchCategories();
-  }, []);
+  const categories = CANONICAL_CATEGORIES;
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
