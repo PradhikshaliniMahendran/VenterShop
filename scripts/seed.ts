@@ -125,52 +125,68 @@ async function seed() {
   // Create Categories
   console.log('Seeding product categories...');
   const catGroceries = await Category.create({
-    name: 'Groceries',
+    name: 'Fruits & Vegetables',
     slug: 'groceries',
-    description: 'Fresh vegetables, rice, lentils, and everyday kitchen essentials.',
-    image: 'https://res.cloudinary.com/demo/image/upload/v1655823171/samples/food/potatoes.jpg',
+    description: 'Fresh vegetables, fruits, rice, lentils, and everyday kitchen essentials.',
+    image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=400&q=80',
     isActive: true,
     displayOrder: 1,
   });
-  const catAnimalFeed = await Category.create({
-    name: 'Animal Feed',
-    slug: 'animal-feed',
-    description: 'Quality nutrition and feeds for livestock and domestic pets.',
-    image: 'https://res.cloudinary.com/demo/image/upload/v1655823165/samples/animals/three-dogs.jpg',
+  const catHome = await Category.create({
+    name: 'Kitchen & Appliances',
+    slug: 'home',
+    description: 'Elegant home improvement, kitchen utensils, appliances, and decor essentials.',
+    image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=400&q=80',
     isActive: true,
     displayOrder: 2,
   });
   const catBooks = await Category.create({
-    name: 'Books',
+    name: 'Books & Stationery',
     slug: 'books',
-    description: 'Educational resources, fiction, non-fiction, and Tamil literature.',
-    image: 'https://res.cloudinary.com/demo/image/upload/v1655823156/samples/ecommerce/accessories-bag.jpg',
+    description: 'Educational resources, fiction, non-fiction, and literature.',
+    image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80',
     isActive: true,
     displayOrder: 3,
   });
-  const catElectronics = await Category.create({
-    name: 'Electronics',
-    slug: 'electronics',
-    description: 'Premium gadgets, mobile accessories, audio, and personal hardware.',
-    image: 'https://res.cloudinary.com/demo/image/upload/v1655823169/samples/food/fish-vegetables.jpg',
+  const catClothing = await Category.create({
+    name: 'Clothing & Fashion',
+    slug: 'clothing',
+    description: 'Traditional wear, casual apparel, and accessories.',
+    image: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=400&q=80',
     isActive: true,
     displayOrder: 4,
   });
-  const catDailyNeeds = await Category.create({
-    name: 'Daily Needs',
-    slug: 'daily-needs',
-    description: 'Toiletries, organic soaps, home cleaning products, and hygiene items.',
-    image: 'https://res.cloudinary.com/demo/image/upload/v1655823171/samples/ecommerce/leather-bag-gray.jpg',
+  const catElectronics = await Category.create({
+    name: 'Mobiles & Electronics',
+    slug: 'electronics',
+    description: 'Premium gadgets, mobile accessories, audio, and personal hardware.',
+    image: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=400&q=80',
     isActive: true,
     displayOrder: 5,
   });
-  const catHome = await Category.create({
-    name: 'Home',
-    slug: 'home',
-    description: 'Elegant home improvement, kitchen utensils, and decor essentials.',
-    image: 'https://res.cloudinary.com/demo/image/upload/v1655823170/samples/food/spices.jpg',
+  const catAnimalFeed = await Category.create({
+    name: 'Pet Care & Supplies',
+    slug: 'animal-feed',
+    description: 'Quality nutrition and feeds for livestock and domestic pets.',
+    image: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=400&q=80',
     isActive: true,
     displayOrder: 6,
+  });
+  const catPlants = await Category.create({
+    name: 'Plants & Garden',
+    slug: 'plants',
+    description: 'Indoor plants, seeds, potting soil, and garden essentials.',
+    image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=400&q=80',
+    isActive: true,
+    displayOrder: 7,
+  });
+  const catGifts = await Category.create({
+    name: 'Gifts & Surprises',
+    slug: 'gifts',
+    description: 'Festive gift hampers, greeting packs, and celebration essentials.',
+    image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80',
+    isActive: true,
+    displayOrder: 8,
   });
   console.log('Categories seeded.');
 
@@ -268,7 +284,7 @@ async function seed() {
     name: 'Handcrafted Organic Lavender Soap',
     slug: 'handcrafted-organic-lavender-soap',
     sku: 'NEEDS-SOP-005',
-    categoryId: catDailyNeeds._id,
+    categoryId: catGifts._id,
     description: 'Triple-milled organic soap bar made with cold-pressed olive oil and pure lavender extract. Safe for sensitive skin.',
     shortDescription: 'All-natural relaxing lavender soap.',
     images: ['https://res.cloudinary.com/demo/image/upload/v1655823171/samples/ecommerce/leather-bag-gray.jpg'],

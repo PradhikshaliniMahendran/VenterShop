@@ -12,55 +12,50 @@ interface ICategoryItem {
   img: string;
 }
 
-const DEFAULT_CATEGORIES: ICategoryItem[] = [
+const CANONICAL_CATEGORIES: ICategoryItem[] = [
   {
-    title: 'Groceries &\nProvisions',
+    title: 'Fruits &\nVegetables',
     slug: 'groceries',
-    img: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80',
+    img: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=400&q=80',
   },
   {
-    title: 'Rani Animal\n& Pet Feed',
-    slug: 'animal-feed',
-    img: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=600&q=80',
-  },
-  {
-    title: 'Home & Kitchen\nEssentials',
+    title: 'Kitchen &\nAppliances',
     slug: 'home',
-    img: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=600&q=80',
+    img: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=400&q=80',
   },
   {
     title: 'Books &\nStationery',
     slug: 'books',
-    img: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=600&q=80',
-  },
-  {
-    title: 'Electronics &\nGadgets',
-    slug: 'electronics',
-    img: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=600&q=80',
-  },
-  {
-    title: 'Daily Needs &\nHygiene',
-    slug: 'daily-needs',
-    img: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80',
+    img: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80',
   },
   {
     title: 'Clothing &\nFashion',
-    slug: 'daily-needs',
-    img: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=600&q=80',
+    slug: 'clothing',
+    img: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=400&q=80',
+  },
+  {
+    title: 'Mobiles &\nElectronics',
+    slug: 'electronics',
+    img: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=400&q=80',
+  },
+  {
+    title: 'Pet Care &\nSupplies',
+    slug: 'animal-feed',
+    img: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=400&q=80',
   },
   {
     title: 'Plants &\nGarden',
-    slug: 'daily-needs',
-    img: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=600&q=80',
+    slug: 'plants',
+    img: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=400&q=80',
   },
   {
     title: 'Gifts &\nSurprises',
-    slug: 'daily-needs',
-    img: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80',
+    slug: 'gifts',
+    img: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80',
   },
 ];
 
-const FALLBACK_CATEGORY_IMAGE = 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80';
+const FALLBACK_CATEGORY_IMAGE = 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80';
 
 // Single Minimalist Category Item without outer card box
 function CategoryItem({ cat }: { cat: ICategoryItem }) {
@@ -75,7 +70,7 @@ function CategoryItem({ cat }: { cat: ICategoryItem }) {
       <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#F8F8F8] border border-gray-150 p-2 flex items-center justify-center overflow-hidden shadow-xs group-hover:scale-108 group-hover:shadow-md group-hover:border-red-200 transition-all duration-300">
         <img
           src={imgUrl}
-          alt={cat.title}
+          alt={cat.title.replace('\n', ' ')}
           onError={() => setImgUrl(FALLBACK_CATEGORY_IMAGE)}
           className="w-full h-full object-cover rounded-xl"
           loading="lazy"
@@ -93,7 +88,7 @@ function CategoryItem({ cat }: { cat: ICategoryItem }) {
 export default function ShopByCategory() {
   const { language } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [categories, setCategories] = useState<ICategoryItem[]>(DEFAULT_CATEGORIES);
+  const [categories, setCategories] = useState<ICategoryItem[]>(CANONICAL_CATEGORIES);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -102,13 +97,18 @@ export default function ShopByCategory() {
         if (res.ok) {
           const data = await res.json();
           if (data.categories && data.categories.length > 0) {
-            const mapped: ICategoryItem[] = data.categories.map((c: any) => ({
-              _id: c._id,
-              title: c.name,
-              slug: c.slug,
-              img: c.image || FALLBACK_CATEGORY_IMAGE,
-            }));
-            if (mapped.length >= 3) {
+            // Map DB categories if available, maintaining clean structure
+            const mapped: ICategoryItem[] = data.categories.map((c: any) => {
+              // Find matching canonical image or use DB image
+              const matched = CANONICAL_CATEGORIES.find((item) => item.slug === c.slug);
+              return {
+                _id: c._id,
+                title: c.name.includes('\n') ? c.name : c.name.replace(' & ', ' &\n'),
+                slug: c.slug,
+                img: c.image || (matched ? matched.img : FALLBACK_CATEGORY_IMAGE),
+              };
+            });
+            if (mapped.length >= 4) {
               setCategories(mapped);
             }
           }
