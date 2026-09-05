@@ -8,17 +8,17 @@ import { useCart } from '@/lib/cart/CartContext';
 import { useAuth } from '@/lib/auth/AuthContext';
 import {
   Search,
-  ShoppingBag,
+  ShoppingCart,
   User,
-  Heart,
   Menu,
   X,
   Globe,
   Settings,
   LogOut,
-  MapPin,
-  Phone,
-  ChevronRight,
+  Headphones,
+  Package,
+  Home,
+  ChevronDown,
 } from 'lucide-react';
 
 export default function Header() {
@@ -32,7 +32,6 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
 
-  // Initialize search input from URL query param
   useEffect(() => {
     const q = searchParams.get('q');
     if (q) setSearchQuery(q);
@@ -56,317 +55,301 @@ export default function Header() {
     await logoutUser();
   };
 
-  const navItems = [
-    { label: t('navHome'), href: '/' },
-    { label: t('navShop'), href: '/shop' },
-    { label: t('navGroceries'), href: '/shop?category=groceries' },
-    { label: t('navAnimalFeed'), href: '/shop?category=animal-feed' },
-    { label: t('navBooks'), href: '/shop?category=books' },
-    { label: t('navElectronics'), href: '/shop?category=electronics' },
-    { label: t('navDailyNeeds'), href: '/shop?category=daily-needs' },
+  const navCategories = [
+    { label: language === 'ta' ? 'ஷாப்' : 'Shop', href: '/shop' },
+    { label: language === 'ta' ? 'மளிகை' : 'Groceries', href: '/shop?category=groceries' },
+    { label: language === 'ta' ? 'கால்நடை தீவனம்' : 'Animal Feed', href: '/shop?category=animal-feed' },
+    { label: language === 'ta' ? 'புத்தகங்கள்' : 'Books', href: '/shop?category=books' },
+    { label: language === 'ta' ? 'மின்னணுவியல்' : 'Electronics', href: '/shop?category=electronics' },
+    { label: language === 'ta' ? 'தினசரி தேவைகள்' : 'Daily Needs', href: '/shop?category=daily-needs' },
+    { label: language === 'ta' ? 'சலுகைகள்' : 'Offers', href: '/shop?category=groceries' },
     { label: language === 'ta' ? 'எங்களைப் பற்றி' : 'About Us', href: '/about' },
-    { label: language === 'ta' ? 'தொடர்பு கொள்ள' : 'Contact Us', href: '/contact' },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white shadow-md text-xs font-semibold">
+    <header className="sticky top-0 z-50 w-full bg-white shadow-sm text-xs font-semibold">
       
-      {/* 1. TOP NAVY PROMOTIONAL BAR */}
-      <div className="w-full bg-[#071B5C] py-2 px-4 text-white border-b border-white/10 hidden md:block">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-6">
-            <span className="flex items-center gap-1.5 text-blue-200 font-semibold">
-              <MapPin className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
-              100 University Ave, Toronto, ON, Canada
-            </span>
-            <span className="text-white/80 font-medium">🕒 Mon - Sun: 8:00 AM - 10:00 PM</span>
+      {/* 1. TOP MAROON NOTIFICATION BAR */}
+      <div className="w-full bg-[#801414] py-2 px-4 sm:px-8 text-white">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs gap-1">
+          <div className="flex items-center gap-2 text-white/95 font-medium">
+            <span className="bg-white/20 px-1.5 py-0.5 rounded text-[10px] font-bold">🚚 Free Delivery</span>
+            <span>Free Delivery on Orders over $75 | Fast & Reliable Shipping Across Canada</span>
           </div>
-          <div className="flex items-center gap-6 font-bold">
-            <a href="tel:+18005550199" className="hover:text-[#D4AF37] transition-colors flex items-center gap-1.5 text-white">
-              <Phone className="w-3.5 h-3.5 text-[#D4AF37]" />
-              +1 (800) 555-0199
-            </a>
-            <span className="text-emerald-400 font-semibold">{t('promoFreeDelivery')}</span>
+          <div className="flex items-center gap-4 text-white/90 text-xs">
+            <Link href="/contact" className="hover:text-amber-200 transition-colors flex items-center gap-1.5">
+              <Headphones className="w-3.5 h-3.5" />
+              <span>Help & Support</span>
+            </Link>
+            <span className="text-white/40">|</span>
+            <Link href="/dashboard/orders" className="hover:text-amber-200 transition-colors flex items-center gap-1.5">
+              <Package className="w-3.5 h-3.5" />
+              <span>Track Order</span>
+            </Link>
+            <span className="text-white/40">|</span>
+            <button
+              onClick={toggleLanguage}
+              className="flex items-center gap-1 text-[11px] font-bold text-amber-300 hover:text-white transition-colors"
+              title="Switch Language"
+            >
+              <Globe className="w-3 h-3" />
+              <span>{language === 'en' ? 'தமிழ்' : 'English'}</span>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* 2. MAIN HEADER BAR */}
-      <div className="border-b border-gray-100 py-3.5 px-4 sm:px-6 bg-white">
-        <div className="max-w-7xl mx-auto flex justify-between items-center gap-4">
+      {/* 2. MAIN HEADER (Logo, Nav links, Search, Account, Cart) */}
+      <div className="border-b border-gray-100 py-3 px-4 sm:px-8 bg-white">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           
-          {/* Mobile Menu Toggle button */}
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(true)}
-            className="p-2 text-[#071B5C] bg-gray-100 hover:bg-gray-200 rounded-xl md:hidden"
-            aria-label="Open mobile menu"
+            className="p-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg lg:hidden"
+            aria-label="Open menu"
           >
             <Menu className="w-5 h-5" />
           </button>
 
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group transition-transform duration-300 transform hover:scale-102">
-            <div className="relative rounded-full border-2 border-[#D4AF37] bg-white shadow-sm flex items-center justify-center shrink-0 w-11 h-11 p-1">
-              <span className="font-serif text-[#071B5C] font-black text-lg select-none">VS</span>
+          {/* Brand Logo */}
+          <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
+            {/* Red Floral Mandala Icon */}
+            <div className="w-9 h-9 flex items-center justify-center text-[#801414]">
+              <svg viewBox="0 0 48 48" className="w-9 h-9 fill-current" aria-hidden="true">
+                <circle cx="24" cy="24" r="5" fill="#801414" />
+                <path d="M24 4 C27 12 33 18 41 21 C33 24 27 30 24 38 C21 30 15 24 7 21 C15 18 21 12 24 4 Z" fill="#801414" opacity="0.9" />
+                <circle cx="24" cy="10" r="3" fill="#D4AF37" />
+                <circle cx="38" cy="24" r="3" fill="#D4AF37" />
+                <circle cx="24" cy="38" r="3" fill="#D4AF37" />
+                <circle cx="10" cy="24" r="3" fill="#D4AF37" />
+                <path d="M14 14 C18 19 23 21 29 21 C23 23 18 25 14 30 C15 24 13 18 14 14 Z" fill="#801414" opacity="0.6" />
+                <path d="M34 14 C30 19 25 21 19 21 C25 23 30 25 34 30 C33 24 35 18 34 14 Z" fill="#801414" opacity="0.6" />
+              </svg>
             </div>
-            <span className="text-xl font-serif font-black tracking-tight text-[#071B5C] select-none">
-              VENTER<span className="text-[#D4AF37]">SHOP</span>
-            </span>
+            <div className="flex flex-col">
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-[#801414] font-serif leading-none">
+                VENTERSHOP
+              </span>
+              <span className="text-[9px] text-gray-500 font-medium tracking-tight">
+                Your Trusted Online Store for Quality Products
+              </span>
+            </div>
           </Link>
 
-          {/* Search Bar - Hidden on small screens */}
-          <form
-            onSubmit={handleSearchSubmit}
-            className="hidden md:flex flex-1 max-w-lg relative items-center"
-          >
-            <input
-              type="text"
-              placeholder={t('searchPlaceholder')}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#F5F5F5] text-gray-900 font-bold pl-4 pr-10 py-2.5 rounded-full border border-transparent focus:bg-white focus:border-[#071B5C] outline-none text-xs transition-all duration-200"
-            />
-            <button
-              type="submit"
-              className="absolute right-3.5 text-gray-500 hover:text-[#071B5C] p-0.5"
-              aria-label="Search"
-            >
-              <Search className="w-4 h-4" />
-            </button>
-          </form>
-
-          {/* Utility Buttons */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            
-            {/* Language Toggler */}
-            <button
-              onClick={toggleLanguage}
-              className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-[#071B5C] hover:bg-gray-50 py-2 px-3.5 rounded-full border border-gray-250 transition-colors"
-              title="Change Language"
-            >
-              <Globe className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>{language === 'en' ? 'தமிழ்' : 'English'}</span>
-            </button>
-
-            {/* Wishlist Link */}
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-5 text-gray-700 font-medium text-xs">
             <Link
-              href="/dashboard/wishlist"
-              className="p-2.5 rounded-full bg-gray-50 hover:bg-gray-100 text-[#071B5C] transition-colors relative hidden sm:inline-block border border-gray-200"
-              aria-label="Wishlist"
+              href="/"
+              className="flex items-center gap-1 text-[#801414] font-bold border-b-2 border-[#801414] pb-0.5"
             >
-              <Heart className="w-4.5 h-4.5" />
+              <Home className="w-3.5 h-3.5 text-[#801414]" />
+              <span>Home</span>
             </Link>
 
-            {/* Shopping Cart Link wrapped in navy circle */}
-            <Link
-              href="/cart"
-              className="p-2.5 rounded-full bg-[#071B5C] hover:bg-[#0d216d] text-white transition-all relative flex items-center justify-center shadow-md"
-              aria-label="Shopping Cart"
-            >
-              <ShoppingBag className="w-5 h-5 text-[#D4AF37]" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#E53935] text-white text-[9px] font-black w-5 h-5 flex items-center justify-center rounded-full shadow-md animate-scale-in">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
+            {navCategories.map((item, idx) => (
+              <Link
+                key={idx}
+                href={item.href}
+                className="hover:text-[#801414] transition-colors flex items-center gap-0.5"
+              >
+                <span>{item.label}</span>
+                {idx < 6 && <ChevronDown className="w-3 h-3 text-gray-400" />}
+              </Link>
+            ))}
+          </nav>
 
-            {/* Account Profile button - Visible on Desktop, accessed via hamburger menu on mobile */}
-            <div className="relative hidden md:block">
+          {/* Right Side: Search + Account + Cart */}
+          <div className="flex items-center gap-3 shrink-0">
+            {/* Search Input */}
+            <form
+              onSubmit={handleSearchSubmit}
+              className="hidden md:flex relative items-center w-52 xl:w-64"
+            >
+              <input
+                type="text"
+                placeholder="Search for products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-[#F5F5F5] text-gray-800 text-xs pl-3 pr-8 py-2 rounded-full border border-gray-250 focus:border-[#801414] focus:bg-white outline-none transition-all"
+              />
+              <button
+                type="submit"
+                className="absolute right-2.5 text-gray-400 hover:text-[#801414]"
+                aria-label="Search"
+              >
+                <Search className="w-3.5 h-3.5" />
+              </button>
+            </form>
+
+            {/* Account / User Menu */}
+            <div className="relative">
               {user ? (
-                <>
+                <div>
                   <button
                     onClick={() => setAccountDropdownOpen(!accountDropdownOpen)}
-                    className="flex items-center gap-1 p-0.5 hover:bg-gray-100 rounded-full transition-colors border border-gray-100"
-                    aria-label="Account Settings"
+                    className="flex flex-col items-center text-gray-700 hover:text-[#801414] transition-colors px-1"
                   >
-                    <div className="w-8 h-8 rounded-full bg-[#071B5C] text-white flex items-center justify-center font-bold text-xs border-2 border-[#D4AF37]">
-                      {user.firstName[0]}
-                    </div>
+                    <User className="w-5 h-5 text-gray-700" />
+                    <span className="text-[10px] font-bold truncate max-w-[60px]">
+                      {user.firstName || 'Account'}
+                    </span>
                   </button>
 
-                  {/* Dropdown Menu */}
                   {accountDropdownOpen && (
-                    <>
-                      <div
-                        className="fixed inset-0 z-10"
-                        onClick={() => setAccountDropdownOpen(false)}
-                      />
-                      <div className="absolute right-0 mt-2.5 w-52 bg-white rounded-xl shadow-lg border border-gray-100 py-1.5 z-20 animate-fade-in-up">
-                        <div className="px-4 py-2.5 border-b border-gray-100">
-                          <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">
-                            {user.customerType === 'ADMIN' ? 'Administrator' : t('dashWelcome')}
-                          </p>
-                          <p className="text-sm font-extrabold text-[#101A2D] truncate">
-                            {user.firstName} {user.lastName}
-                          </p>
-                        </div>
-                        {user.customerType === 'ADMIN' ? (
-                          <Link
-                            href="/admin"
-                            onClick={() => setAccountDropdownOpen(false)}
-                            className="flex items-center gap-2 px-4 py-2 text-sm text-[#333333] hover:bg-gray-50 font-bold transition-colors"
-                          >
-                            <Settings className="w-4 h-4 text-gray-500" />
-                            Admin Console
-                          </Link>
-                        ) : (
-                          <Link
-                            href="/dashboard"
-                            onClick={() => setAccountDropdownOpen(false)}
-                            className="flex items-center gap-2 px-4 py-2 text-sm text-[#333333] hover:bg-gray-50 font-bold transition-colors"
-                          >
-                            <User className="w-4 h-4 text-gray-500" />
-                            {t('navAccount')}
-                          </Link>
-                        )}
-                        <button
-                          onClick={handleLogout}
-                          className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-650 hover:bg-red-50 font-bold text-left border-t border-gray-100 transition-colors"
-                        >
-                          <LogOut className="w-4 h-4" />
-                          {t('navLogout')}
-                        </button>
+                    <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 text-xs font-semibold">
+                      <div className="px-4 py-2 border-b border-gray-100">
+                        <p className="font-bold text-gray-900 truncate">
+                          {user.firstName} {user.lastName}
+                        </p>
+                        <p className="text-[10px] text-gray-500 truncate">{user.email}</p>
+                        <span className="inline-block mt-1 px-2 py-0.5 text-[9px] bg-red-50 text-[#801414] rounded-full font-bold">
+                          {user.customerType || 'CUSTOMER'}
+                        </span>
                       </div>
-                    </>
+                      <Link
+                        href="/dashboard"
+                        onClick={() => setAccountDropdownOpen(false)}
+                        className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"
+                      >
+                        <User className="w-4 h-4 text-gray-500" />
+                        <span>My Dashboard</span>
+                      </Link>
+                      <Link
+                        href="/dashboard/orders"
+                        onClick={() => setAccountDropdownOpen(false)}
+                        className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"
+                      >
+                        <Package className="w-4 h-4 text-gray-500" />
+                        <span>My Orders</span>
+                      </Link>
+                      {user.role === 'ADMIN' && (
+                        <Link
+                          href="/admin"
+                          onClick={() => setAccountDropdownOpen(false)}
+                          className="flex items-center gap-2 px-4 py-2 text-red-700 hover:bg-red-50 font-bold"
+                        >
+                          <Settings className="w-4 h-4 text-red-600" />
+                          <span>Admin Portal</span>
+                        </Link>
+                      )}
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 text-left border-t border-gray-100 mt-1"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        <span>Sign Out</span>
+                      </button>
+                    </div>
                   )}
-                </>
+                </div>
               ) : (
                 <Link
                   href="/login"
-                  className="inline-flex items-center gap-1.5 px-4.5 py-2.5 rounded-full bg-[#071B5C] hover:bg-[#0d216d] text-white text-[11px] font-black uppercase tracking-wider transition-all shadow-md"
+                  className="flex flex-col items-center text-gray-700 hover:text-[#801414] transition-colors px-1"
                 >
-                  <User className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  <span>{t('navLogin')}</span>
+                  <User className="w-5 h-5 text-gray-700" />
+                  <span className="text-[10px] font-bold">Account</span>
                 </Link>
               )}
             </div>
+
+            {/* Cart Button */}
+            <Link
+              href="/cart"
+              className="flex items-center gap-1.5 text-gray-700 hover:text-[#801414] transition-colors px-1"
+            >
+              <div className="relative">
+                <ShoppingCart className="w-5 h-5 text-gray-700" />
+                <span className="absolute -top-1.5 -right-2 bg-[#801414] text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">
+                  {cartCount}
+                </span>
+              </div>
+              <span className="hidden sm:inline text-xs font-bold">Cart</span>
+            </Link>
           </div>
         </div>
       </div>
 
-      {/* Search Bar - Visible only on mobile below main header */}
-      <div className="md:hidden border-b border-[#E5E7EB] py-3 px-4">
-        <form onSubmit={handleSearchSubmit} className="relative items-center">
-          <input
-            type="text"
-            placeholder={t('searchPlaceholder')}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#F5F5F5] text-gray-900 font-bold pl-4 pr-10 py-2 rounded-lg border border-transparent focus:bg-white focus:border-[#071B5C] outline-none text-xs transition-all duration-200"
-          />
-          <button
-            type="submit"
-            className="absolute right-3.5 top-2 text-gray-500 hover:text-[#071B5C] p-0.5"
-            aria-label="Search"
-          >
-            <Search className="w-4 h-4" />
-          </button>
-        </form>
-      </div>
-
-      {/* 3. CATEGORY / NAVIGATION LINKS - Hidden on mobile */}
-      <nav className="hidden md:block bg-[#F5F5F5] border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 py-3">
-            {navItems.map((item, index) => (
-              <Link
-                key={index}
-                href={item.href}
-                className="text-[#071B5C] hover:text-[#E53935] font-black uppercase tracking-widest text-xs transition-colors duration-150 relative py-1 group"
-              >
-                {item.label}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#E53935] transition-all duration-200 group-hover:w-full"></span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </nav>
-
-      {/* 4. MOBILE NAVIGATION DRAWER */}
+      {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <>
-          {/* Overlay */}
-          <div
-            className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs transition-opacity duration-300"
-            onClick={() => setMobileMenuOpen(false)}
-          />
-          {/* Drawer Panel */}
-          <div className="fixed top-0 left-0 bottom-0 z-50 w-72 bg-white flex flex-col h-full shadow-2xl animate-slide-in-left">
-            {/* Header */}
-            <div className="p-4 border-b border-gray-100 flex justify-between items-center">
-              <span className="font-serif text-lg font-black text-[#071B5C]">
-                VENTER<span className="text-[#D4AF37]">SHOP</span>
-              </span>
+        <div className="fixed inset-0 z-50 bg-black/50 lg:hidden flex">
+          <div className="w-4/5 max-w-sm bg-white h-full shadow-2xl flex flex-col p-5 overflow-y-auto">
+            <div className="flex justify-between items-center pb-4 border-b border-gray-100">
+              <span className="text-lg font-serif font-black text-[#801414]">VENTERSHOP</span>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-1.5 hover:bg-gray-100 rounded-full text-gray-500 hover:text-black"
-                aria-label="Close menu"
+                className="p-1.5 text-gray-500 hover:text-gray-800"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
-              {navItems.map((item, index) => (
+
+            {/* Mobile Search */}
+            <form onSubmit={handleSearchSubmit} className="mt-4 relative">
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-gray-100 text-xs px-3 py-2.5 rounded-lg border border-gray-200 outline-none"
+              />
+              <button type="submit" className="absolute right-3 top-2.5 text-gray-400">
+                <Search className="w-4 h-4" />
+              </button>
+            </form>
+
+            {/* Links */}
+            <div className="flex flex-col gap-3 mt-6 text-sm">
+              <Link
+                href="/"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-[#801414] font-bold flex items-center gap-2 py-1.5"
+              >
+                <Home className="w-4 h-4" />
+                <span>Home</span>
+              </Link>
+              {navCategories.map((item, idx) => (
                 <Link
-                  key={index}
+                  key={idx}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block px-4 py-2.5 text-[#071B5C] hover:text-[#E53935] hover:bg-gray-50 rounded-lg text-sm font-black uppercase tracking-wider transition-all"
+                  className="text-gray-700 hover:text-[#801414] py-1.5 border-b border-gray-50"
                 >
                   {item.label}
                 </Link>
               ))}
+            </div>
 
-              {/* ── Account Section ── */}
-              <div className="border-t border-gray-150 mt-4 pt-4 space-y-2">
-                {user ? (
-                  <>
-                    {/* Clickable Profile Card -> Go directly to Dashboard or Admin */}
-                    <Link
-                      href={user.customerType === 'ADMIN' ? '/admin' : '/dashboard'}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center justify-between p-3.5 bg-gradient-to-r from-[#1A2A4A] to-[#071B5C] rounded-2xl text-white shadow-md hover:shadow-lg transition-all group"
-                    >
-                      <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-10 h-10 rounded-full bg-white text-[#071B5C] flex items-center justify-center font-black text-sm border-2 border-[#D4AF37] shrink-0">
-                          {user.firstName[0]}
-                        </div>
-                        <div className="min-w-0">
-                          <p className="font-extrabold text-xs text-white truncate group-hover:text-[#D4AF37] transition-colors">
-                            {user.firstName} {user.lastName}
-                          </p>
-                          <span className="text-[10px] text-blue-200 block truncate font-medium">
-                            {user.customerType === 'ADMIN' ? 'Admin Console →' : (language === 'ta' ? 'கணக்கு டாஷ்போர்டு →' : 'My Dashboard →')}
-                          </span>
-                        </div>
-                      </div>
-                      <ChevronRight className="w-4 h-4 text-white/70 group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0" />
-                    </Link>
-
-                    {/* Logout Button */}
-                    <button
-                      onClick={() => { setMobileMenuOpen(false); logoutUser(); }}
-                      className="w-full flex items-center justify-center gap-2 py-2.5 px-4 text-red-600 hover:bg-red-50 rounded-xl text-xs font-black uppercase tracking-wider transition-all border border-red-100"
-                    >
-                      <LogOut className="w-4 h-4" />
-                      {t('navLogout')}
-                    </button>
-                  </>
-                ) : (
-                  <Link
-                    href="/login"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-center gap-2 mx-2 py-3 bg-[#071B5C] hover:bg-[#0d216d] text-white rounded-xl text-xs font-black uppercase tracking-wider transition-colors shadow-md"
-                  >
-                    <User className="w-4 h-4 text-[#D4AF37]" />
-                    {t('navLogin')}
-                  </Link>
-                )}
-              </div>
+            {/* Language & Account */}
+            <div className="mt-auto pt-6 border-t border-gray-100 space-y-3">
+              <button
+                onClick={toggleLanguage}
+                className="w-full py-2 bg-gray-100 rounded-lg text-xs font-bold text-gray-800 flex items-center justify-center gap-2"
+              >
+                <Globe className="w-4 h-4 text-[#801414]" />
+                <span>Switch to {language === 'en' ? 'தமிழ்' : 'English'}</span>
+              </button>
+              {!user ? (
+                <Link
+                  href="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full py-2.5 bg-[#801414] text-white text-center rounded-lg text-xs font-bold"
+                >
+                  Sign In / Register
+                </Link>
+              ) : (
+                <button
+                  onClick={handleLogout}
+                  className="w-full py-2.5 bg-red-50 text-red-700 text-center rounded-lg text-xs font-bold"
+                >
+                  Sign Out
+                </button>
+              )}
             </div>
           </div>
-        </>
+          <div className="flex-1" onClick={() => setMobileMenuOpen(false)} />
+        </div>
       )}
     </header>
   );
