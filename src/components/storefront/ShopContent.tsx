@@ -164,8 +164,55 @@ export default function ShopContent() {
     return cat.name;
   };
 
+  const getVirtualShopName = (slug: string) => {
+    switch (slug) {
+      case 'groceries':
+        return language === 'ta' ? '🛒 வர்ச்சுவல் சூப்பர் மார்க்கெட்' : '🛒 Virtual Supermarket';
+      case 'footwear':
+      case 'shoes':
+        return language === 'ta' ? '👟 வர்ச்சுவல் ஷூ ஷாப்' : '👟 Virtual Shoe Shop';
+      case 'books':
+        return language === 'ta' ? '📚 வர்ச்சுவல் புக் ஷாப்' : '📚 Virtual Book Shop';
+      case 'computers':
+        return language === 'ta' ? '💻 வர்ச்சுவல் கணினி மையம்' : '💻 Virtual Computer Center';
+      case 'phones':
+      case 'mobiles':
+        return language === 'ta' ? '📱 வர்ச்சுவல் போன் ஷாப்' : '📱 Virtual Phone Shop';
+      case 'clothing':
+      case 'fashion':
+        return language === 'ta' ? '👕 வர்ச்சுவல் ஃபேஷன் ஸ்டோர்' : '👕 Virtual Fashion Store';
+      case 'electronics':
+        return language === 'ta' ? '📺 வர்ச்சுவல் எலக்ட்ரானிக்ஸ் ஷாப்' : '📺 Virtual Electronics Shop';
+      case 'animal-feed':
+        return language === 'ta' ? '🌾 ராணி கால்நடை தீவனம்' : '🌾 Rani Animal Feed';
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+      {/* Active Virtual Shop Banner Header */}
+      {selectedCategory !== 'all' && getVirtualShopName(selectedCategory) && (
+        <div className="mb-6 bg-gradient-to-r from-[#801414] via-[#991B1B] to-[#700000] text-white p-5 sm:p-6 rounded-2xl shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-red-900/30">
+          <div>
+            <span className="text-[10px] font-black uppercase tracking-widest text-amber-300 block">
+              {language === 'ta' ? 'தேர்ந்தெடுக்கப்பட்ட வர்ச்சுவல் கடை' : 'SELECTED VIRTUAL SHOP'}
+            </span>
+            <h1 className="text-xl sm:text-2xl font-black mt-0.5">{getVirtualShopName(selectedCategory)}</h1>
+            <p className="text-xs text-red-100/90 mt-1 font-semibold">
+              {language === 'ta' ? 'இந்த கடையில் உள்ள அனைத்து பிரத்யேக பொருட்களையும் பார்வையிடுகிறீர்கள்.' : 'Browsing products exclusively available in this virtual shop outlet.'}
+            </p>
+          </div>
+          <button
+            onClick={() => handleCategorySelect('all')}
+            className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-xl text-xs font-black transition-all shrink-0 cursor-pointer"
+          >
+            {language === 'ta' ? 'அனைத்து கடைகளும்' : 'View All Shops'}
+          </button>
+        </div>
+      )}
+
       {/* Search Header Banner */}
       {searchQuery && (
         <div className="mb-6 bg-white p-4 rounded-xl border border-gray-150 shadow-xs flex items-baseline gap-2">

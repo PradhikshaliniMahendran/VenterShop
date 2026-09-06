@@ -33,6 +33,8 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
 
+  const pathname = usePathname();
+
   useEffect(() => {
     const q = searchParams.get('q');
     if (q) setSearchQuery(q);
@@ -97,7 +99,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* 2. MAIN HEADER (Logo, Clean Fixed Nav, Search, Account, Cart) */}
+      {/* 2. MAIN HEADER (Logo, Clean Dynamic Nav, Search, Account, Cart) */}
       <div className="border-b border-gray-100 py-3 px-4 sm:px-8 bg-white">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-6">
           
@@ -113,40 +115,25 @@ export default function Header() {
           {/* Brand Logo */}
           <BrandLogo variant="dark" size="md" showSubtitle={true} />
 
-          {/* Desktop Clean Fixed Navigation Menu */}
+          {/* Desktop Dynamic Navigation Menu */}
           <nav className="hidden lg:flex items-center gap-7 text-gray-700 font-bold text-xs">
             {navLinks.map((item, idx) => {
-              if (item.isHome) {
-                return (
-                  <Link
-                    key={idx}
-                    href={item.href}
-                    className="flex items-center gap-1.5 text-[#801414] font-black border-b-2 border-[#801414] pb-0.5"
-                  >
-                    <Home className="w-3.5 h-3.5 text-[#801414]" />
-                    <span>{item.label}</span>
-                  </Link>
-                );
-              }
-              if (item.isOffer) {
-                return (
-                  <Link
-                    key={idx}
-                    href={item.href}
-                    className="hover:text-[#801414] transition-colors flex items-center gap-1 text-[#801414]"
-                  >
-                    <Percent className="w-3.5 h-3.5" />
-                    <span>{item.label}</span>
-                  </Link>
-                );
-              }
+              const basePath = item.href.split('?')[0];
+              const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(basePath);
+
               return (
                 <Link
                   key={idx}
                   href={item.href}
-                  className="hover:text-[#801414] transition-colors py-0.5"
+                  className={`flex items-center gap-1.5 py-0.5 transition-colors ${
+                    isActive
+                      ? 'text-[#801414] font-black border-b-2 border-[#801414]'
+                      : 'text-gray-700 hover:text-[#801414]'
+                  }`}
                 >
-                  {item.label}
+                  {item.isHome && <Home className={`w-3.5 h-3.5 ${isActive ? 'text-[#801414]' : 'text-gray-500'}`} />}
+                  {item.isOffer && <Percent className={`w-3.5 h-3.5 ${isActive ? 'text-[#801414]' : 'text-gray-500'}`} />}
+                  <span>{item.label}</span>
                 </Link>
               );
             })}
