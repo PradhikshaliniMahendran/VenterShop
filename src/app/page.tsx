@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import Header from '@/components/layout/Header';
 import Hero from '@/components/storefront/Hero';
 import DualFeatureCards from '@/components/storefront/DualFeatureCards';
-import HowItWorks from '@/components/storefront/HowItWorks';
+import VirtualShops from '@/components/storefront/VirtualShops';
 import ShopByCategory from '@/components/storefront/ShopByCategory';
 import PromoBanners from '@/components/storefront/PromoBanners';
 import FeaturedProducts from '@/components/storefront/FeaturedProducts';
@@ -33,9 +33,9 @@ export default function HomePage() {
         <DualFeatureCards />
       </Suspense>
 
-      {/* 4. How VenterShop Works (6-step Stepper Flow) */}
-      <Suspense fallback={<div className="h-48 bg-gray-50 animate-pulse" />}>
-        <HowItWorks />
+      {/* 4. Virtual Shops / Shop Categories & Foreign Buyers Banner */}
+      <Suspense fallback={<div className="h-96 bg-gray-50 animate-pulse" />}>
+        <VirtualShops />
       </Suspense>
 
       {/* 5. Shop By Category (8 Categories Grid) */}
