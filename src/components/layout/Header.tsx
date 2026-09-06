@@ -118,8 +118,19 @@ export default function Header() {
           {/* Desktop Dynamic Navigation Menu */}
           <nav className="hidden lg:flex items-center gap-7 text-gray-700 font-bold text-xs">
             {navLinks.map((item, idx) => {
-              const basePath = item.href.split('?')[0];
-              const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(basePath);
+              const hasOffersQuery = searchParams.get('offers') === 'true';
+
+              let isActive = false;
+              if (item.isHome) {
+                isActive = pathname === '/';
+              } else if (item.isOffer) {
+                isActive = pathname === '/shop' && hasOffersQuery;
+              } else if (item.href === '/shop') {
+                isActive = pathname === '/shop' && !hasOffersQuery;
+              } else {
+                const basePath = item.href.split('?')[0];
+                isActive = pathname.startsWith(basePath);
+              }
 
               return (
                 <Link
