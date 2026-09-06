@@ -28,6 +28,7 @@ export default function VirtualShops() {
       title: isTa ? 'வர்ச்சுவல் சூப்பர் மார்க்கெட்' : 'Virtual Supermarket',
       desc: isTa ? 'மளிகை & அன்றாட அத்தியாவசிய பொருட்கள்' : 'Groceries & Daily Essentials',
       icon: ShoppingBag,
+      image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#EBF3FE]',
       borderColor: 'border-[#D0E2FF]',
       iconBg: 'bg-[#007AFF]',
@@ -42,6 +43,7 @@ export default function VirtualShops() {
       title: isTa ? 'வர்ச்சுவல் ஷூ ஷாப்' : 'Virtual Shoe Shop',
       desc: isTa ? 'காலணிகள், செருப்புகள் & ஆக்சஸரீஸ்' : 'Shoes, Slippers & Accessories',
       icon: Footprints,
+      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#FCE8ED]',
       borderColor: 'border-[#F8D2DC]',
       iconBg: 'bg-[#E11D48]',
@@ -56,6 +58,7 @@ export default function VirtualShops() {
       title: isTa ? 'வர்ச்சுவல் புக் ஷாப்' : 'Virtual Book Shop',
       desc: isTa ? 'புத்தகங்கள், எழுதுபொருட்கள் & கல்வி பொருட்கள்' : 'Books, Stationery & Educational Items',
       icon: BookOpen,
+      image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#F0E6FF]',
       borderColor: 'border-[#E0CCFF]',
       iconBg: 'bg-[#7C3AED]',
@@ -70,6 +73,7 @@ export default function VirtualShops() {
       title: isTa ? 'வர்ச்சுவல் கணினி மையம்' : 'Virtual Computer Center',
       desc: isTa ? 'கணினிகள், லேப்டாப்கள் & சாதனங்கள்' : 'Computers, Laptops & Accessories',
       icon: Laptop,
+      image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#E1F5FE]',
       borderColor: 'border-[#B3E5FC]',
       iconBg: 'bg-[#0284C7]',
@@ -84,6 +88,7 @@ export default function VirtualShops() {
       title: isTa ? 'வர்ச்சுவல் போன் ஷாப்' : 'Virtual Phone Shop',
       desc: isTa ? 'மொபைல் போன்கள் & ஆக்சஸரீஸ்' : 'Mobile Phones & Accessories',
       icon: Smartphone,
+      image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#E6F4EA]',
       borderColor: 'border-[#CEEAD6]',
       iconBg: 'bg-[#0F9D58]',
@@ -98,6 +103,7 @@ export default function VirtualShops() {
       title: isTa ? 'வர்ச்சுவல் ஃபேஷன் ஸ்டோர்' : 'Virtual Fashion Store',
       desc: isTa ? 'ஆடைகள், பேக்குகள் & ஃபேஷன்' : 'Clothing, Bags & Accessories',
       icon: Shirt,
+      image: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#FFE4E6]',
       borderColor: 'border-[#FECDD3]',
       iconBg: 'bg-[#F43F5E]',
@@ -112,6 +118,7 @@ export default function VirtualShops() {
       title: isTa ? 'வர்ச்சுவல் எலக்ட்ரானிக்ஸ்' : 'Virtual Electronics Shop',
       desc: isTa ? 'வீட்டு உபயோக & மின்னணு பொருட்கள்' : 'Home Appliances & Electronics',
       icon: Settings,
+      image: 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#FFF8E1]',
       borderColor: 'border-[#FFE082]',
       iconBg: 'bg-[#D97706]',
@@ -126,6 +133,7 @@ export default function VirtualShops() {
       title: isTa ? 'மேலும் கடைகள் விரைவில்' : 'More Shops Coming Soon',
       desc: isTa ? 'காத்திருங்கள்!' : 'Stay Tuned!',
       icon: MoreHorizontal,
+      image: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#EDE9FE]',
       borderColor: 'border-[#DDD6FE]',
       iconBg: 'bg-[#6366F1]',
@@ -179,7 +187,7 @@ export default function VirtualShops() {
           </div>
         </div>
 
-        {/* 8 Virtual Shops Grid (Center Aligned Pill Cards matching design mockup) */}
+        {/* 8 Virtual Shops Grid with Product Images & Circle Icons */}
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
           {virtualShops.map((shop) => {
             const Icon = shop.icon;
@@ -187,15 +195,23 @@ export default function VirtualShops() {
               <Link
                 key={shop.id}
                 href={shop.href}
-                className={`group relative ${shop.cardBg} border ${shop.borderColor} rounded-2xl p-3.5 sm:p-4 flex flex-col items-center text-center justify-between min-h-[190px] transition-all duration-300 hover:shadow-md hover:-translate-y-1`}
+                className={`group relative ${shop.cardBg} border ${shop.borderColor} rounded-2xl p-3 flex flex-col items-center text-center justify-between min-h-[220px] overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1`}
               >
-                {/* Top Center Icon Circle */}
-                <div className={`w-12 h-12 rounded-full ${shop.iconBg} text-white flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 my-1`}>
-                  <Icon className="w-6 h-6" />
+                {/* Top Image Showcase */}
+                <div className="relative w-full h-20 rounded-xl overflow-hidden shadow-xs mb-2 bg-white/50">
+                  <img
+                    src={shop.image}
+                    alt={shop.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  {/* Floating Icon Circle */}
+                  <div className={`absolute bottom-1 right-1 w-7 h-7 rounded-full ${shop.iconBg} text-white flex items-center justify-center shadow-md`}>
+                    <Icon className="w-3.5 h-3.5" />
+                  </div>
                 </div>
 
-                {/* Center Title & Desc */}
-                <div className="my-2 space-y-1">
+                {/* Title & Desc */}
+                <div className="space-y-1 my-1">
                   <h3 className={`text-xs font-black ${shop.titleColor} leading-tight line-clamp-2`}>
                     {shop.title}
                   </h3>
@@ -216,9 +232,8 @@ export default function VirtualShops() {
           })}
         </div>
 
-        {/* VIRTUAL FOREIGN BUYERS BANNER (Sky Blue Gradient Banner matching client image) */}
+        {/* VIRTUAL FOREIGN BUYERS BANNER */}
         <div className="relative rounded-2xl bg-gradient-to-r from-[#D9EAFE] via-[#E8F1FD] to-[#D9EAFE] p-5 sm:p-7 text-gray-900 border border-blue-200 shadow-sm overflow-hidden">
-          
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             
             {/* Left Graphic + Content */}

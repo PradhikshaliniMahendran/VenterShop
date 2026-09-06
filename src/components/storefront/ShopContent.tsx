@@ -213,6 +213,29 @@ export default function ShopContent() {
         </div>
       )}
 
+      {/* Active Special Offers Banner Header */}
+      {searchParams.get('offers') === 'true' && (
+        <div className="mb-6 bg-gradient-to-r from-[#7D0000] via-[#901414] to-[#6A0000] text-white p-5 sm:p-6 rounded-2xl shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-red-900/30">
+          <div>
+            <span className="text-[10px] font-black uppercase tracking-widest text-yellow-300 block">
+              🔥 {language === 'ta' ? 'சிறப்பு சலுகைகள்' : 'SPECIAL OFFERS & PROMOTIONS'}
+            </span>
+            <h1 className="text-xl sm:text-2xl font-black mt-0.5">
+              {language === 'ta' ? 'சிறப்பு சலுகைகள் & தள்ளுபடி பொருட்கள்' : 'Special Offers & Exclusive Deals'}
+            </h1>
+            <p className="text-xs text-red-100/90 mt-1 font-semibold">
+              {language === 'ta' ? 'அனைத்து சிறப்பு சலுகைகள் மற்றும் தள்ளுபடி தயாரிப்புகளை பார்வையிடுகிறீர்கள்.' : 'Browsing all promotional deals, vouchers, and discounted products across VenterShop.'}
+            </p>
+          </div>
+          <button
+            onClick={() => router.push('/shop')}
+            className="px-4 py-2 bg-white text-[#801414] hover:bg-yellow-300 rounded-xl text-xs font-black transition-all shrink-0 cursor-pointer shadow-sm"
+          >
+            {language === 'ta' ? 'அனைத்து பொருட்களும்' : 'All Products'}
+          </button>
+        </div>
+      )}
+
       {/* Search Header Banner */}
       {searchQuery && (
         <div className="mb-6 bg-white p-4 rounded-xl border border-gray-150 shadow-xs flex items-baseline gap-2">
