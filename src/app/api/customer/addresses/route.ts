@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb/mongoose';
-import { getCurrentUser } from '@/lib/auth/auth';
+import { getCurrentCustomer } from '@/lib/auth/auth';
 import User from '@/models/User';
 
 // 1. GET: Fetch saved addresses
 export async function GET() {
   try {
     await connectToDatabase();
-    const user = await getCurrentUser();
-    if (!user || user.role === 'ADMIN') {
+    const user = await getCurrentCustomer();
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -28,8 +28,8 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     await connectToDatabase();
-    const user = await getCurrentUser();
-    if (!user || user.role === 'ADMIN') {
+    const user = await getCurrentCustomer();
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -77,8 +77,8 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   try {
     await connectToDatabase();
-    const user = await getCurrentUser();
-    if (!user || user.role === 'ADMIN') {
+    const user = await getCurrentCustomer();
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -140,8 +140,8 @@ export async function PUT(request: Request) {
 export async function DELETE(request: Request) {
   try {
     await connectToDatabase();
-    const user = await getCurrentUser();
-    if (!user || user.role === 'ADMIN') {
+    const user = await getCurrentCustomer();
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

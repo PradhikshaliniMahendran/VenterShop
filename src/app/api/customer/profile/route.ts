@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb/mongoose';
-import { getCurrentUser } from '@/lib/auth/auth';
+import { getCurrentCustomer } from '@/lib/auth/auth';
 import User from '@/models/User';
 
 export async function PUT(request: Request) {
   try {
     await connectToDatabase();
     
-    const user = await getCurrentUser();
-    if (!user || user.role === 'ADMIN') {
+    const user = await getCurrentCustomer();
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

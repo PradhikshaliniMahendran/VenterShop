@@ -48,16 +48,20 @@ export default function DashboardOverviewPage() {
   const [recentOrders, setRecentOrders] = useState<IOrderSummary[]>([]);
   const [loadingStats, setLoadingStats] = useState(true);
 
-  // If user session check finishes and user is not authenticated, redirect to login
+  // If user session check finishes and user is not authenticated or is admin, redirect appropriately
   useEffect(() => {
-    if (!isLoading && !user) {
-      router.push('/login?callbackUrl=/dashboard');
+    if (!isLoading) {
+      if (!user) {
+        router.push('/login?callbackUrl=/dashboard');
+      } else if (user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') {
+        router.push('/admin');
+      }
     }
   }, [isLoading, user, router]);
 
   useEffect(() => {
     async function loadStats() {
-      if (!user) return;
+      if (!user || user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') return;
       try {
         const res = await fetch('/api/customer/stats');
         if (res.ok) {

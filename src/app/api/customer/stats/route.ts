@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb/mongoose';
-import { getCurrentUser } from '@/lib/auth/auth';
+import { getCurrentCustomer } from '@/lib/auth/auth';
 import Order from '@/models/Order';
 import { Voucher } from '@/models/Voucher';
 
 export async function GET() {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentCustomer();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

@@ -19,6 +19,7 @@ import {
   Package,
   Home,
   Percent,
+  ShieldCheck,
 } from 'lucide-react';
 import BrandLogo from '@/components/common/BrandLogo';
 
@@ -79,10 +80,17 @@ export default function Header() {
           <div className="flex items-center gap-4 text-white/90 text-xs">
             {user && (
               <>
-                <Link href="/dashboard" className="hover:text-amber-200 transition-colors flex items-center gap-1 font-bold text-amber-200">
-                  <User className="w-3.5 h-3.5" />
-                  <span>Dashboard</span>
-                </Link>
+                {user.role === 'ADMIN' || user.role === 'SUPER_ADMIN' ? (
+                  <Link href="/admin" className="hover:text-amber-200 transition-colors flex items-center gap-1 font-bold text-amber-300">
+                    <ShieldCheck className="w-3.5 h-3.5 text-amber-300" />
+                    <span>Admin Control Panel</span>
+                  </Link>
+                ) : (
+                  <Link href="/dashboard" className="hover:text-amber-200 transition-colors flex items-center gap-1 font-bold text-amber-200">
+                    <User className="w-3.5 h-3.5" />
+                    <span>Dashboard</span>
+                  </Link>
+                )}
                 <span className="text-white/40">|</span>
               </>
             )}
@@ -91,10 +99,17 @@ export default function Header() {
               <span>Help & Support</span>
             </Link>
             <span className="text-white/40">|</span>
-            <Link href="/dashboard/orders" className="hover:text-amber-200 transition-colors flex items-center gap-1.5">
-              <Package className="w-3.5 h-3.5" />
-              <span>Track Order</span>
-            </Link>
+            {user && (user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') ? (
+              <Link href="/admin/orders" className="hover:text-amber-200 transition-colors flex items-center gap-1.5 font-bold">
+                <Package className="w-3.5 h-3.5" />
+                <span>Store Orders</span>
+              </Link>
+            ) : (
+              <Link href="/dashboard/orders" className="hover:text-amber-200 transition-colors flex items-center gap-1.5">
+                <Package className="w-3.5 h-3.5" />
+                <span>Track Order</span>
+              </Link>
+            )}
             <span className="text-white/40">|</span>
             <button
               onClick={toggleLanguage}
@@ -207,31 +222,52 @@ export default function Header() {
                           {user.customerType || 'CUSTOMER'}
                         </span>
                       </div>
-                      <Link
-                        href="/dashboard"
-                        onClick={() => setAccountDropdownOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"
-                      >
-                        <User className="w-4 h-4 text-gray-500" />
-                        <span>My Dashboard</span>
-                      </Link>
-                      <Link
-                        href="/dashboard/orders"
-                        onClick={() => setAccountDropdownOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"
-                      >
-                        <Package className="w-4 h-4 text-gray-500" />
-                        <span>My Orders</span>
-                      </Link>
-                      {user.role === 'ADMIN' && (
-                        <Link
-                          href="/admin"
-                          onClick={() => setAccountDropdownOpen(false)}
-                          className="flex items-center gap-2 px-4 py-2 text-red-700 hover:bg-red-50 font-bold"
-                        >
-                          <Settings className="w-4 h-4 text-red-600" />
-                          <span>Admin Portal</span>
-                        </Link>
+                      {user.role === 'ADMIN' || user.role === 'SUPER_ADMIN' ? (
+                        <>
+                          <Link
+                            href="/admin"
+                            onClick={() => setAccountDropdownOpen(false)}
+                            className="flex items-center gap-2 px-4 py-2 text-red-700 hover:bg-red-50 font-bold"
+                          >
+                            <ShieldCheck className="w-4 h-4 text-red-600" />
+                            <span>Admin Control Panel</span>
+                          </Link>
+                          <Link
+                            href="/admin/orders"
+                            onClick={() => setAccountDropdownOpen(false)}
+                            className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"
+                          >
+                            <Package className="w-4 h-4 text-gray-500" />
+                            <span>Manage Store Orders</span>
+                          </Link>
+                          <Link
+                            href="/admin/settings"
+                            onClick={() => setAccountDropdownOpen(false)}
+                            className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"
+                          >
+                            <Settings className="w-4 h-4 text-gray-500" />
+                            <span>Store Settings</span>
+                          </Link>
+                        </>
+                      ) : (
+                        <>
+                          <Link
+                            href="/dashboard"
+                            onClick={() => setAccountDropdownOpen(false)}
+                            className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"
+                          >
+                            <User className="w-4 h-4 text-gray-500" />
+                            <span>My Dashboard</span>
+                          </Link>
+                          <Link
+                            href="/dashboard/orders"
+                            onClick={() => setAccountDropdownOpen(false)}
+                            className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"
+                          >
+                            <Package className="w-4 h-4 text-gray-500" />
+                            <span>My Orders</span>
+                          </Link>
+                        </>
                       )}
                       <button
                         onClick={handleLogout}
