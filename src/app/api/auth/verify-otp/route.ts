@@ -122,14 +122,27 @@ export async function POST(request: Request) {
         .sign(secret);
 
       const cookieStore = await cookies();
-      const cookieName = (userRole === 'ADMIN' || userRole === 'SUPER_ADMIN') ? 'admin_session' : 'session';
-      cookieStore.set(cookieName, token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 7 * 24 * 60 * 60,
-        path: '/',
-      });
+      const isAdminRole = userRole === 'ADMIN' || userRole === 'SUPER_ADMIN';
+
+      if (isAdminRole) {
+        cookieStore.delete('session'); // Wipe customer cookie
+        cookieStore.set('admin_session', token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          maxAge: 7 * 24 * 60 * 60,
+          path: '/',
+        });
+      } else {
+        cookieStore.delete('admin_session'); // Strictly wipe any old admin cookie
+        cookieStore.set('session', token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          maxAge: 7 * 24 * 60 * 60,
+          path: '/',
+        });
+      }
 
       return NextResponse.json({
         message: 'Logged in successfully',
@@ -251,6 +264,7 @@ export async function POST(request: Request) {
       .sign(secret);
 
     const cookieStore = await cookies();
+    cookieStore.delete('admin_session'); // Strictly wipe any old admin cookie
     cookieStore.set('session', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

@@ -131,6 +131,50 @@ export async function getCurrentCustomer() {
   }
 }
 
+// Specifically get the admin session payload
+export async function getAdminSessionPayload(): Promise<SessionPayload | null> {
+  try {
+    const cookieStore = await cookies();
+    const adminToken = cookieStore.get('admin_session')?.value;
+    if (!adminToken) return null;
+    const secret = new TextEncoder().encode(JWT_SECRET);
+    const { payload } = await jwtVerify(adminToken, secret);
+    if (payload.role !== 'ADMIN' && payload.role !== 'SUPER_ADMIN') return null;
+    return payload as unknown as SessionPayload;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getCurrentAdmin() {
+  try {
+    const session = await getAdminSessionPayload();
+    if (!session) return null;
+
+    let dbRecord: any = null;
+    try {
+      await connectToDatabase();
+      dbRecord = await Admin.findById(session.userId);
+    } catch (dbErr) {
+      console.warn('Database error in getCurrentAdmin:', dbErr);
+    }
+
+    if (dbRecord && !dbRecord.isActive) return null;
+
+    return {
+      id: dbRecord ? dbRecord._id.toString() : session.userId,
+      email: dbRecord?.email || session.email,
+      firstName: dbRecord?.firstName || session.firstName || 'System',
+      lastName: dbRecord?.lastName || session.lastName || 'Admin',
+      role: (dbRecord?.role || session.role) as 'ADMIN' | 'SUPER_ADMIN',
+      customerType: 'ADMIN' as const,
+    };
+  } catch (error) {
+    console.error('Error fetching current admin:', error);
+    return null;
+  }
+}
+
 export async function requireAuth() {
   const user = await getCurrentUser();
   if (!user) {
@@ -140,9 +184,9 @@ export async function requireAuth() {
 }
 
 export async function requireAdmin() {
-  const user = await getCurrentUser();
-  if (!user || (user.role !== 'ADMIN' && user.role !== 'SUPER_ADMIN')) {
+  const admin = await getCurrentAdmin();
+  if (!admin || (admin.role !== 'ADMIN' && admin.role !== 'SUPER_ADMIN')) {
     throw new Error('Forbidden');
   }
-  return user;
+  return admin;
 }
