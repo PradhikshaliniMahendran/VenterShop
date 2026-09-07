@@ -13,7 +13,7 @@ function LoginContent() {
   const { refreshSession, user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
 
   // Tabs: 'login' | 'register'
   const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
@@ -37,10 +37,14 @@ function LoginContent() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
-  // If already logged in, redirect immediately
+  // If already logged in, redirect to dashboard or callbackUrl immediately
   useEffect(() => {
     if (user) {
-      router.push(callbackUrl);
+      if (user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') {
+        router.push('/admin');
+      } else {
+        router.push(callbackUrl);
+      }
     }
   }, [user, callbackUrl, router]);
 

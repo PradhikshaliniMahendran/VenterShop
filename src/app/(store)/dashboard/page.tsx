@@ -31,33 +31,52 @@ interface IStatsData {
   availableVouchers: number;
 }
 
-export default function DashboardOverviewPage() {
-  const { user } = useAuth();
-  const { t, language } = useTranslation();
+import { useRouter } from 'next/navigation';
 
-  const [stats, setStats] = useState<IStatsData | null>(null);
+export default function DashboardOverviewPage() {
+  const { user, isLoading } = useAuth();
+  const { t, language } = useTranslation();
+  const router = useRouter();
+
+  const [stats, setStats] = useState<IStatsData>({
+    totalOrders: 0,
+    activeOrders: 0,
+    completedOrders: 0,
+    totalSavings: 0,
+    availableVouchers: 0,
+  });
   const [recentOrders, setRecentOrders] = useState<IOrderSummary[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingStats, setLoadingStats] = useState(true);
+
+  // If user session check finishes and user is not authenticated, redirect to login
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push('/login?callbackUrl=/dashboard');
+    }
+  }, [isLoading, user, router]);
 
   useEffect(() => {
     async function loadStats() {
+      if (!user) return;
       try {
         const res = await fetch('/api/customer/stats');
         if (res.ok) {
           const data = await res.json();
-          setStats(data.stats);
-          setRecentOrders(data.recentOrders);
+          if (data.stats) setStats(data.stats);
+          if (data.recentOrders) setRecentOrders(data.recentOrders);
         }
       } catch (e) {
         console.error('Failed to load dashboard stats:', e);
       } finally {
-        setLoading(false);
+        setLoadingStats(false);
       }
     }
-    loadStats();
-  }, []);
+    if (user) {
+      loadStats();
+    }
+  }, [user]);
 
-  if (loading || !user) {
+  if (isLoading || (!user && typeof window !== 'undefined')) {
     return (
       <div className="space-y-6">
         <div className="h-10 bg-gray-200 animate-pulse rounded-md w-1/3" />
@@ -69,6 +88,10 @@ export default function DashboardOverviewPage() {
         <div className="bg-white rounded-xl h-64 border border-gray-100 p-6 animate-pulse" />
       </div>
     );
+  }
+
+  if (!user) {
+    return null;
   }
 
   // Format Date Helper

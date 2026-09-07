@@ -77,6 +77,15 @@ export default function Header() {
             <span>Free Delivery on Orders over $75 | Fast & Reliable Shipping Across Canada</span>
           </div>
           <div className="flex items-center gap-4 text-white/90 text-xs">
+            {user && (
+              <>
+                <Link href="/dashboard" className="hover:text-amber-200 transition-colors flex items-center gap-1 font-bold text-amber-200">
+                  <User className="w-3.5 h-3.5" />
+                  <span>Dashboard</span>
+                </Link>
+                <span className="text-white/40">|</span>
+              </>
+            )}
             <Link href="/contact" className="hover:text-amber-200 transition-colors flex items-center gap-1.5">
               <Headphones className="w-3.5 h-3.5" />
               <span>Help & Support</span>
@@ -317,6 +326,7 @@ export default function Header() {
                 <Globe className="w-4 h-4 text-[#801414]" />
                 <span>Switch to {language === 'en' ? 'தமிழ்' : 'English'}</span>
               </button>
+
               {!user ? (
                 <Link
                   href="/login"
@@ -326,12 +336,52 @@ export default function Header() {
                   Sign In / Register
                 </Link>
               ) : (
-                <button
-                  onClick={handleLogout}
-                  className="w-full py-2.5 bg-red-50 text-red-700 text-center rounded-lg text-xs font-bold cursor-pointer"
-                >
-                  Sign Out
-                </button>
+                <div className="space-y-2">
+                  {/* User Profile Card */}
+                  <div className="p-3 bg-gray-50 rounded-xl border border-gray-150">
+                    <p className="font-extrabold text-gray-900 text-xs truncate">
+                      {user.firstName} {user.lastName}
+                    </p>
+                    <p className="text-[10px] text-gray-500 truncate">{user.email}</p>
+                    <span className="inline-block mt-1 px-2 py-0.5 text-[9px] bg-red-50 text-[#801414] rounded-full font-bold">
+                      {user.customerType || 'CUSTOMER'}
+                    </span>
+                  </div>
+
+                  {/* Dashboard Quick Links */}
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block w-full py-2 px-3 bg-[#801414] text-white text-center rounded-lg text-xs font-bold"
+                  >
+                    Go to My Dashboard
+                  </Link>
+
+                  <Link
+                    href="/dashboard/orders"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block w-full py-2 px-3 bg-gray-100 text-gray-800 text-center rounded-lg text-xs font-bold hover:bg-gray-200"
+                  >
+                    My Orders
+                  </Link>
+
+                  {user.role === 'ADMIN' && (
+                    <Link
+                      href="/admin"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block w-full py-2 px-3 bg-emerald-50 text-emerald-800 border border-emerald-200 text-center rounded-lg text-xs font-bold"
+                    >
+                      Admin Portal
+                    </Link>
+                  )}
+
+                  <button
+                    onClick={handleLogout}
+                    className="w-full py-2 bg-red-50 text-red-700 text-center rounded-lg text-xs font-bold cursor-pointer"
+                  >
+                    Sign Out
+                  </button>
+                </div>
               )}
             </div>
           </div>

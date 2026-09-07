@@ -35,9 +35,9 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // --- CUSTOMER ROUTE PROTECTION (uses session cookie only) ---
+  // --- CUSTOMER & DASHBOARD ROUTE PROTECTION ---
   if (isDashboardPath || isCheckoutPath) {
-    const userToken = request.cookies.get('session')?.value;
+    const userToken = request.cookies.get('session')?.value || request.cookies.get('admin_session')?.value;
     if (!userToken) {
       url.pathname = '/login';
       url.searchParams.set('callbackUrl', pathname);
@@ -45,13 +45,7 @@ export async function middleware(request: NextRequest) {
     }
     try {
       const secret = new TextEncoder().encode(JWT_SECRET);
-      const { payload } = await jwtVerify(userToken, secret);
-      // Reject admin cookies on customer routes
-      if (payload.role === 'ADMIN' || payload.role === 'SUPER_ADMIN') {
-        url.pathname = '/login';
-        url.searchParams.set('callbackUrl', pathname);
-        return NextResponse.redirect(url);
-      }
+      await jwtVerify(userToken, secret);
     } catch (error) {
       url.pathname = '/login';
       url.searchParams.set('callbackUrl', pathname);
