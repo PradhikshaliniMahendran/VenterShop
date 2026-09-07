@@ -95,14 +95,15 @@ export default function AdminProductsPage() {
     setFormValues((prev) => ({ ...prev, [name]: val }));
   };
 
-  // Generate slug dynamically from name
+  // Generate slug & sku dynamically from name
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
     const slug = name
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)+/g, '');
-    setFormValues((prev) => ({ ...prev, name, slug }));
+    const sku = 'VS-' + name.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
+    setFormValues((prev) => ({ ...prev, name, slug, sku: prev.sku || sku }));
   };
 
   // 2. Add / Edit Submit Handler
@@ -289,33 +290,6 @@ export default function AdminProductsPage() {
                   required
                   value={formValues.name}
                   onChange={handleNameChange}
-                  className="w-full px-3 py-2 bg-gray-50 border border-gray-250 rounded-lg outline-none text-gray-900 font-bold"
-                />
-              </div>
-
-              {/* Slug */}
-              <div className="space-y-1.5">
-                <label className="text-[#101A2D] font-bold block mb-1">Slug URL *</label>
-                <input
-                  type="text"
-                  name="slug"
-                  required
-                  value={formValues.slug}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 bg-gray-50 border border-gray-250 rounded-lg outline-none text-gray-900 font-bold"
-                />
-              </div>
-
-              {/* SKU */}
-              <div className="space-y-1.5">
-                <label className="text-[#101A2D] font-bold block mb-1">SKU Code *</label>
-                <input
-                  type="text"
-                  name="sku"
-                  required
-                  placeholder="e.g. VS-GRO-RIC"
-                  value={formValues.sku}
-                  onChange={handleInputChange}
                   className="w-full px-3 py-2 bg-gray-50 border border-gray-250 rounded-lg outline-none text-gray-900 font-bold"
                 />
               </div>
@@ -657,7 +631,6 @@ export default function AdminProductsPage() {
               <thead>
                 <tr className="bg-gray-100 text-gray-500 uppercase font-bold border-b border-gray-150">
                   <th className="p-4">Product Details</th>
-                  <th className="p-4">SKU</th>
                   <th className="p-4">Category</th>
                   <th className="p-4">Retail Price</th>
                   <th className="p-4">Stock</th>
@@ -678,11 +651,9 @@ export default function AdminProductsPage() {
                         />
                         <div>
                           <p className="text-[#101A2D] font-bold line-clamp-1">{prod.name}</p>
-                          <span className="text-[10px] text-gray-400 uppercase">Slug: {prod.slug}</span>
                         </div>
                       </td>
 
-                      <td className="p-4 font-bold text-[#1A2A4A]">{prod.sku}</td>
                       <td className="p-4 text-gray-500">{prod.categoryId?.name}</td>
                       <td className="p-4 font-bold text-[#101A2D]">${prod.retailPrice.toFixed(2)}</td>
                       

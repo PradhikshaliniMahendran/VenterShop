@@ -196,19 +196,6 @@ export default function AdminCategoriesPage() {
               />
             </div>
 
-            {/* Slug */}
-            <div className="space-y-1.5">
-              <label>Slug URL *</label>
-              <input
-                type="text"
-                required
-                value={formValues.slug}
-                onChange={handleInputChange}
-                name="slug"
-                className="w-full px-3 py-2 bg-gray-50 border border-gray-255 rounded-lg outline-none"
-              />
-            </div>
-
             {/* Icon */}
             <div className="space-y-1.5">
               <label>Icon Identifier Code</label>
@@ -278,7 +265,6 @@ export default function AdminCategoriesPage() {
             <thead>
               <tr className="bg-gray-100 text-gray-500 uppercase font-bold border-b border-gray-150">
                 <th className="p-4">Category Name</th>
-                <th className="p-4">Slug Code</th>
                 <th className="p-4">Icon Identifier</th>
                 <th className="p-4">Sort Order</th>
                 <th className="p-4">Status</th>
@@ -289,7 +275,6 @@ export default function AdminCategoriesPage() {
               {categories.map((cat) => (
                 <tr key={cat._id} className="hover:bg-gray-50">
                   <td className="p-4 font-bold text-[#101A2D]">{cat.name}</td>
-                  <td className="p-4 text-gray-500 font-mono">{cat.slug}</td>
                   <td className="p-4 text-gray-400">{cat.icon}</td>
                   <td className="p-4 text-gray-500">{cat.displayOrder}</td>
                   <td className="p-4">
