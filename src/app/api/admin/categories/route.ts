@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { name, slug, icon, displayOrder, isActive } = await request.json();
+    const { name, slug, icon, image, displayOrder, isActive } = await request.json();
 
     if (!name || !slug) {
       return NextResponse.json({ error: 'Name and slug are required' }, { status: 400 });
@@ -30,6 +30,7 @@ export async function POST(request: Request) {
       name: name.trim(),
       slug: slug.trim().toLowerCase(),
       icon: icon || 'Layers',
+      image: image || '',
       displayOrder: parseInt(displayOrder) || 0,
       isActive: isActive ?? true,
     });
@@ -54,7 +55,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { categoryId, name, slug, icon, displayOrder, isActive } = await request.json();
+    const { categoryId, name, slug, icon, image, displayOrder, isActive } = await request.json();
 
     if (!categoryId) {
       return NextResponse.json({ error: 'Category ID is required' }, { status: 400 });
@@ -76,6 +77,7 @@ export async function PUT(request: Request) {
 
     if (name) category.name = name.trim();
     if (icon) category.icon = icon;
+    if (image !== undefined) category.image = image;
     if (displayOrder !== undefined) category.displayOrder = parseInt(displayOrder) || 0;
     if (isActive !== undefined) category.isActive = isActive;
 

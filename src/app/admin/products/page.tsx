@@ -66,6 +66,7 @@ export default function AdminProductsPage() {
 
   const [formError, setFormError] = useState<string | null>(null);
   const [formSubmitting, setFormSubmitting] = useState(false);
+  const [uploadingImages, setUploadingImages] = useState(false);
 
   // 1. Fetch products & categories list
   const loadData = async () => {
@@ -313,40 +314,58 @@ export default function AdminProductsPage() {
 
               {/* Device File Upload Picker */}
               <div className="space-y-2 sm:col-span-2">
-                <label className="text-gray-700 font-bold block">Product Images (Upload from Device) *</label>
+                <label className="text-gray-700 font-bold block">Product Images (Upload to Cloudinary) *</label>
                 <div className="flex flex-wrap items-center gap-3">
-                  <label className="cursor-pointer flex items-center gap-2 py-2.5 px-4 bg-[#1A2A4A] hover:bg-[#101A2D] text-white rounded-lg font-bold text-xs shadow-xs transition-colors">
+                  <label className={`cursor-pointer flex items-center gap-2 py-2.5 px-4 ${uploadingImages ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#1A2A4A] hover:bg-[#101A2D]'} text-white rounded-lg font-bold text-xs shadow-xs transition-colors`}>
                     <Plus className="w-4 h-4" />
-                    <span>Choose Files from Device</span>
+                    <span>{uploadingImages ? 'Uploading to Cloudinary...' : 'Choose Files from Device'}</span>
                     <input
                       type="file"
                       accept="image/*"
                       multiple
-                      onChange={(e) => {
+                      disabled={uploadingImages}
+                      onChange={async (e) => {
                         const files = Array.from(e.target.files || []);
-                        files.forEach((file) => {
-                          const reader = new FileReader();
-                          reader.onloadend = () => {
-                            if (reader.result) {
-                              const base64Str = reader.result as string;
-                              setFormValues((prev) => {
-                                const currentList = prev.imagesStr
-                                  ? prev.imagesStr.split(',').map((s) => s.trim()).filter(Boolean)
-                                  : [];
-                                return {
-                                  ...prev,
-                                  imagesStr: [...currentList, base64Str].join(', '),
-                                };
+                        if (files.length === 0) return;
+                        setUploadingImages(true);
+                        try {
+                          for (const file of files) {
+                            const reader = new FileReader();
+                            const base64Promise = new Promise<string>((resolve) => {
+                              reader.onloadend = () => resolve(reader.result as string);
+                              reader.readAsDataURL(file);
+                            });
+                            const base64Str = await base64Promise;
+                            if (base64Str) {
+                              const res = await fetch('/api/admin/upload-image', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ image: base64Str, folder: 'ventershop/products' }),
                               });
+                              if (res.ok) {
+                                const data = await res.json();
+                                setFormValues((prev) => {
+                                  const currentList = prev.imagesStr
+                                    ? prev.imagesStr.split(',').map((s) => s.trim()).filter(Boolean)
+                                    : [];
+                                  return {
+                                    ...prev,
+                                    imagesStr: [...currentList, data.url].join(', '),
+                                  };
+                                });
+                              }
                             }
-                          };
-                          reader.readAsDataURL(file);
-                        });
+                          }
+                        } catch (err) {
+                          console.error('Failed to upload image to Cloudinary:', err);
+                        } finally {
+                          setUploadingImages(false);
+                        }
                       }}
                       className="hidden"
                     />
                   </label>
-                  <span className="text-[10px] text-gray-400 font-bold">Select 1 or more photos from your computer</span>
+                  <span className="text-[10px] text-gray-400 font-bold">Photos are saved directly to your Cloudinary storage</span>
                 </div>
 
                 {/* Previews Grid */}

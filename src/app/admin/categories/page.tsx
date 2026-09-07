@@ -8,6 +8,7 @@ interface ICategory {
   name: string;
   slug: string;
   icon: string;
+  image?: string;
   displayOrder: number;
   isActive: boolean;
 }
@@ -24,12 +25,14 @@ export default function AdminCategoriesPage() {
     name: '',
     slug: '',
     icon: 'Layers',
+    image: '',
     displayOrder: '0',
     isActive: true,
   });
 
   const [formError, setFormError] = useState<string | null>(null);
   const [formSubmitting, setFormSubmitting] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const loadCategories = async () => {
     try {
@@ -120,6 +123,7 @@ export default function AdminCategoriesPage() {
       name: cat.name,
       slug: cat.slug,
       icon: cat.icon,
+      image: cat.image || '',
       displayOrder: cat.displayOrder.toString(),
       isActive: cat.isActive,
     });
@@ -132,6 +136,7 @@ export default function AdminCategoriesPage() {
       name: '',
       slug: '',
       icon: 'Layers',
+      image: '',
       displayOrder: '0',
       isActive: true,
     });
@@ -207,6 +212,63 @@ export default function AdminCategoriesPage() {
                 className="w-full px-3 py-2 bg-gray-50 border border-gray-255 rounded-lg outline-none"
               />
               <span className="text-[10px] text-gray-400 block pt-0.5">Use identifiers such as Home, Groceries, DailyNeeds, Books, Electronics.</span>
+            </div>
+
+            {/* Category Image (Upload to Cloudinary) */}
+            <div className="space-y-2">
+              <label className="text-gray-700 font-bold block">Category Image (Upload to Cloudinary)</label>
+              <div className="flex items-center gap-3">
+                <label className={`cursor-pointer flex items-center gap-2 py-2 px-4 ${uploadingImage ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#1A2A4A] hover:bg-[#101A2D]'} text-white rounded-lg font-bold text-xs shadow-xs transition-colors`}>
+                  <Plus className="w-4 h-4" />
+                  <span>{uploadingImage ? 'Uploading to Cloudinary...' : 'Choose Image from Device'}</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    disabled={uploadingImage}
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      setUploadingImage(true);
+                      try {
+                        const reader = new FileReader();
+                        const base64Promise = new Promise<string>((resolve) => {
+                          reader.onloadend = () => resolve(reader.result as string);
+                          reader.readAsDataURL(file);
+                        });
+                        const base64Str = await base64Promise;
+                        if (base64Str) {
+                          const res = await fetch('/api/admin/upload-image', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ image: base64Str, folder: 'ventershop/categories' }),
+                          });
+                          if (res.ok) {
+                            const data = await res.json();
+                            setFormValues((prev) => ({ ...prev, image: data.url }));
+                          }
+                        }
+                      } catch (err) {
+                        console.error('Failed to upload category image:', err);
+                      } finally {
+                        setUploadingImage(false);
+                      }
+                    }}
+                    className="hidden"
+                  />
+                </label>
+                {formValues.image && (
+                  <div className="relative w-12 h-12 rounded-lg bg-gray-100 border border-gray-250 overflow-hidden shrink-0">
+                    <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url('${formValues.image}')` }} />
+                    <button
+                      type="button"
+                      onClick={() => setFormValues((prev) => ({ ...prev, image: '' }))}
+                      className="absolute top-0.5 right-0.5 bg-red-600 text-white rounded-full p-0.5 hover:opacity-100"
+                    >
+                      <Trash2 className="w-2.5 h-2.5" />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Display Order */}
