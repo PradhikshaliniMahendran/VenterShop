@@ -101,14 +101,6 @@ export async function POST(request: Request) {
         }
       }
 
-      // Fallback for customer account: If user registered via OTP or valid credentials provided
-      if (!authenticated) {
-        userId = 'usr_' + Date.now();
-        userFirstName = 'Valued';
-        userLastName = 'Customer';
-        authenticated = true;
-      }
-
       if (!authenticated) {
         return NextResponse.json({ error: 'Incorrect email or password.' }, { status: 401 });
       }

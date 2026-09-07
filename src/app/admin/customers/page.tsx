@@ -153,6 +153,64 @@ export default function AdminCustomersPage() {
     });
   };
 
+  // State for Customer Edit Modal
+  const [editingCustomer, setEditingCustomer] = useState<ICustomer | null>(null);
+  const [editForm, setEditForm] = useState({
+    firstName: '',
+    lastName: '',
+    phone: '',
+    customerType: 'NORMAL' as 'NORMAL' | 'COMMUNITY' | 'WHOLESALE',
+    communityId: '',
+    status: 'ACTIVE' as 'ACTIVE' | 'SUSPENDED',
+  });
+  const [savingEdit, setSavingEdit] = useState(false);
+
+  const openEditModal = (cust: ICustomer) => {
+    setEditingCustomer(cust);
+    setEditForm({
+      firstName: cust.firstName || '',
+      lastName: cust.lastName || '',
+      phone: cust.phone || '',
+      customerType: cust.customerType || 'NORMAL',
+      communityId: cust.communityId?._id || '',
+      status: cust.status || 'ACTIVE',
+    });
+  };
+
+  const handleSaveCustomerEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingCustomer) return;
+    setSavingEdit(true);
+    try {
+      const res = await fetch('/api/admin/customers', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'update_customer',
+          userId: editingCustomer._id,
+          firstName: editForm.firstName,
+          lastName: editForm.lastName,
+          phone: editForm.phone,
+          customerType: editForm.customerType,
+          communityId: editForm.communityId || null,
+          status: editForm.status,
+        }),
+      });
+
+      if (res.ok) {
+        setEditingCustomer(null);
+        await loadData();
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Failed to update customer details');
+      }
+    } catch (err) {
+      alert('Network error updating customer');
+    } finally {
+      setSavingEdit(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="space-y-4">
@@ -199,11 +257,11 @@ export default function AdminCustomersPage() {
       {/* DIRECTORY VIEW TAB */}
       {activeTab === 'customers' && (
         <div className="bg-white rounded-xl border border-gray-150 shadow-2xs overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[650px]">
+          <table className="w-full text-left border-collapse min-w-[700px]">
             <thead>
               <tr className="bg-gray-100 text-gray-500 uppercase font-bold border-b border-gray-150">
                 <th className="p-4">Client Name</th>
-                <th className="p-4">Email</th>
+                <th className="p-4">Email / Mobile</th>
                 <th className="p-4">Pricing Tier</th>
                 <th className="p-4">Community Scope</th>
                 <th className="p-4">Status</th>
@@ -214,7 +272,10 @@ export default function AdminCustomersPage() {
               {customers.map((cust) => (
                 <tr key={cust._id} className="hover:bg-gray-50">
                   <td className="p-4 font-bold text-[#101A2D]">{cust.firstName} {cust.lastName}</td>
-                  <td className="p-4 text-gray-500">{cust.email}</td>
+                  <td className="p-4 text-gray-500">
+                    <p>{cust.email}</p>
+                    <p className="text-[10px] text-gray-400 font-bold">{cust.phone || 'No phone'}</p>
+                  </td>
                   
                   {/* Pricing tier badges */}
                   <td className="p-4">
@@ -259,12 +320,19 @@ export default function AdminCustomersPage() {
                     )}
                   </td>
 
-                  {/* Suspend action */}
-                  <td className="p-4 text-right">
+                  {/* Actions: Edit Details & Suspend */}
+                  <td className="p-4 text-right space-x-2">
+                    <button
+                      onClick={() => openEditModal(cust)}
+                      className="py-1 px-2.5 rounded-lg border border-gray-300 hover:bg-gray-100 font-bold text-[10px] uppercase text-gray-700 transition-colors inline-flex items-center gap-1 cursor-pointer"
+                    >
+                      <Edit2 className="w-3 h-3" />
+                      <span>Edit</span>
+                    </button>
                     <button
                       onClick={() => handleToggleSuspension(cust._id, cust.status)}
                       disabled={updatingId === cust._id}
-                      className={`py-1 px-3 rounded-lg border font-bold text-[10px] uppercase transition-colors ${
+                      className={`py-1 px-2.5 rounded-lg border font-bold text-[10px] uppercase transition-colors cursor-pointer ${
                         cust.status === 'ACTIVE'
                           ? 'border-red-250 text-red-650 hover:bg-red-50'
                           : 'border-emerald-250 text-emerald-700 hover:bg-emerald-50'
@@ -277,6 +345,130 @@ export default function AdminCustomersPage() {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* EDIT CUSTOMER MODAL */}
+      {editingCustomer && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-gray-150">
+            <div className="flex justify-between items-center border-b border-gray-100 pb-3">
+              <h3 className="text-sm font-black text-[#101A2D] uppercase tracking-wider flex items-center gap-2">
+                <Edit2 className="w-4 h-4 text-[#801414]" />
+                Edit Customer Details
+              </h3>
+              <button
+                onClick={() => setEditingCustomer(null)}
+                className="text-gray-400 hover:text-black font-bold text-sm"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveCustomerEdit} className="space-y-3 text-xs font-semibold">
+              <div className="space-y-1">
+                <label className="text-gray-500 font-bold">Email (Account Identifier)</label>
+                <input
+                  type="text"
+                  disabled
+                  value={editingCustomer.email}
+                  className="w-full px-3 py-2 bg-gray-100 border border-gray-200 rounded-lg text-gray-500 outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-1">
+                  <label className="text-gray-700 font-bold">First Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editForm.firstName}
+                    onChange={(e) => setEditForm({ ...editForm, firstName: e.target.value })}
+                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:bg-white focus:border-[#1A2A4A] text-gray-900 font-bold"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-gray-700 font-bold">Last Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editForm.lastName}
+                    onChange={(e) => setEditForm({ ...editForm, lastName: e.target.value })}
+                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:bg-white focus:border-[#1A2A4A] text-gray-900 font-bold"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-gray-700 font-bold">Mobile / Phone Number *</label>
+                <input
+                  type="tel"
+                  placeholder="e.g. +1 (416) 555-0199"
+                  value={editForm.phone}
+                  onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
+                  className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:bg-white focus:border-[#1A2A4A] text-gray-900 font-bold"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-1">
+                  <label className="text-gray-700 font-bold">Pricing Tier</label>
+                  <select
+                    value={editForm.customerType}
+                    onChange={(e) => setEditForm({ ...editForm, customerType: e.target.value as any })}
+                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg outline-none cursor-pointer font-bold text-gray-900"
+                  >
+                    <option value="NORMAL">Normal Buyer</option>
+                    <option value="COMMUNITY">Community Member</option>
+                    <option value="WHOLESALE">Wholesale Buyer (B2B)</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-gray-700 font-bold">Account Status</label>
+                  <select
+                    value={editForm.status}
+                    onChange={(e) => setEditForm({ ...editForm, status: e.target.value as any })}
+                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg outline-none cursor-pointer font-bold text-gray-900"
+                  >
+                    <option value="ACTIVE">Active</option>
+                    <option value="SUSPENDED">Suspended</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-gray-700 font-bold">Assigned Community</label>
+                <select
+                  value={editForm.communityId}
+                  onChange={(e) => setEditForm({ ...editForm, communityId: e.target.value })}
+                  className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg outline-none cursor-pointer font-bold text-gray-900"
+                >
+                  <option value="">None / Independent</option>
+                  {communities.map((c) => (
+                    <option key={c._id} value={c._id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="pt-3 border-t border-gray-100 flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setEditingCustomer(null)}
+                  className="py-2 px-4 border border-gray-200 rounded-lg text-gray-600 font-bold hover:bg-gray-50 cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={savingEdit}
+                  className="py-2 px-5 bg-[#801414] hover:bg-[#600e0e] text-white rounded-lg font-bold shadow-xs transition-colors cursor-pointer"
+                >
+                  {savingEdit ? 'Saving...' : 'Save Changes'}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
 

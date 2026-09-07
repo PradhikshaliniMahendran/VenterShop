@@ -85,6 +85,7 @@ export async function getCurrentUser() {
         communityId: dbRecord?.communityId?.toString() || null,
         communityStatus: dbRecord?.communityStatus || 'NONE',
         preferredLanguage: dbRecord?.preferredLanguage || 'en',
+        phone: dbRecord?.phone || '',
         addresses: dbRecord?.addresses || [],
       };
     }
@@ -121,6 +122,7 @@ export async function getCurrentCustomer() {
       communityId: user?.communityId?.toString() || null,
       communityStatus: user?.communityStatus || 'NONE',
       preferredLanguage: user?.preferredLanguage || 'en',
+      phone: user?.phone || '',
       addresses: user?.addresses || [],
     };
   } catch (error) {

@@ -46,7 +46,7 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { action, userId, status, communityId, applicationId, appStatus } = body;
 
-    // A. Update direct Customer metadata (suspension or community)
+    // A. Update direct Customer metadata (phone, name, tier, suspension, community)
     if (action === 'update_customer') {
       if (!userId) {
         return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
@@ -57,10 +57,19 @@ export async function PUT(request: Request) {
         return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
       }
 
+      const { firstName, lastName, phone, customerType } = body;
+
+      if (firstName !== undefined && firstName.trim()) user.firstName = firstName.trim();
+      if (lastName !== undefined && lastName.trim()) user.lastName = lastName.trim();
+      if (phone !== undefined) user.phone = phone.trim();
       if (status) user.status = status;
+      if (customerType) user.customerType = customerType;
+
       if (communityId !== undefined) {
         user.communityId = communityId ? communityId : null;
-        user.customerType = communityId ? 'COMMUNITY' : 'NORMAL';
+        if (!customerType) {
+          user.customerType = communityId ? 'COMMUNITY' : 'NORMAL';
+        }
       }
 
       await user.save();
