@@ -160,7 +160,7 @@ export default function VirtualShops() {
       ];
 
   return (
-    <section className="py-8 sm:py-12 bg-white border-b border-gray-100 font-sans">
+    <section id="virtual-shops" className="py-8 sm:py-12 bg-white border-b border-gray-100 font-sans scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         {/* Section Header */}
@@ -233,7 +233,7 @@ export default function VirtualShops() {
         </div>
 
         {/* VIRTUAL FOREIGN BUYERS BANNER */}
-        <div className="relative rounded-2xl bg-gradient-to-r from-[#D9EAFE] via-[#E8F1FD] to-[#D9EAFE] p-5 sm:p-7 text-gray-900 border border-blue-200 shadow-sm overflow-hidden">
+        <div id="export" className="relative rounded-2xl bg-gradient-to-r from-[#D9EAFE] via-[#E8F1FD] to-[#D9EAFE] p-5 sm:p-7 text-gray-900 border border-blue-200 shadow-sm overflow-hidden scroll-mt-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             
             {/* Left Graphic + Content */}

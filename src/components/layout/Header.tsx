@@ -59,12 +59,19 @@ export default function Header() {
     await logoutUser();
   };
 
-  const navLinks = [
-    { label: language === 'ta' ? 'முகப்பு' : 'Home', href: '/', isHome: true },
-    { label: language === 'ta' ? 'ஷாப்' : 'Shop', href: '/shop' },
-    { label: language === 'ta' ? 'சலுகைகள்' : 'Offers', href: '/shop?offers=true', isOffer: true },
-    { label: language === 'ta' ? 'எங்களைப் பற்றி' : 'About Us', href: '/about' },
-    { label: language === 'ta' ? 'தொடர்பு கொள்ள' : 'Contact Us', href: '/contact' },
+  interface INavLink {
+    label: string;
+    href: string;
+    isHome?: boolean;
+  }
+
+  const navLinks: INavLink[] = [
+    { label: language === 'ta' ? 'முகப்பு' : 'HOME', href: '/', isHome: true },
+    { label: language === 'ta' ? 'ஷாப்' : 'SHOP', href: '/shop' },
+    { label: language === 'ta' ? 'வர்ச்சுவல் கடைகள்' : 'VIRTUAL SHOPS', href: '/#virtual-shops' },
+    { label: language === 'ta' ? 'ஏற்றுமதி' : 'EXPORT', href: '/export' },
+    { label: language === 'ta' ? 'எங்களைப் பற்றி' : 'ABOUT US', href: '/about' },
+    { label: language === 'ta' ? 'தொடர்பு' : 'CONTACT', href: '/contact' },
   ];
 
   return (
@@ -75,7 +82,7 @@ export default function Header() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs gap-1">
           <div className="flex items-center gap-2 text-white/95 font-medium">
             <span className="bg-white/20 px-1.5 py-0.5 rounded text-[10px] font-bold">🚚 Free Delivery</span>
-            <span>Free Delivery on Orders over $75 | Fast & Reliable Shipping Across Canada</span>
+            <span>Free Delivery on Orders over LKR 7,500 | Fast & Reliable Shipping Across Sri Lanka</span>
           </div>
           <div className="flex items-center gap-4 text-white/90 text-xs">
             {user && (
@@ -142,15 +149,13 @@ export default function Header() {
           {/* Desktop Dynamic Navigation Menu */}
           <nav className="hidden lg:flex items-center gap-7 text-gray-700 font-bold text-xs">
             {navLinks.map((item, idx) => {
-              const hasOffersQuery = searchParams.get('offers') === 'true';
-
               let isActive = false;
               if (item.isHome) {
                 isActive = pathname === '/';
-              } else if (item.isOffer) {
-                isActive = pathname === '/shop' && hasOffersQuery;
+              } else if (item.href.startsWith('/#')) {
+                isActive = false;
               } else if (item.href === '/shop') {
-                isActive = pathname === '/shop' && !hasOffersQuery;
+                isActive = pathname === '/shop';
               } else {
                 const basePath = item.href.split('?')[0];
                 isActive = pathname.startsWith(basePath);
@@ -160,14 +165,13 @@ export default function Header() {
                 <Link
                   key={idx}
                   href={item.href}
-                  className={`flex items-center gap-1.5 py-0.5 transition-colors ${
+                  className={`flex items-center gap-1.5 py-0.5 tracking-wider transition-colors ${
                     isActive
                       ? 'text-[#801414] font-black border-b-2 border-[#801414]'
                       : 'text-gray-700 hover:text-[#801414]'
                   }`}
                 >
                   {item.isHome && <Home className={`w-3.5 h-3.5 ${isActive ? 'text-[#801414]' : 'text-gray-500'}`} />}
-                  {item.isOffer && <Percent className={`w-3.5 h-3.5 ${isActive ? 'text-[#801414]' : 'text-gray-500'}`} />}
                   <span>{item.label}</span>
                 </Link>
               );
@@ -347,7 +351,6 @@ export default function Header() {
                   }`}
                 >
                   {item.isHome && <Home className="w-4 h-4" />}
-                  {item.isOffer && <Percent className="w-4 h-4 text-[#801414]" />}
                   <span>{item.label}</span>
                 </Link>
               ))}
