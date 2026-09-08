@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import { useTranslation } from '@/lib/i18n/LanguageContext';
 import {
   Globe,
@@ -11,6 +13,8 @@ import {
   ShieldCheck,
   CheckCircle2,
   ArrowRight,
+  ArrowLeft,
+  ChevronRight,
   Send,
   Building,
   Phone,
@@ -96,9 +100,46 @@ export default function ExportPage() {
   ];
 
   return (
-    <div className="bg-white min-h-screen font-sans text-xs font-semibold">
+    <div className="flex flex-col min-h-screen bg-white font-sans antialiased text-xs font-semibold">
       
-      {/* 1. HERO BANNER */}
+      {/* 1. Header */}
+      <Suspense fallback={<div className="h-24 bg-white border-b border-gray-100" />}>
+        <Header />
+      </Suspense>
+
+      {/* 2. Sub-Header Navigation & Breadcrumbs */}
+      <div className="bg-white border-b border-gray-200 py-3 px-4 sm:px-8">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+          <nav className="flex items-center gap-2 text-gray-500 font-bold uppercase tracking-wider">
+            <Link href="/" className="hover:text-black transition-colors">
+              {isTa ? 'முகப்பு' : 'Home'}
+            </Link>
+            <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
+            <span className="text-[#0055D4] font-black">
+              {isTa ? 'ஏற்றுமதி' : 'Export'}
+            </span>
+          </nav>
+
+          <div className="flex items-center gap-4">
+            <Link
+              href="/shop"
+              className="inline-flex items-center gap-1.5 text-xs text-gray-600 hover:text-[#0055D4] font-bold transition-colors"
+            >
+              <span>{isTa ? 'ஷாப் செல்ல' : 'Go to Shop'}</span>
+            </Link>
+            <span className="text-gray-300">|</span>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 text-xs text-gray-600 hover:text-[#0055D4] font-bold transition-colors"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>{isTa ? 'முகப்புக்குத் திரும்பு' : 'Back to Home'}</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. HERO BANNER */}
       <section className="relative bg-gradient-to-r from-[#003B95] via-[#0055D4] to-[#0A2540] text-white py-16 sm:py-24 overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]" />
         
@@ -415,6 +456,8 @@ export default function ExportPage() {
         </div>
       </section>
 
+      {/* 5. Footer */}
+      <Footer />
     </div>
   );
 }
