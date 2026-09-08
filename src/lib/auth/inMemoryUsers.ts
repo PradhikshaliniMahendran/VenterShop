@@ -6,7 +6,7 @@ export interface InMemoryUser {
   firstName: string;
   lastName: string;
   phone: string;
-  customerType: 'NORMAL' | 'COMMUNITY' | 'WHOLESALE' | 'ADMIN';
+  customerType: string;
   role: 'CUSTOMER' | 'ADMIN' | 'SUPER_ADMIN';
   status: 'ACTIVE' | 'SUSPENDED';
 }

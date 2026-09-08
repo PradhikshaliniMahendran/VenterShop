@@ -18,6 +18,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/currency';
 
 interface IOrderItem {
   productId: string;
@@ -118,8 +119,8 @@ function OrdersPageContent() {
         <tr>
           <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.name} (${item.sku})</td>
           <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: center;">${item.quantity}</td>
-          <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">$${item.price.toFixed(2)}</td>
-          <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">$${item.total.toFixed(2)}</td>
+          <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">${formatCurrency(item.price)}</td>
+          <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">${formatCurrency(item.total)}</td>
         </tr>
       `;
     });
@@ -178,19 +179,19 @@ function OrdersPageContent() {
             <table style="margin: 0; width: 100%;">
               <tr>
                 <td style="color: #6b7280;">Subtotal:</td>
-                <td style="text-align: right;">$${order.subtotal.toFixed(2)}</td>
+                <td style="text-align: right;">${formatCurrency(order.subtotal)}</td>
               </tr>
               ${order.discount > 0 ? `<tr>
                 <td style="color: #16803C;">Discount:</td>
-                <td style="text-align: right; color: #16803C;">-$${order.discount.toFixed(2)}</td>
+                <td style="text-align: right; color: #16803C;">-${formatCurrency(order.discount)}</td>
               </tr>` : ''}
               <tr>
                 <td style="color: #6b7280;">Shipping:</td>
-                <td style="text-align: right;">${order.deliveryFee === 0 ? 'FREE' : `$${order.deliveryFee.toFixed(2)}`}</td>
+                <td style="text-align: right;">${order.deliveryFee === 0 ? 'FREE' : formatCurrency(order.deliveryFee)}</td>
               </tr>
               <tr style="font-weight: bold; border-top: 1.5px solid #1a2a4a;">
                 <td style="padding-top: 10px;">Total:</td>
-                <td style="text-align: right; padding-top: 10px;">$${order.total.toFixed(2)}</td>
+                <td style="text-align: right; padding-top: 10px;">${formatCurrency(order.total)}</td>
               </tr>
             </table>
           </div>
@@ -356,7 +357,7 @@ function OrdersPageContent() {
                     </div>
                     <div className="border-l border-gray-200 pl-4">
                       <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Total amount</p>
-                      <p className="font-extrabold text-[#101A2D] text-sm">${order.total.toFixed(2)}</p>
+                      <p className="font-extrabold text-[#101A2D] text-sm">{formatCurrency(order.total)}</p>
                     </div>
                   </div>
 
@@ -390,9 +391,9 @@ function OrdersPageContent() {
                           <div key={idx} className="py-2.5 flex justify-between items-center text-xs font-semibold">
                             <div>
                               <p className="text-[#101A2D]">{item.name}</p>
-                              <p className="text-[10px] text-gray-400">SKU: {item.sku} • Qty: {item.quantity} • ${item.price.toFixed(2)}/unit</p>
+                              <p className="text-[10px] text-gray-400">SKU: {item.sku} • Qty: {item.quantity} • {formatCurrency(item.price)}/unit</p>
                             </div>
-                            <span className="font-bold text-[#101A2D]">${item.total.toFixed(2)}</span>
+                            <span className="font-bold text-[#101A2D]">{formatCurrency(item.total)}</span>
                           </div>
                         ))}
                       </div>
@@ -425,21 +426,21 @@ function OrdersPageContent() {
                         <div className="space-y-1.5 text-gray-500">
                           <p className="flex justify-between">
                             <span>Subtotal:</span>
-                            <span className="text-[#333333]">${order.subtotal.toFixed(2)}</span>
+                            <span className="text-[#333333]">{formatCurrency(order.subtotal)}</span>
                           </p>
                           {order.discount > 0 && (
                             <p className="flex justify-between text-emerald-700">
                               <span>Discounts:</span>
-                              <span>-${order.discount.toFixed(2)}</span>
+                              <span>-{formatCurrency(order.discount)}</span>
                             </p>
                           )}
                           <p className="flex justify-between">
                             <span>Shipping & Delivery:</span>
-                            <span className="text-[#333333]">{order.deliveryFee === 0 ? 'FREE' : `$${order.deliveryFee.toFixed(2)}`}</span>
+                            <span className="text-[#333333]">{order.deliveryFee === 0 ? 'FREE' : formatCurrency(order.deliveryFee)}</span>
                           </p>
                           <p className="flex justify-between border-t border-gray-150 pt-2 font-bold text-sm text-[#1A2A4A]">
                             <span>Final Total:</span>
-                            <span>${order.total.toFixed(2)}</span>
+                            <span>{formatCurrency(order.total)}</span>
                           </p>
                           <p className="flex justify-between text-[10px] font-bold text-gray-400 pt-1.5 uppercase tracking-wide">
                             <span>Payment Status:</span>

@@ -13,6 +13,7 @@ import {
   CheckCircle,
   Truck,
 } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/currency';
 
 interface IOrderItem {
   productId: string;
@@ -146,8 +147,8 @@ export default function AdminOrdersPage() {
         <tr>
           <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.name} (${item.sku})</td>
           <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: center;">${item.quantity}</td>
-          <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">$${item.price.toFixed(2)}</td>
-          <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">$${item.total.toFixed(2)}</td>
+          <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">${formatCurrency(item.price)}</td>
+          <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">${formatCurrency(item.total)}</td>
         </tr>
       `;
     });
@@ -206,19 +207,19 @@ export default function AdminOrdersPage() {
             <table style="width: 100%;">
               <tr>
                 <td>Subtotal:</td>
-                <td style="text-align: right;">$${order.subtotal.toFixed(2)}</td>
+                <td style="text-align: right;">${formatCurrency(order.subtotal)}</td>
               </tr>
               ${order.discount > 0 ? `<tr>
                 <td style="color: green;">Discount:</td>
-                <td style="text-align: right; color: green;">-$${order.discount.toFixed(2)}</td>
+                <td style="text-align: right; color: green;">-${formatCurrency(order.discount)}</td>
               </tr>` : ''}
               <tr>
                 <td>Shipping:</td>
-                <td style="text-align: right;">$${order.deliveryFee.toFixed(2)}</td>
+                <td style="text-align: right;">${formatCurrency(order.deliveryFee)}</td>
               </tr>
               <tr style="font-weight: bold; border-top: 1.5px solid #1a2a4a;">
                 <td style="padding-top: 10px;">Total:</td>
-                <td style="text-align: right; padding-top: 10px;">$${order.total.toFixed(2)}</td>
+                <td style="text-align: right; padding-top: 10px;">${formatCurrency(order.total)}</td>
               </tr>
             </table>
           </div>
@@ -332,7 +333,7 @@ export default function AdminOrdersPage() {
                     </div>
                     <div>
                       <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider block">Total</span>
-                      <span className="text-[#101A2D] font-bold block">${order.total.toFixed(2)}</span>
+                      <span className="text-[#101A2D] font-bold block">{formatCurrency(order.total)}</span>
                     </div>
                   </div>
 
@@ -360,9 +361,9 @@ export default function AdminOrdersPage() {
                           <div key={idx} className="py-2 flex justify-between items-center text-xs">
                             <div>
                               <p className="text-[#101A2D] font-bold">{item.name}</p>
-                              <p className="text-[9px] text-gray-400">SKU: {item.sku} • Price: ${item.price.toFixed(2)}/unit</p>
+                              <p className="text-[9px] text-gray-400">SKU: {item.sku} • Price: {formatCurrency(item.price)}/unit</p>
                             </div>
-                            <span className="font-bold text-[#101A2D]">{item.quantity} x ${item.price.toFixed(2)} = ${item.total.toFixed(2)}</span>
+                            <span className="font-bold text-[#101A2D]">{item.quantity} x {formatCurrency(item.price)} = {formatCurrency(item.total)}</span>
                           </div>
                         ))}
                       </div>

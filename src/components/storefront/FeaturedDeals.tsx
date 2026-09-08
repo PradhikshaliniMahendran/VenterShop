@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useTranslation } from '@/lib/i18n/LanguageContext';
 import { useCart } from '@/lib/cart/CartContext';
 import { ShoppingCart, Flame, ArrowRight, Star } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/currency';
 
 interface IProduct {
   _id: string;
@@ -130,15 +131,15 @@ export default function FeaturedDeals() {
                   <div className="bg-[#FAF7F2] p-3 rounded-xl border border-gray-200/50 space-y-1">
                     <div className="flex justify-between items-center text-[10px] text-gray-400 font-bold uppercase">
                       <span>Retail Price:</span>
-                      <span className="text-[#101A2D] font-extrabold text-xs">${retailPrice.toFixed(2)}</span>
+                      <span className="text-[#101A2D] font-extrabold text-xs">{formatCurrency(retailPrice)}</span>
                     </div>
                     <div className="flex justify-between items-center text-[10px] text-emerald-700 font-extrabold uppercase">
                       <span>Community Group:</span>
-                      <span>${communityPrice.toFixed(2)}</span>
+                      <span>{formatCurrency(communityPrice)}</span>
                     </div>
                     <div className="flex justify-between items-center text-[10px] text-[#E53935] font-extrabold uppercase">
                       <span>B2B Wholesale:</span>
-                      <span>${wholesalePrice.toFixed(2)}</span>
+                      <span>{formatCurrency(wholesalePrice)}</span>
                     </div>
                   </div>
 
@@ -146,7 +147,7 @@ export default function FeaturedDeals() {
                   <div className="flex justify-between items-center pt-2">
                     <div className="space-y-0.5">
                       <span className="text-xs text-gray-400 font-medium">Retail Customer</span>
-                      <p className="text-base font-black text-[#101A2D]">${retailPrice.toFixed(2)}</p>
+                      <p className="text-base font-black text-[#101A2D]">{formatCurrency(retailPrice)}</p>
                     </div>
 
                     <button

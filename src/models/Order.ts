@@ -23,7 +23,7 @@ export interface IOrderAddress {
 export interface IOrder extends Document {
   orderNumber: string; // e.g. VS-2026-000001
   userId: mongoose.Types.ObjectId;
-  customerType: 'NORMAL' | 'COMMUNITY' | 'WHOLESALE';
+  customerType: string;
   communityId: mongoose.Types.ObjectId | null;
   items: IOrderItem[];
   subtotal: number;
@@ -55,7 +55,7 @@ const OrderAddressSchema = new Schema<IOrderAddress>({
   city: { type: String, required: true },
   province: { type: String, required: true },
   postalCode: { type: String, required: true },
-  country: { type: String, default: 'Canada' },
+  country: { type: String, default: 'Sri Lanka' },
   phone: { type: String, required: true },
 });
 
@@ -63,7 +63,7 @@ const OrderSchema = new Schema<IOrder>(
   {
     orderNumber: { type: String, required: true, unique: true, index: true, trim: true },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    customerType: { type: String, enum: ['NORMAL', 'COMMUNITY', 'WHOLESALE'], required: true },
+    customerType: { type: String, default: 'BUYER' },
     communityId: { type: Schema.Types.ObjectId, ref: 'Community', default: null },
     items: [OrderItemSchema],
     subtotal: { type: Number, required: true, min: 0 },

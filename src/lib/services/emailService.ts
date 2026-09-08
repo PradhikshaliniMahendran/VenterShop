@@ -54,8 +54,8 @@ export class EmailService {
         <tr>
           <td style="padding: 10px; border-bottom: 1px solid #E5E7EB; color: #333333;">${item.name}</td>
           <td style="padding: 10px; border-bottom: 1px solid #E5E7EB; color: #333333; text-align: center;">${item.quantity}</td>
-          <td style="padding: 10px; border-bottom: 1px solid #E5E7EB; color: #333333; text-align: right;">$${item.price.toFixed(2)}</td>
-          <td style="padding: 10px; border-bottom: 1px solid #E5E7EB; color: #333333; text-align: right;">$${item.total.toFixed(2)}</td>
+          <td style="padding: 10px; border-bottom: 1px solid #E5E7EB; color: #333333; text-align: right;">LKR ${item.price.toFixed(2)}</td>
+          <td style="padding: 10px; border-bottom: 1px solid #E5E7EB; color: #333333; text-align: right;">LKR ${item.total.toFixed(2)}</td>
         </tr>
       `;
     }
@@ -82,25 +82,25 @@ export class EmailService {
         <table style="width: 100%; border-collapse: collapse;">
           <tr>
             <td style="padding: 5px 0; color: #6b7280;">Subtotal:</td>
-            <td style="padding: 5px 0; text-align: right; color: #333333;">$${order.subtotal.toFixed(2)}</td>
+            <td style="padding: 5px 0; text-align: right; color: #333333;">LKR ${order.subtotal.toFixed(2)}</td>
           </tr>
           ${
             order.discount > 0
               ? `<tr>
             <td style="padding: 5px 0; color: #16803C;">Discount:</td>
-            <td style="padding: 5px 0; text-align: right; color: #16803C;">-$${order.discount.toFixed(2)}</td>
+            <td style="padding: 5px 0; text-align: right; color: #16803C;">-LKR ${order.discount.toFixed(2)}</td>
           </tr>`
               : ''
           }
           <tr>
             <td style="padding: 5px 0; color: #6b7280;">Shipping:</td>
             <td style="padding: 5px 0; text-align: right; color: #333333;">${
-              order.deliveryFee === 0 ? 'FREE' : `$${order.deliveryFee.toFixed(2)}`
+              order.deliveryFee === 0 ? 'FREE' : `LKR ${order.deliveryFee.toFixed(2)}`
             }</td>
           </tr>
           <tr style="border-top: 2px solid #1a2a4a; font-weight: bold;">
             <td style="padding: 10px 0; color: #1a2a4a; font-size: 16px;">Total:</td>
-            <td style="padding: 10px 0; text-align: right; color: #1a2a4a; font-size: 16px;">$${order.total.toFixed(2)}</td>
+            <td style="padding: 10px 0; text-align: right; color: #1a2a4a; font-size: 16px;">LKR ${order.total.toFixed(2)}</td>
           </tr>
         </table>
       </div>
@@ -260,7 +260,7 @@ export class EmailService {
           </tr>
           <tr>
             <td style="color: #6b7280; padding: 4px 0;">Total Amount:</td>
-            <td style="color: #1a2a4a; padding: 4px 0; font-weight: bold;">$${order.total.toFixed(2)}</td>
+            <td style="color: #1a2a4a; padding: 4px 0; font-weight: bold;">LKR ${order.total.toFixed(2)}</td>
           </tr>
         </table>
       </div>

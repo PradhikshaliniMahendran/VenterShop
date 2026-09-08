@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useTranslation } from '@/lib/i18n/LanguageContext';
 import { useCart } from '@/lib/cart/CartContext';
 import { ShoppingCart, Star } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/currency';
 
 interface ProductItem {
   _id: string;
@@ -164,7 +165,7 @@ export default function FeaturedProducts() {
                   {/* Price & Rating */}
                   <div className="space-y-1">
                     <p className="text-sm sm:text-base font-black text-[#801414]">
-                      ${prod.price.toFixed(2)}
+                      {formatCurrency(prod.price)}
                     </p>
 
                     {/* Star Rating */}

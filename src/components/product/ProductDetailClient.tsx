@@ -20,6 +20,7 @@ import {
   Zap,
   CheckCircle2,
 } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/currency';
 
 interface IProductDetail {
   _id: string;
@@ -64,15 +65,15 @@ export default function ProductDetailClient({ product }: { product: IProductDeta
   let priceBadge: string | null = null;
 
   if (user) {
-    if (user.customerType === 'WHOLESALE') {
+    if (user.customerType === 'WHOLESALE_BUYER' || user.customerType === 'WHOLESALE') {
       price = product.wholesalePrice;
       priceBadge = language === 'ta' ? 'மொத்த விலை (B2B)' : 'Wholesale Price';
       if (product.retailPrice > product.wholesalePrice) {
         crossedOutPrice = product.retailPrice;
       }
-    } else if (user.customerType === 'COMMUNITY') {
+    } else if (user.customerType === 'V2CC_PMS_MEMBER' || user.customerType === 'COMMUNITY') {
       price = product.communityPrice;
-      priceBadge = language === 'ta' ? 'சமூக விலை' : 'Community Price';
+      priceBadge = language === 'ta' ? 'V2CC-PMS விலை' : 'Member Price';
       if (product.retailPrice > product.communityPrice) {
         crossedOutPrice = product.retailPrice;
       }
@@ -106,17 +107,8 @@ export default function ProductDetailClient({ product }: { product: IProductDeta
     setWishlistAdded(!wishlistAdded);
   };
 
-  const formattedPrice = new Intl.NumberFormat('en-CA', {
-    style: 'currency',
-    currency: 'CAD',
-  }).format(price);
-
-  const formattedCrossedPrice = crossedOutPrice
-    ? new Intl.NumberFormat('en-CA', {
-        style: 'currency',
-        currency: 'CAD',
-      }).format(crossedOutPrice)
-    : null;
+  const formattedPrice = formatCurrency(price);
+  const formattedCrossedPrice = crossedOutPrice ? formatCurrency(crossedOutPrice) : null;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">

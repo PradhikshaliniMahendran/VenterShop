@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslation } from '@/lib/i18n/LanguageContext';
 import { useCart } from '@/lib/cart/CartContext';
 import { Ticket, Copy, Check, Clock, AlertCircle } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/currency';
 
 interface IVoucherItem {
   _id: string;
@@ -168,7 +169,7 @@ export default function DashboardVouchersPage() {
                     <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-sm tracking-wider">
                       {voucher.discountType === 'PERCENTAGE'
                         ? `${voucher.discountValue}% OFF`
-                        : `$${voucher.discountValue} OFF`}
+                        : `LKR ${voucher.discountValue} OFF`}
                     </span>
                     
                     {activeTab === 'active' && (
@@ -205,7 +206,7 @@ export default function DashboardVouchersPage() {
                   {voucher.minimumOrderValue > 0 && (
                     <p className="flex justify-between">
                       <span>Minimum Purchase:</span>
-                      <span className="text-gray-600">${voucher.minimumOrderValue.toFixed(2)}</span>
+                      <span className="text-gray-600">{formatCurrency(voucher.minimumOrderValue)}</span>
                     </p>
                   )}
                   {voucher.categoryIds && voucher.categoryIds.length > 0 && (

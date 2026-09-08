@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useTranslation } from '@/lib/i18n/LanguageContext';
 import { useCart } from '@/lib/cart/CartContext';
 import { Heart, ShoppingCart, Trash2 } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/currency';
 import ProductCard from '@/components/product/ProductCard';
 
 interface IProductData {
@@ -92,10 +93,7 @@ export default function DashboardWishlistPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {wishlistItems.map((product) => {
-            const formattedPrice = new Intl.NumberFormat('en-CA', {
-              style: 'currency',
-              currency: 'CAD',
-            }).format(product.retailPrice);
+            const formattedPrice = formatCurrency(product.retailPrice);
 
             return (
               <div

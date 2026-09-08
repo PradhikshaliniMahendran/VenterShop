@@ -119,7 +119,7 @@ export class VoucherService {
     // 8. Validate minimum order value constraint
     if (totalCartSubtotalAfterOffers < voucher.minimumOrderValue) {
       throw new Error(
-        `A minimum purchase of $${voucher.minimumOrderValue.toFixed(2)} is required to use this voucher`
+        `A minimum purchase of LKR ${voucher.minimumOrderValue.toFixed(2)} is required to use this voucher`
       );
     }
 

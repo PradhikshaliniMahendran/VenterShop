@@ -9,7 +9,7 @@ interface ICustomer {
   lastName: string;
   email: string;
   phone?: string;
-  customerType: 'NORMAL' | 'COMMUNITY' | 'WHOLESALE';
+  customerType: 'BUYER' | 'V2CC_PMS_MEMBER' | 'WHOLESALE_BUYER' | 'SELLER_SUPPLIER' | 'PARTNER_STORE' | 'NORMAL' | 'COMMUNITY' | 'WHOLESALE';
   communityId?: { _id: string; name: string };
   status: 'ACTIVE' | 'SUSPENDED';
   createdAt: string;
@@ -159,7 +159,7 @@ export default function AdminCustomersPage() {
     firstName: '',
     lastName: '',
     phone: '',
-    customerType: 'NORMAL' as 'NORMAL' | 'COMMUNITY' | 'WHOLESALE',
+    customerType: 'BUYER' as any,
     communityId: '',
     status: 'ACTIVE' as 'ACTIVE' | 'SUSPENDED',
   });
@@ -280,13 +280,27 @@ export default function AdminCustomersPage() {
                   {/* Pricing tier badges */}
                   <td className="p-4">
                     <span className={`inline-block px-2.5 py-0.5 border text-[9px] font-extrabold uppercase rounded-full ${
-                      cust.customerType === 'WHOLESALE'
+                      cust.customerType === 'WHOLESALE_BUYER' || cust.customerType === 'WHOLESALE'
                         ? 'text-emerald-700 bg-emerald-50 border-emerald-100'
-                        : cust.customerType === 'COMMUNITY'
+                        : cust.customerType === 'V2CC_PMS_MEMBER' || cust.customerType === 'COMMUNITY'
                         ? 'text-red-700 bg-red-50 border-red-100'
+                        : cust.customerType === 'SELLER_SUPPLIER'
+                        ? 'text-purple-700 bg-purple-50 border-purple-100'
+                        : cust.customerType === 'PARTNER_STORE'
+                        ? 'text-blue-700 bg-blue-50 border-blue-100'
                         : 'text-gray-600 bg-gray-50 border-gray-250'
                     }`}>
-                      {cust.customerType}
+                      {cust.customerType === 'V2CC_PMS_MEMBER'
+                        ? 'V2CC-PMS Member'
+                        : cust.customerType === 'WHOLESALE_BUYER'
+                        ? 'Wholesale Buyer'
+                        : cust.customerType === 'SELLER_SUPPLIER'
+                        ? 'Seller / Supplier'
+                        : cust.customerType === 'PARTNER_STORE'
+                        ? 'Partner Store'
+                        : cust.customerType === 'BUYER'
+                        ? 'Buyer'
+                        : cust.customerType}
                     </span>
                   </td>
 
@@ -412,15 +426,20 @@ export default function AdminCustomersPage() {
 
               <div className="grid grid-cols-2 gap-2">
                 <div className="space-y-1">
-                  <label className="text-gray-700 font-bold">Pricing Tier</label>
+                  <label className="text-gray-700 font-bold">Account / Pricing Type</label>
                   <select
                     value={editForm.customerType}
                     onChange={(e) => setEditForm({ ...editForm, customerType: e.target.value as any })}
                     className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg outline-none cursor-pointer font-bold text-gray-900"
                   >
-                    <option value="NORMAL">Normal Buyer</option>
-                    <option value="COMMUNITY">Community Member</option>
-                    <option value="WHOLESALE">Wholesale Buyer (B2B)</option>
+                    <option value="BUYER">Buyer (Retail Consumer)</option>
+                    <option value="V2CC_PMS_MEMBER">V2CC-PMS Member (Community Pricing)</option>
+                    <option value="WHOLESALE_BUYER">Wholesale Buyer (Bulk B2B Pricing)</option>
+                    <option value="SELLER_SUPPLIER">Seller / Supplier (Merchant)</option>
+                    <option value="PARTNER_STORE">Partner Store (Franchise/Retail)</option>
+                    <option value="NORMAL">Normal Buyer (Legacy)</option>
+                    <option value="COMMUNITY">Community Member (Legacy)</option>
+                    <option value="WHOLESALE">Wholesale Buyer (Legacy)</option>
                   </select>
                 </div>
 

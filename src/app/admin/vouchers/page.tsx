@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Ticket, Plus, Edit, Trash2, CheckCircle, XCircle } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/currency';
 
 interface ICategory {
   _id: string;
@@ -415,7 +416,7 @@ export default function AdminVouchersPage() {
                   className="w-full px-3 py-2 bg-gray-50 border border-gray-255 rounded-lg outline-none cursor-pointer text-gray-900 font-bold"
                 >
                   <option value="PERCENTAGE">Percentage (%)</option>
-                  <option value="FIXED">Fixed Amount ($CAD)</option>
+                  <option value="FIXED">Fixed Amount (LKR)</option>
                 </select>
               </div>
 
@@ -461,7 +462,7 @@ export default function AdminVouchersPage() {
               {activeTab === 'vouchers' && (
                 <>
                   <div className="space-y-1.5">
-                    <label className="text-[#101A2D] font-bold block mb-1">Minimum Order Threshold ($CAD)</label>
+                    <label className="text-[#101A2D] font-bold block mb-1">Minimum Order Threshold (LKR)</label>
                     <input
                       type="number"
                       name="minimumOrderValue"
@@ -623,9 +624,9 @@ export default function AdminVouchersPage() {
                     <span className="text-[10px] text-gray-400 font-semibold line-clamp-1 truncate max-w-[200px] block">{v.description}</span>
                   </td>
                   <td className="p-4 text-[#101A2D]">
-                    {v.discountType === 'PERCENTAGE' ? `${v.discountValue}% Off` : `$${v.discountValue} Off`}
+                    {v.discountType === 'PERCENTAGE' ? `${v.discountValue}% Off` : `LKR ${v.discountValue} Off`}
                   </td>
-                  <td className="p-4 text-gray-500">${v.minimumOrderValue.toFixed(2)}</td>
+                  <td className="p-4 text-gray-500">{formatCurrency(v.minimumOrderValue)}</td>
                   
                   <td className="p-4 text-gray-500 font-semibold truncate max-w-[120px]">
                     {v.customerTypes.join(', ')}
@@ -692,7 +693,7 @@ export default function AdminVouchersPage() {
                     <span className="text-[10px] text-gray-400 font-semibold line-clamp-1 truncate max-w-[200px] block">{o.description}</span>
                   </td>
                   <td className="p-4 text-[#101A2D]">
-                    {o.discountType === 'PERCENTAGE' ? `${o.discountValue}% Off` : `$${o.discountValue} Off`}
+                    {o.discountType === 'PERCENTAGE' ? `${o.discountValue}% Off` : `LKR ${o.discountValue} Off`}
                   </td>
                   
                   <td className="p-4 text-gray-500 truncate max-w-[120px]">

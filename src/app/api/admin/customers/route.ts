@@ -94,10 +94,10 @@ export async function PUT(request: Request) {
       const targetUser = await User.findById(app.userId);
       if (targetUser) {
         if (appStatus === 'APPROVED') {
-          targetUser.customerType = 'WHOLESALE';
+          targetUser.customerType = 'WHOLESALE_BUYER';
           await targetUser.save();
-        } else if (appStatus === 'REJECTED' && targetUser.customerType === 'WHOLESALE') {
-          targetUser.customerType = 'NORMAL';
+        } else if (appStatus === 'REJECTED' && (targetUser.customerType === 'WHOLESALE_BUYER' || targetUser.customerType === 'WHOLESALE')) {
+          targetUser.customerType = 'BUYER';
           await targetUser.save();
         }
 

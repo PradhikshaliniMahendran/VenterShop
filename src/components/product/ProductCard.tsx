@@ -6,6 +6,7 @@ import { useAuth } from '@/lib/auth/AuthContext';
 import { useCart } from '@/lib/cart/CartContext';
 import { useTranslation } from '@/lib/i18n/LanguageContext';
 import { ShoppingCart, Eye, Sparkles, Check } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/currency';
 
 interface IProductData {
   _id: string;
@@ -46,15 +47,15 @@ export default function ProductCard({ product }: { product: IProductData }) {
   let priceBadge: string | null = null;
 
   if (user) {
-    if (user.customerType === 'WHOLESALE') {
+    if (user.customerType === 'WHOLESALE_BUYER' || user.customerType === 'WHOLESALE') {
       price = product.wholesalePrice || product.retailPrice;
       priceBadge = language === 'ta' ? 'மொத்த விலை (B2B)' : 'Wholesale Price';
       if (product.retailPrice > product.wholesalePrice) {
         crossedOutPrice = product.retailPrice;
       }
-    } else if (user.customerType === 'COMMUNITY') {
+    } else if (user.customerType === 'V2CC_PMS_MEMBER' || user.customerType === 'COMMUNITY') {
       price = product.communityPrice || product.retailPrice;
-      priceBadge = language === 'ta' ? 'சமூக விலை' : 'Community Price';
+      priceBadge = language === 'ta' ? 'V2CC-PMS விலை' : 'Member Price';
       if (product.retailPrice > product.communityPrice) {
         crossedOutPrice = product.retailPrice;
       }
@@ -74,17 +75,8 @@ export default function ProductCard({ product }: { product: IProductData }) {
     setTimeout(() => setAdded(false), 2000);
   };
 
-  const formattedPrice = new Intl.NumberFormat('en-CA', {
-    style: 'currency',
-    currency: 'CAD',
-  }).format(price);
-
-  const formattedCrossedPrice = crossedOutPrice
-    ? new Intl.NumberFormat('en-CA', {
-        style: 'currency',
-        currency: 'CAD',
-      }).format(crossedOutPrice)
-    : null;
+  const formattedPrice = formatCurrency(price);
+  const formattedCrossedPrice = crossedOutPrice ? formatCurrency(crossedOutPrice) : null;
 
   return (
     <div className="group bg-white rounded-2xl border border-gray-200 hover:border-[#801414]/40 hover:shadow-lg overflow-hidden flex flex-col justify-between h-full relative transition-all duration-300 p-3.5">

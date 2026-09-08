@@ -159,7 +159,7 @@ export default function AdminSettingsPage() {
           <div className="space-y-4">
             {/* Free Shipping threshold */}
             <div className="space-y-1.5">
-              <label className="text-[#101A2D] font-bold block mb-1">Free Delivery Threshold ($CAD) *</label>
+              <label className="text-[#101A2D] font-bold block mb-1">Free Delivery Threshold (LKR) *</label>
               <input
                 type="number"
                 name="freeDeliveryThreshold"

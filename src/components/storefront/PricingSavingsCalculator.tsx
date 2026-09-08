@@ -4,10 +4,11 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useTranslation } from '@/lib/i18n/LanguageContext';
 import { Percent, Sparkles, ArrowRight, ShieldCheck, Check } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/currency';
 
 export default function PricingSavingsCalculator() {
   const { t, language } = useTranslation();
-  const [selectedSpend, setSelectedSpend] = useState<number>(150);
+  const [selectedSpend, setSelectedSpend] = useState<number>(15000);
 
   // Savings calculations
   const normalPrice = selectedSpend;
@@ -42,23 +43,23 @@ export default function PricingSavingsCalculator() {
         <div className="bg-white/5 border border-white/10 backdrop-blur-md p-6 sm:p-8 rounded-2xl max-w-2xl mx-auto space-y-6">
           <div className="flex justify-between items-center text-xs sm:text-sm font-bold">
             <span className="text-gray-300">Estimated Monthly Shopping Volume:</span>
-            <span className="text-xl font-black text-[#FF8A80]">${selectedSpend} / month</span>
+            <span className="text-xl font-black text-[#FF8A80]">{formatCurrency(selectedSpend)} / month</span>
           </div>
 
           <input
             type="range"
-            min="50"
-            max="1000"
-            step="25"
+            min="5000"
+            max="100000"
+            step="2500"
             value={selectedSpend}
             onChange={(e) => setSelectedSpend(Number(e.target.value))}
             className="w-full h-2.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-[#E53935]"
           />
 
           <div className="flex justify-between text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">
-            <span>$50 / mo</span>
-            <span>$500 / mo</span>
-            <span>$1,000 / mo</span>
+            <span>LKR 5,000 / mo</span>
+            <span>LKR 50,000 / mo</span>
+            <span>LKR 100,000 / mo</span>
           </div>
         </div>
 
@@ -75,7 +76,7 @@ export default function PricingSavingsCalculator() {
               <p className="text-xs text-gray-400 font-semibold">Standard catalog prices with seasonal discounts and promotional vouchers.</p>
               
               <div className="pt-4 border-t border-white/10">
-                <span className="text-2xl font-black text-white">${normalPrice.toFixed(2)}</span>
+                <span className="text-2xl font-black text-white">{formatCurrency(normalPrice)}</span>
                 <span className="text-xs text-gray-400"> / month</span>
               </div>
             </div>
@@ -87,7 +88,7 @@ export default function PricingSavingsCalculator() {
               </li>
               <li className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Free delivery on $75+</span>
+                <span>Free delivery on LKR 7,500+</span>
               </li>
             </ul>
 
@@ -113,10 +114,10 @@ export default function PricingSavingsCalculator() {
               <p className="text-xs text-gray-300 font-semibold">Joined a local community group for instant tier discounts & targeted vouchers.</p>
               
               <div className="pt-4 border-t border-white/10">
-                <span className="text-3xl font-black text-emerald-400">${communityPrice.toFixed(2)}</span>
+                <span className="text-3xl font-black text-emerald-400">{formatCurrency(communityPrice)}</span>
                 <span className="text-xs text-gray-300"> / month</span>
                 <div className="text-[11px] text-emerald-400 font-extrabold mt-1">
-                  Save ${communitySavingsAnnual.toFixed(2)} / year
+                  Save {formatCurrency(communitySavingsAnnual)} / year
                 </div>
               </div>
             </div>
@@ -155,10 +156,10 @@ export default function PricingSavingsCalculator() {
               <p className="text-xs text-gray-400 font-semibold">Designed for retailers, restaurants, and high-volume commercial buyers.</p>
               
               <div className="pt-4 border-t border-white/10">
-                <span className="text-2xl font-black text-blue-300">${wholesalePrice.toFixed(2)}</span>
+                <span className="text-2xl font-black text-blue-300">{formatCurrency(wholesalePrice)}</span>
                 <span className="text-xs text-gray-400"> / month</span>
                 <div className="text-[11px] text-blue-300 font-extrabold mt-1">
-                  Save ${wholesaleSavingsAnnual.toFixed(2)} / year
+                  Save {formatCurrency(wholesaleSavingsAnnual)} / year
                 </div>
               </div>
             </div>

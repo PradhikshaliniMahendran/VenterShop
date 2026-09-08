@@ -17,8 +17,8 @@ const SettingSchema = new Schema<ISetting>(
   {
     storeName: { type: String, default: 'VENTERSHOP' },
     tagline: { type: String, default: 'Your Trusted Online Store for Quality Products' },
-    freeDeliveryThreshold: { type: Number, default: 75, min: 0 },
-    currency: { type: String, default: 'CAD' },
+    freeDeliveryThreshold: { type: Number, default: 7500, min: 0 },
+    currency: { type: String, default: 'LKR' },
     primaryEmail: { type: String, lowercase: true, trim: true },
     primaryPhone: { type: String, trim: true },
     address: { type: String },

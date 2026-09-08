@@ -29,7 +29,7 @@ function LoginContent() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
-  const [customerType, setCustomerType] = useState<'NORMAL' | 'COMMUNITY' | 'WHOLESALE'>('NORMAL');
+  const [customerType, setCustomerType] = useState('BUYER');
   const [prefLang, setPrefLang] = useState<'en' | 'ta'>('en');
   
   const [otp, setOtp] = useState('');
@@ -242,91 +242,33 @@ function LoginContent() {
           
           {/* Account Type Selection (Only for Register) */}
           {activeTab === 'register' && (
-            <div className="space-y-2 pt-1 pb-2">
+            <div className="space-y-1.5 pt-1 pb-1">
               <label className="text-gray-800 font-extrabold block text-xs">
-                Select Account Type *
+                Account Type (கணக்கு வகை) *
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                
-                {/* 1. Normal Customer */}
-                <button
-                  type="button"
-                  onClick={() => setCustomerType('NORMAL')}
-                  className={`p-3 rounded-xl border text-left flex flex-col justify-between transition-all relative ${
-                    customerType === 'NORMAL'
-                      ? 'border-[#1A2A4A] bg-blue-50/50 shadow-xs ring-1 ring-[#1A2A4A]'
-                      : 'border-gray-200 bg-gray-50 hover:bg-white hover:border-gray-300'
-                  }`}
+              <div className="relative">
+                <select
+                  value={customerType}
+                  onChange={(e) => setCustomerType(e.target.value)}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl outline-none focus:bg-white focus:border-[#801414] focus:ring-2 focus:ring-[#801414]/20 text-gray-900 font-bold text-xs appearance-none cursor-pointer"
                 >
-                  <div className="flex items-center justify-between w-full mb-1">
-                    <ShoppingBag className={`w-4 h-4 ${customerType === 'NORMAL' ? 'text-[#1A2A4A]' : 'text-gray-500'}`} />
-                    {customerType === 'NORMAL' && (
-                      <span className="w-4 h-4 bg-[#1A2A4A] text-white rounded-full flex items-center justify-center">
-                        <Check className="w-2.5 h-2.5" />
-                      </span>
-                    )}
-                  </div>
-                  <div>
-                    <span className="font-extrabold text-[#101A2D] text-xs block">Normal Buyer</span>
-                    <span className="text-[10px] text-gray-500 font-medium leading-tight block mt-0.5">
-                      Standard retail prices & delivery
-                    </span>
-                  </div>
-                </button>
-
-                {/* 2. Community Member */}
-                <button
-                  type="button"
-                  onClick={() => setCustomerType('COMMUNITY')}
-                  className={`p-3 rounded-xl border text-left flex flex-col justify-between transition-all relative ${
-                    customerType === 'COMMUNITY'
-                      ? 'border-emerald-600 bg-emerald-50/50 shadow-xs ring-1 ring-emerald-600'
-                      : 'border-gray-200 bg-gray-50 hover:bg-white hover:border-gray-300'
-                  }`}
-                >
-                  <div className="flex items-center justify-between w-full mb-1">
-                    <Users className={`w-4 h-4 ${customerType === 'COMMUNITY' ? 'text-emerald-600' : 'text-gray-500'}`} />
-                    {customerType === 'COMMUNITY' && (
-                      <span className="w-4 h-4 bg-emerald-600 text-white rounded-full flex items-center justify-center">
-                        <Check className="w-2.5 h-2.5" />
-                      </span>
-                    )}
-                  </div>
-                  <div>
-                    <span className="font-extrabold text-emerald-800 text-xs block">Community</span>
-                    <span className="text-[10px] text-gray-500 font-medium leading-tight block mt-0.5">
-                      Special group member savings
-                    </span>
-                  </div>
-                </button>
-
-                {/* 3. Wholesale Buyer */}
-                <button
-                  type="button"
-                  onClick={() => setCustomerType('WHOLESALE')}
-                  className={`p-3 rounded-xl border text-left flex flex-col justify-between transition-all relative ${
-                    customerType === 'WHOLESALE'
-                      ? 'border-[#E53935] bg-red-50/50 shadow-xs ring-1 ring-[#E53935]'
-                      : 'border-gray-200 bg-gray-50 hover:bg-white hover:border-gray-300'
-                  }`}
-                >
-                  <div className="flex items-center justify-between w-full mb-1">
-                    <Building2 className={`w-4 h-4 ${customerType === 'WHOLESALE' ? 'text-[#E53935]' : 'text-gray-500'}`} />
-                    {customerType === 'WHOLESALE' && (
-                      <span className="w-4 h-4 bg-[#E53935] text-white rounded-full flex items-center justify-center">
-                        <Check className="w-2.5 h-2.5" />
-                      </span>
-                    )}
-                  </div>
-                  <div>
-                    <span className="font-extrabold text-[#E53935] text-xs block">Wholesale</span>
-                    <span className="text-[10px] text-gray-500 font-medium leading-tight block mt-0.5">
-                      B2B & bulk tiered catalog
-                    </span>
-                  </div>
-                </button>
-
+                  <option value="BUYER">Buyer (Retail Consumer / வாங்குபவர்)</option>
+                  <option value="V2CC_PMS_MEMBER">V2CC-PMS Member (Community Member Pricing)</option>
+                  <option value="WHOLESALE_BUYER">Wholesale Buyer (Bulk B2B Pricing)</option>
+                  <option value="SELLER_SUPPLIER">Seller / Supplier (விற்பனையாளர் / சப்ளையர்)</option>
+                  <option value="PARTNER_STORE">Partner Store (பங்குதாரர் கடை)</option>
+                </select>
+                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500 text-xs">
+                  ▼
+                </div>
               </div>
+              <p className="text-[10px] text-gray-500 font-medium pt-0.5">
+                {customerType === 'BUYER' && 'Standard consumer retail ordering and doorstep delivery.'}
+                {customerType === 'V2CC_PMS_MEMBER' && 'Exclusive community member benefits & discounted tier pricing.'}
+                {customerType === 'WHOLESALE_BUYER' && 'High-volume wholesale catalog & bulk commercial rates.'}
+                {customerType === 'SELLER_SUPPLIER' && 'Register as merchant/supplier to distribute products.'}
+                {customerType === 'PARTNER_STORE' && 'Partner store franchise & integrated inventory point.'}
+              </p>
             </div>
           )}
 

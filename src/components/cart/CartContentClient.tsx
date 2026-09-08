@@ -17,6 +17,7 @@ import {
   ArrowRight,
   CheckCircle2,
 } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/currency';
 
 interface ICalculationItem {
   productId: string;
@@ -242,11 +243,11 @@ export default function CartContentClient() {
                     </h3>
                     <div className="flex items-baseline gap-2">
                       <span className="text-sm font-black text-[#801414]">
-                        ${item.finalPrice.toFixed(2)}
+                        {formatCurrency(item.finalPrice)}
                       </span>
                       {hasDiscount && (
                         <span className="text-[11px] text-gray-400 line-through">
-                          ${item.basePrice.toFixed(2)}
+                          {formatCurrency(item.basePrice)}
                         </span>
                       )}
                     </div>
@@ -282,8 +283,8 @@ export default function CartContentClient() {
 
                 {/* Subtotal & Delete button */}
                 <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto">
-                  <span className="text-sm font-black text-gray-900 sm:w-20 text-right">
-                    ${item.total.toFixed(2)}
+                  <span className="text-sm font-black text-gray-900 sm:w-28 text-right">
+                    {formatCurrency(item.total)}
                   </span>
                   <button
                     onClick={() => removeFromCart(item.productId)}
@@ -310,12 +311,12 @@ export default function CartContentClient() {
             <Truck className="w-5 h-5 shrink-0" />
             <div className="space-y-0.5">
               <p className="text-xs font-bold">
-                {isFreeDelivery ? 'Free Delivery Applied ($0.00)' : 'Standard Delivery ($12.50)'}
+                {isFreeDelivery ? 'Free Delivery Applied' : `Standard Delivery (${formatCurrency(calcResult.deliveryFee)})`}
               </p>
               <p className="text-[10px] font-medium opacity-90">
                 {isFreeDelivery
-                  ? 'Orders over $75 receive Free Delivery across Canada.'
-                  : 'Orders over $75 receive Free Delivery.'}
+                  ? `Orders over ${formatCurrency(calcResult.freeDeliveryThreshold || 7500)} receive Free Delivery across Sri Lanka.`
+                  : `Orders over ${formatCurrency(calcResult.freeDeliveryThreshold || 7500)} receive Free Delivery.`}
               </p>
             </div>
           </div>
@@ -330,7 +331,7 @@ export default function CartContentClient() {
             <div className="space-y-3 text-xs">
               <div className="flex justify-between text-gray-600 font-medium">
                 <span>{t('cartSubtotal')}</span>
-                <span className="font-bold text-gray-900">${calcResult.subtotal.toFixed(2)}</span>
+                <span className="font-bold text-gray-900">{formatCurrency(calcResult.subtotal)}</span>
               </div>
               
               {calcResult.itemDiscounts > 0 && (
@@ -339,7 +340,7 @@ export default function CartContentClient() {
                     <Percent className="w-3.5 h-3.5" />
                     Offers Discount
                   </span>
-                  <span>-${calcResult.itemDiscounts.toFixed(2)}</span>
+                  <span>-{formatCurrency(calcResult.itemDiscounts)}</span>
                 </div>
               )}
 
@@ -349,7 +350,7 @@ export default function CartContentClient() {
                     <Percent className="w-3.5 h-3.5" />
                     Voucher Discount
                   </span>
-                  <span>-${calcResult.voucherDiscount.toFixed(2)}</span>
+                  <span>-{formatCurrency(calcResult.voucherDiscount)}</span>
                 </div>
               )}
 
@@ -357,9 +358,9 @@ export default function CartContentClient() {
                 <span>Delivery Fee</span>
                 <span className="font-bold">
                   {isFreeDelivery ? (
-                    <span className="text-[#1B5E20] font-bold">FREE ($0.00)</span>
+                    <span className="text-[#1B5E20] font-bold">FREE</span>
                   ) : (
-                    `$${calcResult.deliveryFee.toFixed(2)}`
+                    formatCurrency(calcResult.deliveryFee)
                   )}
                 </span>
               </div>
@@ -368,7 +369,7 @@ export default function CartContentClient() {
               <div className="flex justify-between items-baseline pt-4 border-t border-gray-100">
                 <span className="text-sm font-black text-gray-900">{t('cartTotal')}</span>
                 <span className="text-2xl font-serif font-black text-[#801414]">
-                  ${calcResult.total.toFixed(2)}
+                  {formatCurrency(calcResult.total)}
                 </span>
               </div>
             </div>
@@ -384,7 +385,7 @@ export default function CartContentClient() {
                       CODE: {calcResult.appliedVoucher.code}
                     </p>
                     <p className="text-[10px] text-green-700 font-medium">
-                      Saved ${calcResult.appliedVoucher.discountAmount.toFixed(2)}
+                      Saved {formatCurrency(calcResult.appliedVoucher.discountAmount)}
                     </p>
                   </div>
                   <button

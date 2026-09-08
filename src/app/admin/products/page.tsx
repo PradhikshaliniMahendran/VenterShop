@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Package, Plus, Search, Edit, Trash2, CheckCircle, AlertTriangle } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/currency';
 
 interface ICategory {
   _id: string;
@@ -431,7 +432,7 @@ export default function AdminProductsPage() {
               
               {/* Retail price */}
               <div className="space-y-1">
-                <label className="text-[#101A2D] font-bold block mb-1">Retail Price ($CAD) *</label>
+                <label className="text-[#101A2D] font-bold block mb-1">Retail Price (LKR) *</label>
                 <input
                   type="number"
                   step="0.01"
@@ -445,7 +446,7 @@ export default function AdminProductsPage() {
 
               {/* Community price */}
               <div className="space-y-1">
-                <label className="text-[#101A2D] font-bold block mb-1">Community Price ($CAD)</label>
+                <label className="text-[#101A2D] font-bold block mb-1">Community Price (LKR)</label>
                 <input
                   type="number"
                   step="0.01"
@@ -458,7 +459,7 @@ export default function AdminProductsPage() {
 
               {/* Wholesale price */}
               <div className="space-y-1">
-                <label className="text-[#101A2D] font-bold block mb-1">Wholesale B2B Price ($CAD)</label>
+                <label className="text-[#101A2D] font-bold block mb-1">Wholesale B2B Price (LKR)</label>
                 <input
                   type="number"
                   step="0.01"
@@ -674,7 +675,7 @@ export default function AdminProductsPage() {
                       </td>
 
                       <td className="p-4 text-gray-500">{prod.categoryId?.name}</td>
-                      <td className="p-4 font-bold text-[#101A2D]">${prod.retailPrice.toFixed(2)}</td>
+                      <td className="p-4 font-bold text-[#101A2D]">{formatCurrency(prod.retailPrice)}</td>
                       
                       {/* Stock with Alert warnings */}
                       <td className="p-4">

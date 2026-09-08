@@ -20,7 +20,7 @@ export interface IUser extends Document {
   email: string;
   password: string;
   phone?: string;
-  customerType: 'NORMAL' | 'COMMUNITY' | 'WHOLESALE';
+  customerType: 'BUYER' | 'V2CC_PMS_MEMBER' | 'WHOLESALE_BUYER' | 'SELLER_SUPPLIER' | 'PARTNER_STORE' | 'NORMAL' | 'COMMUNITY' | 'WHOLESALE';
   status: 'ACTIVE' | 'SUSPENDED';
   profileImage?: string;
   communityId: mongoose.Types.ObjectId | null;
@@ -39,7 +39,7 @@ const AddressSchema = new Schema<IAddress>({
   city: { type: String, required: true },
   province: { type: String, required: true },
   postalCode: { type: String, required: true },
-  country: { type: String, default: 'Canada' },
+  country: { type: String, default: 'Sri Lanka' },
   phone: { type: String, required: true },
   addressType: { type: String, enum: ['Home', 'Business', 'Other'], default: 'Home' },
   isDefault: { type: Boolean, default: false },
@@ -52,7 +52,11 @@ const UserSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true, index: true, lowercase: true, trim: true },
     password: { type: String, required: true },
     phone: { type: String, trim: true },
-    customerType: { type: String, enum: ['NORMAL', 'COMMUNITY', 'WHOLESALE'], default: 'NORMAL' },
+    customerType: {
+      type: String,
+      enum: ['BUYER', 'V2CC_PMS_MEMBER', 'WHOLESALE_BUYER', 'SELLER_SUPPLIER', 'PARTNER_STORE', 'NORMAL', 'COMMUNITY', 'WHOLESALE'],
+      default: 'BUYER',
+    },
     status: { type: String, enum: ['ACTIVE', 'SUSPENDED'], default: 'ACTIVE' },
     profileImage: { type: String },
     communityId: { type: Schema.Types.ObjectId, ref: 'Community', default: null },

@@ -283,7 +283,7 @@ export default function ShopContent() {
           {/* Price Range Filter Block */}
           <div className="bg-white p-5 rounded-xl border border-gray-150 shadow-xs space-y-4">
             <h3 className="font-extrabold text-sm text-[#101A2D] uppercase tracking-wider border-b border-gray-100 pb-2">
-              {language === 'ta' ? 'விலை வரம்பு ($)' : 'Price Range ($)'}
+              {language === 'ta' ? 'விலை வரம்பு (LKR)' : 'Price Range (LKR)'}
             </h3>
             <form onSubmit={handleApplyPriceFilter} className="space-y-3">
               <div className="flex gap-2">

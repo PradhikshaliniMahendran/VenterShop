@@ -15,6 +15,7 @@ import {
   ChevronRight,
   ShieldCheck,
 } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/currency';
 import confetti from 'canvas-confetti';
 
 interface ICalculationItem {
@@ -491,10 +492,10 @@ export default function CheckoutContentClient() {
                           />
                           <div>
                             <p className="text-gray-900 font-bold line-clamp-1">{item.name}</p>
-                            <p className="text-[10px] text-gray-500">Qty: {item.quantity} • ${item.finalPrice.toFixed(2)}/unit</p>
+                            <p className="text-[10px] text-gray-500">Qty: {item.quantity} • {formatCurrency(item.finalPrice)}/unit</p>
                           </div>
                         </div>
-                        <span className="font-bold text-gray-900">${item.total.toFixed(2)}</span>
+                        <span className="font-bold text-gray-900">{formatCurrency(item.total)}</span>
                       </div>
                     ))}
                   </div>
@@ -534,20 +535,20 @@ export default function CheckoutContentClient() {
             <div className="space-y-3 text-xs">
               <div className="flex justify-between text-gray-600 font-medium">
                 <span>Items Subtotal</span>
-                <span className="font-bold text-gray-900">${calcResult.subtotal.toFixed(2)}</span>
+                <span className="font-bold text-gray-900">{formatCurrency(calcResult.subtotal)}</span>
               </div>
               
               {calcResult.itemDiscounts > 0 && (
                 <div className="flex justify-between text-[#1B5E20] font-bold">
                   <span>Offers Savings</span>
-                  <span>-${calcResult.itemDiscounts.toFixed(2)}</span>
+                  <span>-{formatCurrency(calcResult.itemDiscounts)}</span>
                 </div>
               )}
 
               {calcResult.voucherDiscount > 0 && (
                 <div className="flex justify-between text-[#1B5E20] font-bold">
                   <span>Voucher Savings ({calcResult.appliedVoucher?.code})</span>
-                  <span>-${calcResult.voucherDiscount.toFixed(2)}</span>
+                  <span>-{formatCurrency(calcResult.voucherDiscount)}</span>
                 </div>
               )}
 
@@ -555,9 +556,9 @@ export default function CheckoutContentClient() {
                 <span>Delivery Fee</span>
                 <span className="font-bold">
                   {isFreeDelivery ? (
-                    <span className="text-[#1B5E20] font-bold">FREE ($0.00)</span>
+                    <span className="text-[#1B5E20] font-bold">FREE</span>
                   ) : (
-                    `$${calcResult.deliveryFee.toFixed(2)}`
+                    formatCurrency(calcResult.deliveryFee)
                   )}
                 </span>
               </div>
@@ -569,14 +570,14 @@ export default function CheckoutContentClient() {
                   : 'bg-gray-50 text-gray-700 border border-gray-200'
               }`}>
                 {isFreeDelivery
-                  ? '🚚 Free Delivery applied (Orders over $75)'
-                  : '🚚 Standard Delivery ($12.50). Orders over $75 get Free Delivery.'}
+                  ? `🚚 Free Delivery applied (Orders over ${formatCurrency(calcResult.freeDeliveryThreshold || 7500)})`
+                  : `🚚 Delivery Fee: ${formatCurrency(calcResult.deliveryFee)}. Orders over ${formatCurrency(calcResult.freeDeliveryThreshold || 7500)} get Free Delivery.`}
               </div>
 
               <div className="flex justify-between items-baseline pt-4 border-t border-gray-100">
                 <span className="text-sm font-black text-gray-900">{t('cartTotal')}</span>
                 <span className="text-2xl font-serif font-black text-[#801414]">
-                  ${calcResult.total.toFixed(2)}
+                  {formatCurrency(calcResult.total)}
                 </span>
               </div>
             </div>

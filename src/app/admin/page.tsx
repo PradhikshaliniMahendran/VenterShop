@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   CheckCircle,
 } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/currency';
 
 interface IStatsMetrics {
   totalRevenue: number;
@@ -135,7 +136,7 @@ export default function AdminOverviewDashboard() {
             </div>
             <div>
               <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Total Sales Revenue</p>
-              <h4 className="text-xl font-black text-[#101A2D]">${metrics.totalRevenue.toFixed(2)}</h4>
+              <h4 className="text-xl font-black text-[#101A2D]">{formatCurrency(metrics.totalRevenue)}</h4>
             </div>
           </div>
 
@@ -300,7 +301,7 @@ export default function AdminOverviewDashboard() {
                   </div>
                   
                   <div className="flex items-center gap-3">
-                    <span className="text-[#101A2D] font-bold">${order.total.toFixed(2)}</span>
+                    <span className="text-[#101A2D] font-bold">{formatCurrency(order.total)}</span>
                     <span className={`inline-block px-2 py-0.5 border text-[9px] font-extrabold uppercase rounded-full ${getOrderStatusColor(order.orderStatus)}`}>
                       {order.orderStatus}
                     </span>

@@ -11,8 +11,8 @@ import TrustBadges from '@/components/storefront/TrustBadges';
 import Footer from '@/components/layout/Footer';
 
 export const metadata = {
-  title: 'VENTERSHOP - Your Trusted Online Store for Quality Products | Canada',
-  description: 'Free Delivery on Orders over $75 across Canada. Premium Groceries, Rani Animal Feed, Books, Electronics, and Daily Essentials.',
+  title: 'VENTERSHOP - Your Trusted Online Store for Quality Products | Sri Lanka',
+  description: 'Free Delivery on Orders over LKR 7,500. Premium Groceries, Rani Animal Feed, Books, Electronics, and Daily Essentials.',
 };
 
 export default function HomePage() {

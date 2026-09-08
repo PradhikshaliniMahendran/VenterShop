@@ -181,13 +181,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid or expired verification code. Please request a new code.' }, { status: 400 });
     }
 
-    const validatedCustomerType: 'NORMAL' | 'COMMUNITY' | 'WHOLESALE' =
-      requestedCustomerType === 'COMMUNITY' || requestedCustomerType === 'WHOLESALE'
-        ? requestedCustomerType
-        : 'NORMAL';
+    const allowedTypes = ['BUYER', 'V2CC_PMS_MEMBER', 'WHOLESALE_BUYER', 'SELLER_SUPPLIER', 'PARTNER_STORE', 'NORMAL', 'COMMUNITY', 'WHOLESALE'] as const;
+    type CustomerTypeUnion = typeof allowedTypes[number];
+    const validatedCustomerType: CustomerTypeUnion =
+      allowedTypes.includes(requestedCustomerType as any)
+        ? (requestedCustomerType as CustomerTypeUnion)
+        : 'BUYER';
 
     let userRole: 'CUSTOMER' | 'ADMIN' | 'SUPER_ADMIN' = 'CUSTOMER';
-    let customerType: 'NORMAL' | 'COMMUNITY' | 'WHOLESALE' | 'ADMIN' = validatedCustomerType;
+    let customerType: string = validatedCustomerType;
     let userId = 'usr_' + Date.now();
     const userFirstName = firstName?.trim() || 'Valued';
     const userLastName = lastName?.trim() || 'Customer';

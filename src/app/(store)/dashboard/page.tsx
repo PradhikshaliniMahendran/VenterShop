@@ -14,6 +14,7 @@ import {
   MapPin,
   Clock,
 } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/currency';
 
 interface IOrderSummary {
   _id: string;
@@ -148,11 +149,15 @@ export default function DashboardOverviewPage() {
               </span>
             </div>
             <p className="text-xs text-gray-500 font-semibold">
-              {user.customerType === 'WHOLESALE'
+              {user.customerType === 'WHOLESALE_BUYER' || user.customerType === 'WHOLESALE'
                 ? 'Welcome to your commercial wholesale portal. Exclusive bulk prices and quantity tiers are active on all items.'
-                : user.customerType === 'COMMUNITY'
-                ? 'Welcome back! Your community group discounts and targeted promotional vouchers are active.'
-                : 'Registered Customer Profile. Connect with a community group or apply for B2B status to unlock discounts.'}
+                : user.customerType === 'V2CC_PMS_MEMBER' || user.customerType === 'COMMUNITY'
+                ? 'Welcome back! Your V2CC-PMS community member discounts and targeted promotional vouchers are active.'
+                : user.customerType === 'SELLER_SUPPLIER'
+                ? 'Welcome to your Seller / Supplier portal. Manage your products and inventory supplies.'
+                : user.customerType === 'PARTNER_STORE'
+                ? 'Welcome to your Partner Store portal. Exclusive franchise retailer benefits are enabled.'
+                : 'Registered Buyer Profile. Connect with a community group or apply for B2B status to unlock discounts.'}
             </p>
           </div>
 
@@ -223,7 +228,7 @@ export default function DashboardOverviewPage() {
             </div>
             <div>
               <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{t('dashTotalSavings')}</p>
-              <h4 className="text-xl font-black text-emerald-700">${stats.totalSavings.toFixed(2)}</h4>
+              <h4 className="text-xl font-black text-emerald-700">{formatCurrency(stats.totalSavings)}</h4>
             </div>
           </div>
         </div>
@@ -321,7 +326,7 @@ export default function DashboardOverviewPage() {
                   <tr key={order._id} className="hover:bg-gray-50 font-semibold text-gray-700">
                     <td className="p-4 font-bold text-[#1A2A4A]">{order.orderNumber}</td>
                     <td className="p-4 text-gray-500">{formatDate(order.createdAt)}</td>
-                    <td className="p-4 font-bold text-[#101A2D]">${order.total.toFixed(2)}</td>
+                    <td className="p-4 font-bold text-[#101A2D]">{formatCurrency(order.total)}</td>
                     <td className="p-4">
                       <span className={`inline-block px-2.5 py-0.5 border text-[10px] font-extrabold uppercase rounded-full ${getStatusColor(order.orderStatus)}`}>
                         {order.orderStatus.replace(/_/g, ' ')}

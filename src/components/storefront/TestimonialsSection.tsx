@@ -33,8 +33,8 @@ export default function TestimonialsSection() {
       location: 'Vancouver, BC',
       rating: 5,
       comment: language === 'ta'
-        ? 'விலைப்பட்டியல் மிகவும் தெளிவாக உள்ளது. $75 மேல் இலவச டெலிவரி கிடைப்பது மிகவும் உதவியாக இருக்கிறது!'
-        : 'Fast shipping to BC and unbeatable prices on specialty items. Free delivery threshold over $75 makes it a no-brainer.',
+        ? 'விலைப்பட்டியல் மிகவும் தெளிவாக உள்ளது. LKR 7,500 மேல் இலவச டெலிவரி கிடைப்பது மிகவும் உதவியாக இருக்கிறது!'
+        : 'Fast shipping and unbeatable prices on specialty items. Free delivery threshold over LKR 7,500 makes it a no-brainer.',
       tier: 'Verified Shopper',
     },
   ];
