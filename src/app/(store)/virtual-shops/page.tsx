@@ -34,23 +34,23 @@ export default function VirtualShopsPage() {
   const shopsList = [
     {
       id: 'supermarket',
-      title: isTa ? 'வர்ச்சுவல் சூப்பர் மார்க்கெட்' : 'Virtual Supermarket',
-      subtitle: isTa ? 'மளிகை & அன்றாட அத்தியாவசிய பொருட்கள்' : 'Groceries, Spices & Daily Essentials',
+      title: isTa ? "பீப்பிள்ஸ் மல்டி ஷாப் (சூப்பர் மார்க்கெட்)" : "People's Multi Shop",
+      subtitle: isTa ? 'உறுப்பினர்களுக்கான சிறப்பு ஷாப்பிங் & சேவைகள்' : 'Special Shopping & Services for Members',
       desc: isTa
-        ? 'இலங்கையின் பாரம்பரிய மசாலாக்கள், பொன்னி அரிசி, பருப்பு, எண்ணெய் மற்றும் அனைத்து மளிகைப் பொருட்களையும் ஒரே இடத்தில் பெறுங்கள்.'
-        : 'Fresh groceries, authentic Ceylon spices, rice, pulses, and pantry essentials delivered direct to your doorstep.',
+        ? 'எங்கள் உறுப்பினர்களின் அன்றாட தேவைகள் மற்றும் விருப்பங்களின் அடிப்படையில் பிரத்யேக விலைகள் மற்றும் தேர்ந்தெடுக்கப்பட்ட பொருட்கள்.'
+        : 'Exclusive prices and selected products based on our members’ everyday needs and preferences.',
       icon: ShoppingBag,
       image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80',
-      badge: isTa ? 'பிரபலமானது' : 'Most Popular',
-      badgeColor: 'bg-[#007AFF] text-white',
-      cardBg: 'bg-[#EBF3FE]',
-      borderColor: 'border-[#D0E2FF]',
-      iconBg: 'bg-[#007AFF]',
-      titleColor: 'text-[#004085]',
+      badge: isTa ? 'உறுப்பினர் தேர்வு' : "Members' Choice",
+      badgeColor: 'bg-[#15793B] text-white',
+      cardBg: 'bg-[#EEF7F2]',
+      borderColor: 'border-[#C8E6D3]',
+      iconBg: 'bg-[#15793B]',
+      titleColor: 'text-[#15793B]',
       href: '/shop?category=groceries',
       features: isTa
-        ? ['பிரெஷ் மளிகை பொருட்கள்', 'மலிவு விலை', 'வீட்டு வாசலில் டெலிவரி']
-        : ['Fresh Produce & Spices', 'Competitive Pricing', 'Doorstep Delivery'],
+        ? ['மளிகை & தினசரி பொருட்கள்', 'உறுப்பினர்களின் தேர்வு', 'கோரிக்கைக்கேற்ப பொருட்கள் & சேவைகள்']
+        : ['Groceries & Daily Essentials', "Members' Choice Selection", 'Products on Request & Services'],
     },
     {
       id: 'shoe-shop',

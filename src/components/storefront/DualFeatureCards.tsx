@@ -34,22 +34,29 @@ export default function DualFeatureCards() {
           {/* 1. PEOPLE'S MULTI SHOP */}
           <div className="bg-[#EEF7F2] border border-[#C8E6D3] rounded-2xl p-5 sm:p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs hover:shadow-md transition-shadow">
             {/* Content */}
-            <div className="flex-1 space-y-3.5 text-left">
+            <div className="flex-1 space-y-3 text-left">
               <div className="flex items-start gap-3">
                 <div className="w-11 h-11 rounded-full bg-[#15793B] text-white flex items-center justify-center shrink-0 shadow-xs mt-0.5">
                   <ShoppingCart className="w-5 h-5" />
                 </div>
-                <div className="space-y-1">
-                  <h3 className="text-lg sm:text-xl font-black text-[#15793B] tracking-tight">
-                    {isTa ? "PEOPLE'S MULTI SHOP" : "PEOPLE'S MULTI SHOP"}
-                  </h3>
-                  <p className="text-xs text-gray-700 font-semibold leading-relaxed">
+                <div className="space-y-1.5">
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-black text-[#15793B] tracking-tight">
+                      PEOPLE&apos;S MULTI SHOP
+                    </h3>
+                    <p className="text-[11px] font-bold text-[#15793B]/90 uppercase tracking-wider">
+                      {isTa ? 'உறுப்பினர்களுக்கான சிறப்பு ஷாப்பிங் & சேவைகள்' : 'Special Shopping & Services for Members'}
+                    </p>
+                  </div>
+                  <p className="text-xs text-gray-800 font-bold leading-relaxed bg-[#DDF2E4] px-2.5 py-1 rounded-md border border-[#C2E7CE] inline-block">
                     {isTa
-                      ? 'மளிகை பொருட்கள் • தினசரி அத்தியாவசியங்கள் • வீட்டு தேவைகள் • தனிநபர் பராமரிப்பு • மேலும் பல...'
-                      : 'Groceries • Daily Essentials • Household • Personal Care • And More...'}
+                      ? 'மளிகை • உறுப்பினர்களின் தேர்வு • கோரிக்கைக்கேற்ப பொருட்கள் • சிறப்பு சேவைகள்'
+                      : 'Groceries • Members’ Choice • Products on Request • Special Services'}
                   </p>
-                  <p className="text-xs text-gray-500 font-medium italic">
-                    {isTa ? 'உங்கள் அன்றாட தேவைகளுக்கான தரமான பொருட்கள்.' : 'Quality products for your everyday needs.'}
+                  <p className="text-xs text-gray-600 font-medium leading-relaxed">
+                    {isTa
+                      ? 'எங்கள் உறுப்பினர்களின் அன்றாட தேவைகள் மற்றும் விருப்பங்களின் அடிப்படையில் பிரத்யேக விலைகள் மற்றும் தேர்ந்தெடுக்கப்பட்ட பொருட்கள்.'
+                      : 'Exclusive prices and selected products based on our members’ everyday needs and preferences.'}
                   </p>
                 </div>
               </div>
