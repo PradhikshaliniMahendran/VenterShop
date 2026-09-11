@@ -25,18 +25,19 @@ export default function VirtualShops() {
   const virtualShops = [
     {
       id: 'supermarket',
-      title: isTa ? "பீப்பிள்ஸ் மல்டி ஷாப்" : "People's Multi Shop",
-      desc: isTa ? 'உறுப்பினர்களுக்கான சிறப்பு மளிகை & சேவைகள்' : 'Special Member Groceries & Services',
+      title: isTa ? 'வர்ச்சுவல் சூப்பர் மார்க்கெட்' : 'Virtual Supermarket',
+      desc: isTa ? 'மளிகை & அன்றாட அத்தியாவசிய பொருட்கள்' : 'Groceries & Daily Essentials',
       icon: ShoppingBag,
       image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80',
-      cardBg: 'bg-[#EEF7F2]',
-      borderColor: 'border-[#C8E6D3]',
-      iconBg: 'bg-[#15793B]',
-      titleColor: 'text-[#15793B]',
-      descColor: 'text-[#2D5A3D]',
-      ctaColor: 'text-[#15793B]',
+      cardBg: 'bg-[#EBF3FE]',
+      borderColor: 'border-[#D0E2FF]',
+      iconBg: 'bg-[#007AFF]',
+      titleColor: 'text-[#004085]',
+      descColor: 'text-[#4A607A]',
+      ctaColor: 'text-[#007AFF]',
       href: '/shop?category=groceries',
       buttonText: isTa ? 'இப்போதே வாங்கு' : 'Shop Now',
+      isAvailable: true,
     },
     {
       id: 'shoe-shop',
@@ -49,14 +50,15 @@ export default function VirtualShops() {
       iconBg: 'bg-[#E11D48]',
       titleColor: 'text-[#881337]',
       descColor: 'text-[#7A4A56]',
-      ctaColor: 'text-[#E11D48]',
-      href: '/shop?category=footwear',
-      buttonText: isTa ? 'இப்போதே வாங்கு' : 'Shop Now',
+      ctaColor: 'text-gray-500',
+      href: '#',
+      buttonText: isTa ? 'விரைவில்' : 'Coming Soon',
+      isAvailable: false,
     },
     {
       id: 'book-shop',
-      title: isTa ? 'வர்ச்சுவல் புக் ஷாப்' : 'Virtual Book Shop',
-      desc: isTa ? 'புத்தகங்கள், எழுதுபொருட்கள் & கல்வி பொருட்கள்' : 'Books, Stationery & Educational Items',
+      title: isTa ? 'வர்ச்சுவல் புக் லேப்' : 'Virtual Book Lab',
+      desc: isTa ? 'புத்தகங்கள், எழுதுபொருட்கள் & கல்வி' : 'Books, Stationery & Educational Items',
       icon: BookOpen,
       image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#F0E6FF]',
@@ -65,8 +67,9 @@ export default function VirtualShops() {
       titleColor: 'text-[#4C1D95]',
       descColor: 'text-[#5E4A7A]',
       ctaColor: 'text-[#7C3AED]',
-      href: '/shop?category=books',
+      href: '/shop?category=books-stationery',
       buttonText: isTa ? 'இப்போதே வாங்கு' : 'Shop Now',
+      isAvailable: true,
     },
     {
       id: 'computer-center',
@@ -79,9 +82,10 @@ export default function VirtualShops() {
       iconBg: 'bg-[#0284C7]',
       titleColor: 'text-[#0369A1]',
       descColor: 'text-[#4A6B7A]',
-      ctaColor: 'text-[#0284C7]',
-      href: '/shop?category=computers',
-      buttonText: isTa ? 'இப்போதே வாங்கு' : 'Shop Now',
+      ctaColor: 'text-gray-500',
+      href: '#',
+      buttonText: isTa ? 'விரைவில்' : 'Coming Soon',
+      isAvailable: false,
     },
     {
       id: 'phone-shop',
@@ -94,9 +98,10 @@ export default function VirtualShops() {
       iconBg: 'bg-[#0F9D58]',
       titleColor: 'text-[#137333]',
       descColor: 'text-[#4A7A5A]',
-      ctaColor: 'text-[#0F9D58]',
-      href: '/shop?category=phones',
-      buttonText: isTa ? 'இப்போதே வாங்கு' : 'Shop Now',
+      ctaColor: 'text-gray-500',
+      href: '#',
+      buttonText: isTa ? 'விரைவில்' : 'Coming Soon',
+      isAvailable: false,
     },
     {
       id: 'fashion-store',
@@ -109,9 +114,10 @@ export default function VirtualShops() {
       iconBg: 'bg-[#F43F5E]',
       titleColor: 'text-[#9F1239]',
       descColor: 'text-[#7A4A56]',
-      ctaColor: 'text-[#F43F5E]',
-      href: '/shop?category=clothing',
-      buttonText: isTa ? 'இப்போதே வாங்கு' : 'Shop Now',
+      ctaColor: 'text-gray-500',
+      href: '#',
+      buttonText: isTa ? 'விரைவில்' : 'Coming Soon',
+      isAvailable: false,
     },
     {
       id: 'electronics-shop',
@@ -124,9 +130,10 @@ export default function VirtualShops() {
       iconBg: 'bg-[#D97706]',
       titleColor: 'text-[#B45309]',
       descColor: 'text-[#7A6B4A]',
-      ctaColor: 'text-[#D97706]',
-      href: '/shop?category=electronics',
-      buttonText: isTa ? 'இப்போதே வாங்கு' : 'Shop Now',
+      ctaColor: 'text-gray-500',
+      href: '#',
+      buttonText: isTa ? 'விரைவில்' : 'Coming Soon',
+      isAvailable: false,
     },
     {
       id: 'more-shops',
@@ -139,9 +146,10 @@ export default function VirtualShops() {
       iconBg: 'bg-[#6366F1]',
       titleColor: 'text-[#4338CA]',
       descColor: 'text-[#5E4A7A]',
-      ctaColor: 'text-[#6366F1]',
-      href: '/shop',
-      buttonText: isTa ? 'மேலும் பார்க்க' : 'View More',
+      ctaColor: 'text-gray-500',
+      href: '#',
+      buttonText: isTa ? 'விரைவில்' : 'Coming Soon',
+      isAvailable: false,
     },
   ];
 
@@ -178,7 +186,7 @@ export default function VirtualShops() {
           {/* Top Right "View All Shops" Button */}
           <div className="mt-3 sm:mt-0 sm:absolute sm:right-0 sm:top-1/2 sm:-translate-y-1/2">
             <Link
-              href="/shop"
+              href="/virtual-shops"
               className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-white border border-gray-300 text-xs font-bold text-gray-700 hover:text-[#990000] hover:border-[#990000] shadow-xs transition-all duration-200"
             >
               <span>{isTa ? 'அனைத்து கடைகளையும் காண்க' : 'View All Shops'}</span>
@@ -191,7 +199,7 @@ export default function VirtualShops() {
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
           {virtualShops.map((shop) => {
             const Icon = shop.icon;
-            return (
+            return shop.isAvailable ? (
               <Link
                 key={shop.id}
                 href={shop.href}
@@ -228,6 +236,42 @@ export default function VirtualShops() {
                   <ArrowRight className={`w-3 h-3 ${shop.ctaColor} group-hover:translate-x-0.5 transition-transform`} />
                 </div>
               </Link>
+            ) : (
+              <div
+                key={shop.id}
+                className={`relative ${shop.cardBg} border ${shop.borderColor} rounded-2xl p-3 flex flex-col items-center text-center justify-between min-h-[220px] overflow-hidden shadow-2xs select-none`}
+              >
+                {/* Top Image Showcase */}
+                <div className="relative w-full h-20 rounded-xl overflow-hidden shadow-xs mb-2 bg-white/50">
+                  <img
+                    src={shop.image}
+                    alt={shop.title}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Floating Icon Circle */}
+                  <div className={`absolute bottom-1 right-1 w-7 h-7 rounded-full ${shop.iconBg} text-white flex items-center justify-center shadow-md`}>
+                    <Icon className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+
+                {/* Title & Desc */}
+                <div className="space-y-1 my-1">
+                  <h3 className={`text-xs font-black ${shop.titleColor} leading-tight line-clamp-2`}>
+                    {shop.title}
+                  </h3>
+                  <p className={`text-[10px] font-semibold ${shop.descColor} leading-tight line-clamp-2`}>
+                    {shop.desc}
+                  </p>
+                </div>
+
+                {/* Bottom Center Disabled Indicator */}
+                <div className="mt-auto pt-2 flex items-center justify-center gap-1 text-[11px] font-bold text-gray-500">
+                  <span className="text-gray-500 font-bold">
+                    {shop.buttonText}
+                  </span>
+                  <ArrowRight className="w-3 h-3 text-gray-400" />
+                </div>
+              </div>
             );
           })}
         </div>

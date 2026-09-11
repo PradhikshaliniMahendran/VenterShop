@@ -34,23 +34,24 @@ export default function VirtualShopsPage() {
   const shopsList = [
     {
       id: 'supermarket',
-      title: isTa ? "பீப்பிள்ஸ் மல்டி ஷாப் (சூப்பர் மார்க்கெட்)" : "People's Multi Shop",
-      subtitle: isTa ? 'உறுப்பினர்களுக்கான சிறப்பு ஷாப்பிங் & சேவைகள்' : 'Special Shopping & Services for Members',
+      title: isTa ? 'வர்ச்சுவல் சூப்பர் மார்க்கெட்' : 'Virtual Supermarket',
+      subtitle: isTa ? 'மளிகை & அன்றாட அத்தியாவசிய பொருட்கள்' : 'Groceries, Spices & Daily Essentials',
       desc: isTa
-        ? 'எங்கள் உறுப்பினர்களின் அன்றாட தேவைகள் மற்றும் விருப்பங்களின் அடிப்படையில் பிரத்யேக விலைகள் மற்றும் தேர்ந்தெடுக்கப்பட்ட பொருட்கள்.'
-        : 'Exclusive prices and selected products based on our members’ everyday needs and preferences.',
+        ? 'இலங்கையின் பாரம்பரிய மசாலாக்கள், பொன்னி அரிசி, பருப்பு, எண்ணெய் மற்றும் அனைத்து மளிகைப் பொருட்களையும் ஒரே இடத்தில் பெறுங்கள்.'
+        : 'Fresh groceries, authentic Ceylon spices, rice, pulses, and pantry essentials delivered direct to your doorstep.',
       icon: ShoppingBag,
       image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80',
-      badge: isTa ? 'உறுப்பினர் தேர்வு' : "Members' Choice",
+      badge: isTa ? 'நேரலை' : 'Live Now',
       badgeColor: 'bg-[#15793B] text-white',
       cardBg: 'bg-[#EEF7F2]',
       borderColor: 'border-[#C8E6D3]',
       iconBg: 'bg-[#15793B]',
       titleColor: 'text-[#15793B]',
       href: '/shop?category=groceries',
+      isAvailable: true,
       features: isTa
-        ? ['மளிகை & தினசரி பொருட்கள்', 'உறுப்பினர்களின் தேர்வு', 'கோரிக்கைக்கேற்ப பொருட்கள் & சேவைகள்']
-        : ['Groceries & Daily Essentials', "Members' Choice Selection", 'Products on Request & Services'],
+        ? ['பிரெஷ் மளிகை பொருட்கள்', 'மலிவு விலை', 'வீட்டு வாசலில் டெலிவரி']
+        : ['Fresh Produce & Spices', 'Competitive Pricing', 'Doorstep Delivery'],
     },
     {
       id: 'shoe-shop',
@@ -61,136 +62,143 @@ export default function VirtualShopsPage() {
         : 'Trending collection of casual shoes, formal footwear, sandals, and sports slippers for all age groups.',
       icon: Footprints,
       image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80',
-      badge: isTa ? 'புதிய வரவு' : 'New Arrivals',
-      badgeColor: 'bg-[#E11D48] text-white',
+      badge: isTa ? 'விரைவில்' : 'Coming Soon',
+      badgeColor: 'bg-gray-700 text-white',
       cardBg: 'bg-[#FCE8ED]',
       borderColor: 'border-[#F8D2DC]',
       iconBg: 'bg-[#E11D48]',
       titleColor: 'text-[#881337]',
-      href: '/shop?category=footwear',
+      href: '#',
+      isAvailable: false,
       features: isTa
         ? ['சௌகரியமான வடிவமைப்பு', 'நீடித்து உழைக்கும் தரம்', 'பல்வேறு அளவுகள்']
         : ['Ergonomic Comfort', 'Durable Materials', 'All Sizes Available'],
     },
     {
       id: 'book-shop',
-      title: isTa ? 'வர்ச்சுவல் புக் ஷாப்' : 'Virtual Book Shop',
+      title: isTa ? 'வர்ச்சுவல் புக் லேப்' : 'Virtual Book Lab',
       subtitle: isTa ? 'புத்தகங்கள் & கல்வி பொருட்கள்' : 'Books, Stationery & Educational',
       desc: isTa
-        ? 'பள்ளி மற்றும் கல்லூரி புத்தகங்கள், நாவல்கள், தமிழ் இலக்கியங்கள், எழுதுபொருட்கள் மற்றும் அலுவலக பயன்பாட்டு பொருட்கள்.'
-        : 'Educational textbooks, Tamil literature, classic novels, stationery, and office supplies.',
+        ? 'பள்ளி மற்றும் கல்லூரி புத்தகங்கள், நாவல்கள், தமிழ் இலக்கியங்கள், எழுதுபொருட்கள் மற்றும் கல்வி உபகரணங்கள்.'
+        : 'Educational textbooks, stationery kits, Tamil & English literature, classic novels, and academic supplies.',
       icon: BookOpen,
       image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=600&q=80',
-      badge: isTa ? 'கல்வி' : 'Education',
+      badge: isTa ? 'நேரலை' : 'Live Now',
       badgeColor: 'bg-[#0D9488] text-white',
       cardBg: 'bg-[#E6F7F5]',
       borderColor: 'border-[#BCECE7]',
       iconBg: 'bg-[#0D9488]',
       titleColor: 'text-[#115E59]',
       href: '/shop?category=books-stationery',
+      isAvailable: true,
       features: isTa
         ? ['தமிழ் & ஆங்கில புத்தகங்கள்', 'பள்ளி எழுதுபொருட்கள்', 'பல்க் ஆர்டர் தள்ளுபடி']
         : ['Tamil & English Titles', 'Quality Stationery', 'Bulk School Orders'],
     },
     {
       id: 'computer-shop',
-      title: isTa ? 'வர்ச்சுவல் கம்ப்யூட்டர் ஷாப்' : 'Virtual Computer Shop',
+      title: isTa ? 'வர்ச்சுவல் கம்ப்யூட்டர் சென்டர்' : 'Virtual Computer Center',
       subtitle: isTa ? 'கணினிகள், லேப்டாப்கள் & பாகங்கள்' : 'Computers, Laptops & Components',
       desc: isTa
         ? 'லேப்டாப்கள், டெஸ்க்டாப் கம்ப்யூட்டர்கள், விசைப்பலகை, மவுஸ், மானிட்டர்கள் மற்றும் கணினி பாகங்கள்.'
         : 'High-performance laptops, desktop systems, monitors, gaming accessories, and PC hardware components.',
       icon: Laptop,
       image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80',
-      badge: isTa ? 'டெக்' : 'Tech Hub',
-      badgeColor: 'bg-[#7C3AED] text-white',
+      badge: isTa ? 'விரைவில்' : 'Coming Soon',
+      badgeColor: 'bg-gray-700 text-white',
       cardBg: 'bg-[#F3E8FF]',
       borderColor: 'border-[#E9D5FF]',
       iconBg: 'bg-[#7C3AED]',
       titleColor: 'text-[#581C87]',
-      href: '/shop?category=computers-laptops',
+      href: '#',
+      isAvailable: false,
       features: isTa
         ? ['அங்கீகரிக்கப்பட்ட உத்தரவாதம்', 'நவீன மாடல்கள்', 'தொழில்நுட்ப உதவி']
         : ['Genuine Warranty', 'Latest Specifications', 'Tech Support'],
     },
     {
       id: 'mobile-shop',
-      title: isTa ? 'வர்ச்சுவல் மொபைல் ஷாப்' : 'Virtual Mobile Shop',
+      title: isTa ? 'வர்ச்சுவல் மொபைல் ஷாப்' : 'Virtual Phone Shop',
       subtitle: isTa ? 'ஸ்மார்ட்போன்கள் & ஆக்சஸரீஸ்' : 'Smartphones, Gadgets & Accessories',
       desc: isTa
         ? 'ஸ்மார்ட்போன்கள், ஹெட்போன்கள், பவர் பேங்க்கள், சார்ஜர்கள் மற்றும் மொபைல் கவர்கள்.'
         : 'Smartphones, wireless earbuds, smartwatches, power banks, and essential phone accessories.',
       icon: Smartphone,
       image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80',
-      badge: isTa ? 'ஹாட் டீல்ஸ்' : 'Hot Deals',
-      badgeColor: 'bg-[#D97706] text-white',
+      badge: isTa ? 'விரைவில்' : 'Coming Soon',
+      badgeColor: 'bg-gray-700 text-white',
       cardBg: 'bg-[#FEF3C7]',
       borderColor: 'border-[#FDE68A]',
       iconBg: 'bg-[#D97706]',
       titleColor: 'text-[#78350F]',
-      href: '/shop?category=mobile-accessories',
+      href: '#',
+      isAvailable: false,
       features: isTa
         ? ['பிராண்டட் ஆக்சஸரீஸ்', 'வேகமான சார்ஜிங் தீர்வுகள்', 'நம்பகமான தரம்']
         : ['Branded Accessories', 'Fast Charging Kits', 'Verified Quality'],
     },
     {
       id: 'fashion-shop',
-      title: isTa ? 'வர்ச்சுவல் ஆடை கடை' : 'Virtual Fashion Shop',
+      title: isTa ? 'வர்ச்சுவல் ஆடை கடை' : 'Virtual Fashion Store',
       subtitle: isTa ? 'ஆடைகள், சேலைகள் & பேஷன்' : 'Clothing, Traditional & Modern Fashion',
       desc: isTa
         ? 'பாரம்பரிய பட்டுச் சேலைகள், குர்தாக்கள், டி-ஷர்ட்கள், ஜீன்ஸ் மற்றும் நவீன ஆடைகள்.'
         : 'Traditional silk sarees, ethnic wear, casual tees, denim, and trendy modern apparel collections.',
       icon: Shirt,
       image: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=600&q=80',
-      badge: isTa ? 'பேஷன்' : 'Trendy',
-      badgeColor: 'bg-[#C026D3] text-white',
+      badge: isTa ? 'விரைவில்' : 'Coming Soon',
+      badgeColor: 'bg-gray-700 text-white',
       cardBg: 'bg-[#FAE8FF]',
       borderColor: 'border-[#F5D0FE]',
       iconBg: 'bg-[#C026D3]',
       titleColor: 'text-[#701A75]',
-      href: '/shop?category=clothing-fashion',
+      href: '#',
+      isAvailable: false,
       features: isTa
         ? ['பாரம்பரிய & நவீன உடைகள்', 'பிரீமியம் துணி வகை', 'அனைத்து அளவுகள்']
         : ['Ethnic & Western Wear', 'Premium Fabrics', 'Complete Fit Range'],
     },
     {
       id: 'hardware-shop',
-      title: isTa ? 'வர்ச்சுவல் ஹார்ட்வேர்' : 'Virtual Hardware Store',
-      subtitle: isTa ? 'கருவிகள், உதிரிபாகங்கள் & உபகரணங்கள்' : 'Tools, Electrical & Hardware Supplies',
+      title: isTa ? 'வர்ச்சுவல் எலக்ட்ரானிக்ஸ் & ஹார்ட்வேர்' : 'Virtual Electronics & Hardware',
+      subtitle: isTa ? 'கருவிகள், உபகரணங்கள் & எலக்ட்ரானிக்ஸ்' : 'Appliances, Tools & Hardware Supplies',
       desc: isTa
-        ? 'வீட்டு பராமரிப்பு கருவிகள், எலக்ட்ரிக்கல் உதிரிபாகங்கள், பிளம்பிங் உபகரணங்கள் மற்றும் கட்டுமானப் பொருட்கள்.'
-        : 'Home improvement tools, electrical fittings, plumbing gear, and building hardware essentials.',
+        ? 'வீட்டு பராமரிப்பு கருவிகள், எலக்ட்ரிக்கல் உதிரிபாகங்கள், பிளம்பிங் உபகரணங்கள் மற்றும் வீட்டு உபயோக பொருட்கள்.'
+        : 'Home appliances, power tools, electrical fittings, plumbing gear, and building hardware essentials.',
       icon: Settings,
-      image: 'https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?auto=format&fit=crop&w=600&q=80',
-      badge: isTa ? 'தொழில்முறை' : 'Pro Grade',
-      badgeColor: 'bg-[#4B5563] text-white',
+      image: 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=600&q=80',
+      badge: isTa ? 'விரைவில்' : 'Coming Soon',
+      badgeColor: 'bg-gray-700 text-white',
       cardBg: 'bg-[#F3F4F6]',
       borderColor: 'border-[#E5E7EB]',
       iconBg: 'bg-[#4B5563]',
       titleColor: 'text-[#1F2937]',
-      href: '/shop?category=hardware-tools',
+      href: '#',
+      isAvailable: false,
       features: isTa
         ? ['உறுதியான கருவிகள்', 'பாதுகாப்பான உபகரணங்கள்', 'தொழில்துறை தரம்']
         : ['Heavy Duty Build', 'Safety Certified', 'Industrial Grade'],
     },
     {
       id: 'other-shops',
-      title: isTa ? 'ராணி கால்நடை தீவனங்கள்' : 'Rani Animal Feed',
-      subtitle: isTa ? 'உள்ளூர் விவசாயிகள் மற்றும் உற்பத்தியை ஆதரித்தல்' : 'Supporting Local Farmers & Production',
+      title: isTa ? 'மேலும் கடைகள் விரைவில்' : 'More Shops Coming Soon',
+      subtitle: isTa ? 'புதிய சிறப்பு கடைகள் விரைவில் இணையும்' : 'Specialty Categories & Brands',
       desc: isTa
-        ? 'உள்ளூர் விவசாயிகள், கால்நடைகள் மற்றும் நிலையான உற்பத்தியை ஆதரிக்கும் உயர்தர தீவனங்கள் மற்றும் பொருட்கள்.'
-        : 'Quality feed and products to support local farmers, livestock and sustainable production.',
+        ? 'விரைவில் மேலும் பல பிரத்யேக வர்ச்சுவல் கடைகள் VENTERSHOP தளத்தில் இணைக்கப்படவுள்ளன.'
+        : 'More exciting virtual shops and specialty partner brand stores will be launching soon.',
       icon: MoreHorizontal,
-      image: '/images/rani_animal_feed.jpg',
-      badge: isTa ? 'விவசாயம் & தீவனம்' : 'Feed & Farming',
-      badgeColor: 'bg-[#F95700] text-white',
-      cardBg: 'bg-[#FFF6ED]',
-      borderColor: 'border-[#FED7AA]',
-      iconBg: 'bg-[#F95700]',
-      titleColor: 'text-[#C2410C]',
-      href: '/shop?category=animal-feed',
+      image: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=600&q=80',
+      badge: isTa ? 'விரைவில்' : 'Coming Soon',
+      badgeColor: 'bg-gray-700 text-white',
+      cardBg: 'bg-[#EDE9FE]',
+      borderColor: 'border-[#DDD6FE]',
+      iconBg: 'bg-[#6366F1]',
+      titleColor: 'text-[#4338CA]',
+      href: '#',
+      isAvailable: false,
       features: isTa
-        ? ['கோழி & மாட்டு தீவனம்', 'கால்நடை & செல்லப்பிராணி உணவு', 'நிலையான விவசாய ஆதரவு']
-        : ['Poultry & Cattle Feed', 'Livestock & Pet Food', 'Sustainable Farming Support'],
+        ? ['புதிய கடைகள்', 'சிறப்பு தயாரிப்புகள்', 'பிரத்யேக சலுகைகள்']
+        : ['New Curated Shops', 'Exclusive Lines', 'Member Benefits'],
     },
   ];
 
@@ -242,8 +250,8 @@ export default function VirtualShopsPage() {
 
           <p className="text-xs sm:text-sm text-gray-300 font-medium max-w-2xl leading-relaxed">
             {isTa
-              ? 'சூப்பர் மார்க்கெட், ஷூ ஷாப், புக் ஷாப், கம்ப்யூட்டர் & மொபைல் சென்டர், பேஷன் மற்றும் ராணி கால்நடை தீவனங்கள் என உங்களுக்குத் தேவையான அனைத்துப் பொருட்களையும் உடனடியாகத் தேர்வு செய்து வாங்குங்கள்.'
-              : 'Discover dedicated shops curated for groceries, footwear, educational stationery, laptops, smartphones, fashion, hardware, and Rani animal feed — all under one single checkout.'}
+              ? 'சூப்பர் மார்க்கெட் மற்றும் புக் லேப் இப்போது நேரலையில் உள்ளது. பிற கடைகள் விரைவில் திறக்கப்படவுள்ளன.'
+              : 'Virtual Supermarket and Virtual Book Lab are live for shopping now. Additional specialty shops are launching soon.'}
           </p>
         </div>
       </section>
@@ -303,13 +311,22 @@ export default function VirtualShopsPage() {
 
                   {/* Action Link Button */}
                   <div className="pt-4">
-                    <Link
-                      href={shop.href}
-                      className="w-full py-2.5 px-4 bg-white hover:bg-black hover:text-white text-gray-900 border border-gray-300 rounded-xl font-extrabold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-2xs group-hover:border-black"
-                    >
-                      <span>{isTa ? 'கடையைப் பார்க்க' : 'Enter Shop'}</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
+                    {shop.isAvailable ? (
+                      <Link
+                        href={shop.href}
+                        className="w-full py-2.5 px-4 bg-[#15793B] hover:bg-[#0E5428] text-white rounded-xl font-extrabold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
+                      >
+                        <span>{isTa ? 'இப்போதே வாங்கு' : 'Shop Now'}</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    ) : (
+                      <div
+                        className="w-full py-2.5 px-4 bg-gray-200 text-gray-600 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-not-allowed select-none"
+                      >
+                        <span>{isTa ? 'விரைவில்' : 'Coming Soon'}</span>
+                        <ArrowRight className="w-4 h-4 text-gray-400" />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
