@@ -87,7 +87,7 @@ export default function PromoBanners() {
 
                 {/* CTA Action Button */}
                 <Link
-                  href="/shop?voucher=student"
+                  href="/vouchers#student"
                   className="w-full py-2 px-3 bg-[#0066E6] hover:bg-[#0052B8] text-white text-xs font-bold rounded-full flex items-center justify-center gap-1.5 shadow-sm hover:shadow transition-all text-center"
                 >
                   <span>{isTa ? 'மாணவர் வவுச்சரைப் பயன்படுத்துக' : 'Use Student Voucher'}</span>
@@ -124,7 +124,7 @@ export default function PromoBanners() {
 
                 {/* CTA Action Button */}
                 <Link
-                  href="/dashboard/vouchers"
+                  href="/vouchers#family"
                   className="w-full py-2 px-3 bg-white hover:bg-gray-50 text-[#0066E6] border border-[#0066E6]/30 text-xs font-bold rounded-full flex items-center justify-center gap-1.5 shadow-2xs hover:shadow-xs transition-all text-center"
                 >
                   <span>{isTa ? 'விபரங்களைப் பார்க்க' : 'View Details'}</span>
