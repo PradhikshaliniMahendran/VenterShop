@@ -174,23 +174,23 @@ export default function VirtualShopsPage() {
     },
     {
       id: 'other-shops',
-      title: isTa ? 'பிற சிறப்பு கடைகள்' : 'Other Specialty Shops',
-      subtitle: isTa ? 'ராணி தீவனங்கள், ஆயுர்வேதம் & மேலும்' : 'Rani Feed, Ayurvedic & General Supplies',
+      title: isTa ? 'ராணி கால்நடை தீவனங்கள்' : 'Rani Animal Feed',
+      subtitle: isTa ? 'உள்ளூர் விவசாயிகள் மற்றும் உற்பத்தியை ஆதரித்தல்' : 'Supporting Local Farmers & Production',
       desc: isTa
-        ? 'ராணி கால்நடை தீவனங்கள், ஆயுர்வேத மருந்துகள், கைவினைப் பொருட்கள் மற்றும் பலவித சிறப்பு தயாரிப்புகள்.'
-        : 'Rani Animal Nutrition Feed, herbal ayurvedic remedies, Sri Lankan handicrafts, and specialized lifestyle goods.',
+        ? 'உள்ளூர் விவசாயிகள், கால்நடைகள் மற்றும் நிலையான உற்பத்தியை ஆதரிக்கும் உயர்தர தீவனங்கள் மற்றும் பொருட்கள்.'
+        : 'Quality feed and products to support local farmers, livestock and sustainable production.',
       icon: MoreHorizontal,
-      image: 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=600&q=80',
-      badge: isTa ? 'சிறப்பு' : 'Specialty',
-      badgeColor: 'bg-[#801414] text-white',
-      cardBg: 'bg-[#FDF2F2]',
-      borderColor: 'border-[#FDE2E2]',
-      iconBg: 'bg-[#801414]',
-      titleColor: 'text-[#801414]',
-      href: '/shop',
+      image: '/images/rani_animal_feed.jpg',
+      badge: isTa ? 'விவசாயம் & தீவனம்' : 'Feed & Farming',
+      badgeColor: 'bg-[#F95700] text-white',
+      cardBg: 'bg-[#FFF6ED]',
+      borderColor: 'border-[#FED7AA]',
+      iconBg: 'bg-[#F95700]',
+      titleColor: 'text-[#C2410C]',
+      href: '/shop?category=animal-feed',
       features: isTa
-        ? ['ராணி தீவனங்கள்', 'ஆயுர்வேத பொருட்கள்', 'ஏற்றுமதி தர தயாரிப்புகள்']
-        : ['Rani Feed Supplies', 'Ayurvedic Wellness', 'Export Ready Goods'],
+        ? ['கோழி & மாட்டு தீவனம்', 'கால்நடை & செல்லப்பிராணி உணவு', 'நிலையான விவசாய ஆதரவு']
+        : ['Poultry & Cattle Feed', 'Livestock & Pet Food', 'Sustainable Farming Support'],
     },
   ];
 

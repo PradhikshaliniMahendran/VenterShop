@@ -86,22 +86,29 @@ export default function DualFeatureCards() {
           {/* 2. RANI ANIMAL FEED */}
           <div className="bg-[#FFF6ED] border border-[#FED7AA] rounded-2xl p-5 sm:p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs hover:shadow-md transition-shadow">
             {/* Content */}
-            <div className="flex-1 space-y-3.5 text-left">
+            <div className="flex-1 space-y-3 text-left">
               <div className="flex items-start gap-3">
                 <div className="w-11 h-11 rounded-full bg-[#F95700] text-white flex items-center justify-center shrink-0 shadow-xs mt-0.5">
                   <PawPrint className="w-5 h-5" />
                 </div>
-                <div className="space-y-1">
-                  <h3 className="text-lg sm:text-xl font-black text-[#F95700] tracking-tight">
-                    {isTa ? 'RANI ANIMAL FEED' : 'RANI ANIMAL FEED'}
-                  </h3>
-                  <p className="text-xs text-gray-700 font-semibold leading-relaxed">
+                <div className="space-y-1.5">
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-black text-[#F95700] tracking-tight">
+                      RANI ANIMAL FEED
+                    </h3>
+                    <p className="text-[11px] font-bold text-[#F95700]/90 uppercase tracking-wider">
+                      {isTa ? 'உள்ளூர் விவசாயிகள் மற்றும் உற்பத்தியை ஆதரித்தல்' : 'Supporting Local Farmers & Production'}
+                    </p>
+                  </div>
+                  <p className="text-xs text-gray-800 font-bold leading-relaxed bg-[#FFEAD6] px-2.5 py-1 rounded-md border border-[#FED7AA] inline-block">
                     {isTa
                       ? 'கோழி தீவனம் • மாட்டு தீவனம் • கால்நடை • செல்லப்பிராணி உணவு • மேலும் பல...'
                       : 'Poultry Feed • Cattle Feed • Livestock • Pet Food • And More...'}
                   </p>
-                  <p className="text-xs text-gray-500 font-medium italic">
-                    {isTa ? 'ஆரோக்கியமான விலங்குகள், சிறந்த நாளை.' : 'Healthy Animals, Better Tomorrow.'}
+                  <p className="text-xs text-gray-600 font-medium leading-relaxed">
+                    {isTa
+                      ? 'உள்ளூர் விவசாயிகள், கால்நடைகள் மற்றும் நிலையான உற்பத்தியை ஆதரிக்கும் உயர்தர தீவனங்கள் மற்றும் பொருட்கள்.'
+                      : 'Quality feed and products to support local farmers, livestock and sustainable production.'}
                   </p>
                 </div>
               </div>
