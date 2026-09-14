@@ -8,6 +8,7 @@ import { ShoppingCart, CheckCircle2, MapPin, Store } from 'lucide-react';
 export default function Hero() {
   const { language } = useTranslation();
   const isTa = language === 'ta';
+  const isSi = language === 'si';
 
   return (
     <div className="w-full bg-[#FCFAF7] border-b border-gray-100">
@@ -20,10 +21,10 @@ export default function Hero() {
             {/* Top Sub-taglines */}
             <div className="space-y-1">
               <p className="text-sm sm:text-base font-bold text-gray-700 tracking-tight">
-                {isTa ? 'ஷாப்பிங் வாய்ப்புகளை சந்திக்கும் இடம்.' : 'Where Shopping Meets Opportunity.'}
+                {isTa ? 'ஷாப்பிங் வாய்ப்புகளை சந்திக்கும் இடம்.' : isSi ? 'සාප්පු සවාරිය අවස්ථාවන් සමඟ හමුවන ස්ථානය.' : 'Where Shopping Meets Opportunity.'}
               </p>
               <p className="text-sm sm:text-base font-bold text-gray-700 tracking-tight">
-                {isTa ? 'யோசனைகள் வணிகங்களாக மாறும் இடம்.' : 'Where Ideas Become Businesses.'}
+                {isTa ? 'யோசனைகள் வணிகங்களாக மாறும் இடம்.' : isSi ? 'අදහස් ව්‍යාපාර බවට පත්වන ස්ථානය.' : 'Where Ideas Become Businesses.'}
               </p>
             </div>
 
@@ -36,6 +37,8 @@ export default function Hero() {
             <p className="text-xs sm:text-sm text-gray-600 font-medium leading-relaxed max-w-lg">
               {isTa
                 ? 'தயாரிப்புகளைக் கண்டறியவும், வர்ச்சுவல் கடைகளை ஆராயவும், வாய்ப்புகளுக்காக உருவாக்கப்பட்ட சந்தையுடன் வளரவும்.'
+                : isSi
+                ? 'නිෂ්පාදන සොයා ගන්න, වර්චුවල් සාප්පු ගවේෂණය කරන්න, සහ නව අවස්ථා සමඟ වර්ධනය වන්න.'
                 : 'Discover products, explore virtual shops, and grow with a marketplace built for opportunity.'}
             </p>
 
@@ -43,15 +46,15 @@ export default function Hero() {
             <div className="space-y-2 pt-1 text-xs sm:text-sm font-semibold text-gray-800">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-[#801414] shrink-0 fill-red-50" />
-                <span>{isTa ? 'பரந்த அளவிலான தயாரிப்புகள்' : 'Wide Range of Products'}</span>
+                <span>{isTa ? 'பரந்த அளவிலான தயாரிப்புகள்' : isSi ? 'පුළුල් පරාසයක නිෂ්පාදන' : 'Wide Range of Products'}</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-[#801414] shrink-0 fill-red-50" />
-                <span>{isTa ? 'தொழில்முனைவோருக்கான வர்ச்சுவல் கடைகள்' : 'Virtual Shops for Entrepreneurs'}</span>
+                <span>{isTa ? 'தொழில்முனைவோருக்கான வர்ச்சுவல் கடைகள்' : isSi ? 'ව්‍යවසායකයින් සඳහා වර්චුවල් සාප්පු' : 'Virtual Shops for Entrepreneurs'}</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-[#801414] shrink-0 fill-red-50" />
-                <span>{isTa ? 'வாங்குபவர்களையும் விற்பனையாளர்களையும் இணைத்தல்' : 'Connecting Buyers & Sellers'}</span>
+                <span>{isTa ? 'வாங்குபவர்களையும் விற்பனையாளர்களையும் இணைத்தல்' : isSi ? 'මිලදී ගන්නන් සහ විකුණුම්කරුවන් සම්බන්ධ කිරීම' : 'Connecting Buyers & Sellers'}</span>
               </div>
             </div>
 
@@ -62,7 +65,7 @@ export default function Hero() {
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-xs font-bold text-white bg-[#801414] hover:bg-[#630f0f] transition-all shadow-md transform hover:-translate-y-0.5 active:scale-98"
               >
                 <Store className="w-4 h-4" />
-                <span>{isTa ? 'கடைகளை ஆராய்க' : 'Explore Shops'}</span>
+                <span>{isTa ? 'கடைகளை ஆராய்க' : isSi ? 'සාප්පු ගවේෂණය කරන්න' : 'Explore Shops'}</span>
               </Link>
 
               <Link
@@ -70,7 +73,7 @@ export default function Hero() {
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-xs font-bold text-white bg-[#1B5E20] hover:bg-[#144718] transition-all shadow-md transform hover:-translate-y-0.5 active:scale-98"
               >
                 <ShoppingCart className="w-4 h-4" />
-                <span>{isTa ? 'மளிகை பொருட்கள் வாங்க' : 'Shop Groceries'}</span>
+                <span>{isTa ? 'மளிகை பொருட்கள் வாங்க' : isSi ? 'මළික ද්‍රව්‍ය මිලදී ගන්න' : 'Shop Groceries'}</span>
               </Link>
             </div>
           </div>
@@ -92,7 +95,7 @@ export default function Hero() {
       <div className="w-full bg-[#FAF5EE] border-t border-b border-amber-100/60 py-2 px-4 text-center">
         <p className="text-xs sm:text-sm font-semibold text-amber-900 flex items-center justify-center gap-1.5">
           <MapPin className="w-4 h-4 text-[#801414] shrink-0" />
-          <span>{isTa ? 'இலங்கை முழுவதும் இல்லங்களுக்கு விநியோகம்.' : 'Delivering across Sri Lanka.'}</span>
+          <span>{isTa ? 'இலங்கை முழுவதும் இல்லங்களுக்கு விநியோகம்.' : isSi ? 'ශ්‍රී ලංකාව පුරාම නිවසටම බෙදාහැරීම.' : 'Delivering across Sri Lanka.'}</span>
         </p>
       </div>
     </div>

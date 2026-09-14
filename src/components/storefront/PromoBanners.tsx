@@ -8,6 +8,7 @@ import { ArrowRight, Gift, Percent, GraduationCap, Home } from 'lucide-react';
 export default function PromoBanners() {
   const { language } = useTranslation();
   const isTa = language === 'ta';
+  const isSi = language === 'si';
 
   return (
     <section className="py-6 sm:py-8 bg-white font-sans">
@@ -38,10 +39,10 @@ export default function PromoBanners() {
               {/* Title & Description */}
               <div className="space-y-1.5 flex-1">
                 <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight uppercase leading-tight">
-                  {isTa ? 'சமூக பரிசு வவுச்சர்கள்' : 'COMMUNITY GIFT VOUCHERS'}
+                  {isTa ? 'சமூக பரிசு வவுச்சர்கள்' : isSi ? 'සමූහ ත්‍යාග වවුචර' : 'COMMUNITY GIFT VOUCHERS'}
                 </h3>
                 <p className="text-xs sm:text-sm font-bold text-white/95">
-                  {isTa ? 'கல்வி மற்றும் சமூகப் பராமரிப்பிற்கு ஆதரவளித்தல்' : 'Supporting Education & Community Care'}
+                  {isTa ? 'கல்வி மற்றும் சமூகப் பராமரிப்பிற்கு ஆதரவளித்தல்' : isSi ? 'අධ්‍යාපනය සහ සමාජ සුභසාධනය සඳහා සහය වීම' : 'Supporting Education & Community Care'}
                 </p>
                 
                 {/* Yellow Underline Accent */}
@@ -50,6 +51,8 @@ export default function PromoBanners() {
                 <p className="text-[11px] sm:text-xs text-red-100/90 font-medium leading-relaxed pt-0.5">
                   {isTa
                     ? 'எங்கள் சமூகத் திட்டங்கள் மூலம் வழங்கப்படும் பரிசு வவுச்சர்கள் மாணவர்கள் மற்றும் குடும்பங்கள் VENTERSHOP மூலம் அத்தியாவசிய பொருட்களைப் பெற உதவுகின்றன.'
+                    : isSi
+                    ? 'අපගේ සමූහ වැඩසටහන් හරහා ලබා දෙන ත්‍යාග වවුචර මගින් සිසුන්ට සහ පවුල්වලට VENTERSHOP හරහා අවශ්‍ය ද්‍රව්‍ය ලබා ගැනීමට උපකාරී වේ.'
                     : 'Gift vouchers provided through our community programmes help students and families access essential items through VENTERSHOP.'}
                 </p>
               </div>
@@ -67,7 +70,7 @@ export default function PromoBanners() {
                   </div>
                   <div className="space-y-0.5 min-w-0">
                     <h4 className="text-xs sm:text-sm font-black text-[#003B7A] leading-tight truncate">
-                      {isTa ? 'மாணவர் பரிசு வவுச்சர்' : 'Student Gift Voucher'}
+                      {isTa ? 'மாணவர் பரிசு வவுச்சர்' : isSi ? 'ශිෂ්‍ය ත්‍යාග වවුචරය' : 'Student Gift Voucher'}
                     </h4>
                     <p className="text-[10px] text-gray-500 font-semibold">Supported by</p>
                     <span className="inline-block bg-[#E8F1FD] text-[#0055D4] text-[9px] font-extrabold px-2 py-0.5 rounded-md truncate max-w-full">
@@ -90,7 +93,7 @@ export default function PromoBanners() {
                   href="/vouchers#student"
                   className="w-full py-2 px-3 bg-[#0066E6] hover:bg-[#0052B8] text-white text-xs font-bold rounded-full flex items-center justify-center gap-1.5 shadow-sm hover:shadow transition-all text-center"
                 >
-                  <span>{isTa ? 'மாணவர் வவுச்சரைப் பயன்படுத்துக' : 'Use Student Voucher'}</span>
+                  <span>{isTa ? 'மாணவர் வவுச்சரைப் பயன்படுத்துக' : isSi ? 'ශිෂ්‍ය වවුචරය භාවිතා කරන්න' : 'Use Student Voucher'}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
@@ -104,7 +107,7 @@ export default function PromoBanners() {
                   </div>
                   <div className="space-y-0.5 min-w-0">
                     <h4 className="text-xs sm:text-sm font-black text-[#0E703C] leading-tight truncate">
-                      {isTa ? 'குடும்ப ஆதரவு வவுச்சர்' : 'Family Support Voucher'}
+                      {isTa ? 'குடும்ப ஆதரவு வவுச்சர்' : isSi ? 'පවුලේ සහන වවුචරය' : 'Family Support Voucher'}
                     </h4>
                     <p className="text-[10px] text-gray-500 font-semibold">Supported by</p>
                     <span className="inline-block bg-[#E8F8EE] text-[#0E703C] text-[9px] font-extrabold px-2 py-0.5 rounded-md truncate max-w-full">
@@ -127,7 +130,7 @@ export default function PromoBanners() {
                   href="/vouchers#family"
                   className="w-full py-2 px-3 bg-white hover:bg-gray-50 text-[#0066E6] border border-[#0066E6]/30 text-xs font-bold rounded-full flex items-center justify-center gap-1.5 shadow-2xs hover:shadow-xs transition-all text-center"
                 >
-                  <span>{isTa ? 'விபரங்களைப் பார்க்க' : 'View Details'}</span>
+                  <span>{isTa ? 'விபரங்களைப் பார்க்க' : isSi ? 'විස්තර බලන්න' : 'View Details'}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>

@@ -8,6 +8,7 @@ import { ShoppingCart, PawPrint, ArrowRight } from 'lucide-react';
 export default function DualFeatureCards() {
   const { language } = useTranslation();
   const isTa = language === 'ta';
+  const isSi = language === 'si';
 
   return (
     <section className="py-8 sm:py-12 bg-white border-b border-gray-100">
@@ -16,14 +17,16 @@ export default function DualFeatureCards() {
         {/* Section Header */}
         <div className="text-center space-y-1">
           <span className="text-[11px] font-extrabold tracking-wider text-[#990000] uppercase block">
-            {isTa ? 'எங்களின் சிறப்பு கடைகள் & சேவைகள்' : 'OUR FEATURED SHOPS & SERVICES'}
+            {isTa ? 'எங்களின் சிறப்பு கடைகள் & சேவைகள்' : isSi ? 'අපගේ විශේෂිත සාප්පු සහ සේවාවන්' : 'OUR FEATURED SHOPS & SERVICES'}
           </span>
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-gray-900 tracking-tight">
-            {isTa ? 'VENTERSHOP இல் எங்களின் சிறப்பு கடைகளை ஆராயுங்கள்' : 'Explore Our Special Shops on VENTERSHOP'}
+            {isTa ? 'VENTERSHOP இல் எங்களின் சிறப்பு கடைகளை ஆராயுங்கள்' : isSi ? 'VENTERSHOP හි අපගේ විශේෂ සාප්පු ගවේෂණය කරන්න' : 'Explore Our Special Shops on VENTERSHOP'}
           </h2>
           <p className="text-xs sm:text-sm font-semibold text-gray-500">
             {isTa
               ? 'முக்கிய பொருட்கள், சிறப்பு உறுப்பினர் சேவைகள் மற்றும் பல – ஒரே தளத்தில்'
+              : isSi
+              ? 'ප්‍රධාන නිෂ්පාදන, විශේෂ සාමාජික සේවා සහ තවත් බොහෝ දේ - එකම වේදිකාවකින්'
               : 'Key Products, Special Member Services & More – All in One Platform'}
           </p>
         </div>
@@ -45,17 +48,21 @@ export default function DualFeatureCards() {
                       PEOPLE&apos;S MULTI SHOP
                     </h3>
                     <p className="text-[11px] font-bold text-[#15793B]/90 uppercase tracking-wider">
-                      {isTa ? 'உறுப்பினர்களுக்கான சிறப்பு ஷாப்பிங் & சேவைகள்' : 'Special Shopping & Services for Members'}
+                      {isTa ? 'உறுப்பினர்களுக்கான சிறப்பு ஷாப்பிங் & சேவைகள்' : isSi ? 'සාමාජිකයින් සඳහා විශේෂ සාප්පු සවාරි සහ සේවා' : 'Special Shopping & Services for Members'}
                     </p>
                   </div>
                   <p className="text-xs text-gray-800 font-bold leading-relaxed bg-[#DDF2E4] px-2.5 py-1 rounded-md border border-[#C2E7CE] inline-block">
                     {isTa
                       ? 'மளிகை • உறுப்பினர்களின் தேர்வு • கோரிக்கைக்கேற்ப பொருட்கள் • சிறப்பு சேவைகள்'
+                      : isSi
+                      ? 'මළික ද්‍රව්‍ය • සාමාජික තේරීම් • ඉල්ලුම් කරන නිෂ්පාදන • විශේෂ සේවා'
                       : 'Groceries • Members’ Choice • Products on Request • Special Services'}
                   </p>
                   <p className="text-xs text-gray-600 font-medium leading-relaxed">
                     {isTa
                       ? 'எங்கள் உறுப்பினர்களின் அன்றாட தேவைகள் மற்றும் விருப்பங்களின் அடிப்படையில் பிரத்யேக விலைகள் மற்றும் தேர்ந்தெடுக்கப்பட்ட பொருட்கள்.'
+                      : isSi
+                      ? 'අපගේ සාමාජිකයින්ගේ එදිනෙදා අවශ්‍යතා මත පදනම් වූ විශේෂිත මිල ගණන් සහ තෝරාගත් නිෂ්පාදන.'
                       : 'Exclusive prices and selected products based on our members’ everyday needs and preferences.'}
                   </p>
                 </div>
@@ -67,7 +74,7 @@ export default function DualFeatureCards() {
                   href="/shop?category=groceries"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#15793B] hover:bg-[#0E5428] transition-all shadow-sm group"
                 >
-                  <span>{isTa ? 'இப்போதே வாங்கு' : 'Shop Now'}</span>
+                  <span>{isTa ? 'இப்போதே வாங்கு' : isSi ? 'දැන් මිලදී ගන්න' : 'Shop Now'}</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
@@ -97,17 +104,21 @@ export default function DualFeatureCards() {
                       RANI ANIMAL FEED
                     </h3>
                     <p className="text-[11px] font-bold text-[#F95700]/90 uppercase tracking-wider">
-                      {isTa ? 'உள்ளூர் விவசாயிகள் மற்றும் உற்பத்தியை ஆதரித்தல்' : 'Supporting Local Farmers & Production'}
+                      {isTa ? 'உள்ளூர் விவசாயிகள் மற்றும் உற்பத்தியை ஆதரித்தல்' : isSi ? 'දේශීය ගොවීන් සහ නිෂ්පාදනය සබල ගැන්වීම' : 'Supporting Local Farmers & Production'}
                     </p>
                   </div>
                   <p className="text-xs text-gray-800 font-bold leading-relaxed bg-[#FFEAD6] px-2.5 py-1 rounded-md border border-[#FED7AA] inline-block">
                     {isTa
                       ? 'கோழி தீவனம் • மாட்டு தீவனம் • கால்நடை • செல்லப்பிராணி உணவு • மேலும் பல...'
+                      : isSi
+                      ? 'කුකුළු කෑම • ගව කෑම • සතුන්ගේ ආහාර • සුරතල් සතුන්ගේ කෑම • තවත් බොහෝ දේ...'
                       : 'Poultry Feed • Cattle Feed • Livestock • Pet Food • And More...'}
                   </p>
                   <p className="text-xs text-gray-600 font-medium leading-relaxed">
                     {isTa
                       ? 'உள்ளூர் விவசாயிகள், கால்நடைகள் மற்றும் நிலையான உற்பத்தியை ஆதரிக்கும் உயர்தர தீவனங்கள் மற்றும் பொருட்கள்.'
+                      : isSi
+                      ? 'දේශීය ගොවීන් සහ සත්ව පාලනය සබල ගැන්වීම සඳහා උසස් තත්ත්වයේ සත්ව ආහාර.'
                       : 'Quality feed and products to support local farmers, livestock and sustainable production.'}
                   </p>
                 </div>
@@ -119,7 +130,7 @@ export default function DualFeatureCards() {
                   href="/shop?category=animal-feed"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#F95700] hover:bg-[#D44700] transition-all shadow-sm group"
                 >
-                  <span>{isTa ? 'இப்போதே வாங்கு' : 'Shop Now'}</span>
+                  <span>{isTa ? 'இப்போதே வாங்கு' : isSi ? 'දැන් මිලදී ගන්න' : 'Shop Now'}</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
