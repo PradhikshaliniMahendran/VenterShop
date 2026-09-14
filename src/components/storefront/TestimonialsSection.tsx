@@ -16,6 +16,8 @@ export default function TestimonialsSection() {
       rating: 5,
       comment: language === 'ta'
         ? 'டொராண்டோ தமிழ் சமூகக் குழுவில் இணைந்த பிறகு மளிகைப் பொருட்களுக்கு அதிக தள்ளுபடி கிடைக்கிறது. பொருட்கள் அனைத்தும் மிகவும் புதியதாக உள்ளன!'
+        : language === 'si'
+        ? 'සමූහ සාමාජිකයෙකු ලෙස එකතු වීමෙන් මසකට විශාල මුදලක් ඉතිරි කරගත හැක. නැවුම් එළවළු සහ මளிகை ද්‍රව්‍ය නිවසටම ගෙනැවිත් දෙයි!'
         : 'Joining the Toronto Tamil Community saved us so much on monthly grocery bills. Fresh produce delivered right to our door in Scarborough!',
       tier: 'Community Member',
     },
@@ -25,6 +27,8 @@ export default function TestimonialsSection() {
       rating: 5,
       comment: language === 'ta'
         ? 'B2B மொத்தக் கொள்முதல் விலை மிகவும் சிறப்பானது. எனது உணவகத்திற்கான அத்தியாவசியப் பொருட்கள் குறித்த நேரத்தில் கிடைக்கின்றன.'
+        : language === 'si'
+        ? 'තොග මිල ගණන් සහ ප්‍රමාණාත්මක වට්ටම් ඉතා වාසිදායකයි. අපගේ ආපනශාලාවට අවශ්‍ය ද්‍රව්‍ය වෙලාවටම ලැබේ.'
         : 'As a restaurant manager, the wholesale bulk pricing matrix and automated volume discounts make VenterShop our go-to supplier.',
       tier: 'Wholesale Buyer',
     },
@@ -34,6 +38,8 @@ export default function TestimonialsSection() {
       rating: 5,
       comment: language === 'ta'
         ? 'விலைப்பட்டியல் மிகவும் தெளிவாக உள்ளது. LKR 7,500 மேல் இலவச டெலிவரி கிடைப்பது மிகவும் உதவியாக இருக்கிறது!'
+        : language === 'si'
+        ? 'ඉක්මන් බෙදාහැරීම සහ පැහැදිලි මිල ගණන්. LKR 7,500 ට වැඩි ඇණවුම් සඳහා නොමිලේ බෙදාහැරීම ඉතා හොඳයි!'
         : 'Fast shipping and unbeatable prices on specialty items. Free delivery threshold over LKR 7,500 makes it a no-brainer.',
       tier: 'Verified Shopper',
     },
@@ -57,7 +63,7 @@ export default function TestimonialsSection() {
             Real Customer Experiences
           </span>
           <h2 className="text-2xl sm:text-3xl font-black text-[#101A2D] uppercase tracking-tight">
-            {language === 'ta' ? 'வாடிக்கையாளர்களின் கருத்துக்கள்' : 'Loved by Thousands Across Canada'}
+            {language === 'ta' ? 'வாடிக்கையாளர்களின் கருத்துக்கள்' : language === 'si' ? 'පාරිභෝගික අදහස්' : 'Loved by Thousands Across Canada'}
           </h2>
           <p className="text-xs text-gray-500 font-semibold">
             See what our shoppers in Toronto, Vancouver, and Montreal have to say about VenterShop.
@@ -111,7 +117,7 @@ export default function TestimonialsSection() {
               EXCLUSIVE DEALS
             </span>
             <h3 className="text-xl sm:text-2xl font-black uppercase">
-              {language === 'ta' ? '10% தள்ளுபடி கூப்பனை உடனடியாகப் பெறுங்கள்!' : 'Get 10% Off Your First Order!'}
+              {language === 'ta' ? '10% தள்ளுபடி கூப்பனை உடனடியாகப் பெறுங்கள்!' : language === 'si' ? '10% ක වට්ටම් කූපනයක් ලබා ගන්න!' : 'Get 10% Off Your First Order!'}
             </h3>
             <p className="text-xs text-gray-300 font-semibold leading-relaxed">
               Subscribe to our VIP newsletter for exclusive weekly discounts, new product arrivals, and member flash sales.

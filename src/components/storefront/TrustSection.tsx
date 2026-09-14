@@ -37,16 +37,20 @@ export default function TrustSection() {
     },
     {
       icon: <Users className="w-6 h-6 text-[#D4AF37]" />,
-      title: language === 'ta' ? 'சமூக நன்மைகள்' : 'Community Benefits',
+      title: language === 'ta' ? 'சமூக நன்மைகள்' : language === 'si' ? 'සමූහ වාසි' : 'Community Benefits',
       desc: language === 'ta' 
         ? 'தனிப்பயன் சமூகக் குழுக்களுடன் இணைந்து பிரத்தியேக சலுகைகளையும் தள்ளுபடி குறியீடுகளையும் அன்லாக் செய்யுங்கள்.'
+        : language === 'si'
+        ? 'විශේෂ සමූහ වැඩසටහන් සමඟ සම්බන්ධ වී විශේෂ වට්ටම් සහ දීමනා ලබා ගන්න.'
         : 'Join custom community programs to unlock localized pricing tiers and exclusive community vouchers.',
     },
     {
       icon: <Briefcase className="w-6 h-6 text-[#D4AF37]" />,
-      title: language === 'ta' ? 'மொத்த விநியோகம்' : 'Wholesale Solutions',
+      title: language === 'ta' ? 'மொத்த விநியோகம்' : language === 'si' ? 'තොග වෙළඳ විසඳුම්' : 'Wholesale Solutions',
       desc: language === 'ta'
         ? 'கனடிய வணிகர்களுக்கான மொத்த விலைகள், அடுக்குத் தள்ளுபடிகள் மற்றும் எளிதான பல்க் ஆர்டர் செக்அவுட் வசதி.'
+        : language === 'si'
+        ? 'ව්‍යාපාරිකයින් සඳහා තොග මිල ගණන්, විශාල වට්ටම් සහ පහසු ඇණවුම් පහසුකම්.'
         : 'Dedicated B2B account tier with wholesale pricing, bulk discount matrices, and optimized volume checkouts.',
     },
   ];
@@ -58,7 +62,7 @@ export default function TrustSection() {
         {/* Title */}
         <div className="text-center max-w-xl mx-auto mb-16 space-y-3">
           <span className="text-[10px] sm:text-xs uppercase font-extrabold tracking-[0.3em] text-[#E53935] block">
-            {language === 'ta' ? 'எங்கள் நன்மைகள்' : 'OUR VALUE PROPOSITIONS'}
+            {language === 'ta' ? 'எங்கள் நன்மைகள்' : language === 'si' ? 'අපගේ විශේෂත්වයන්' : 'OUR VALUE PROPOSITIONS'}
           </span>
           <h2 className="font-serif text-3xl sm:text-5xl font-extrabold text-[#071B5C] tracking-tight">
             {t('trustTitle')}
@@ -67,6 +71,8 @@ export default function TrustSection() {
           <p className="text-sm text-gray-500 font-medium leading-relaxed pt-2">
             {language === 'ta'
               ? 'கனடா முழுவதும் ஆயிரக்கணக்கான குடும்பங்களால் நம்பப்படும் எங்களின் முக்கிய நன்மைகள்.'
+              : language === 'si'
+              ? 'කැනඩාව පුරා දහස් ගණනක් පවුල් අප කෙරෙහි විශ්වාසය තබා ඇත්තේ මන්දැයි සොයා බලන්න.'
               : 'Discover why thousands of households and businesses across Canada trust us for their daily essentials.'}
           </p>
         </div>

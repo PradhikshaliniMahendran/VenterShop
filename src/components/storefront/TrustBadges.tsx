@@ -16,28 +16,28 @@ export default function TrustBadges() {
   const badges = [
     {
       icon: ShieldCheck,
-      title: language === 'ta' ? '100% பாதுகாப்பான கட்டணம்' : '100% Secure Payments',
-      desc: language === 'ta' ? 'உங்கள் பரிவர்த்தனைகள் பாதுகாப்பானவை.' : 'Your payments are safe with us.',
+      title: language === 'ta' ? '100% பாதுகாப்பான கட்டணம்' : language === 'si' ? '100% ආරක්ෂිත ගෙවීම්' : '100% Secure Payments',
+      desc: language === 'ta' ? 'உங்கள் பரிவர்த்தனைகள் பாதுகாப்பானவை.' : language === 'si' ? 'ඔබගේ ගෙවීම් අප සමඟ සුරක්ෂිතයි.' : 'Your payments are safe with us.',
     },
     {
       icon: Truck,
-      title: language === 'ta' ? 'வேகமான நம்பகமான டெலிவரி' : 'Fast & Reliable Delivery',
-      desc: language === 'ta' ? 'கனடா முழுவதும் விநியோகம்.' : 'Delivery across Canada.',
+      title: language === 'ta' ? 'வேகமான நம்பகமான டெலிவரி' : language === 'si' ? 'වේගවත් බෙදාහැරීම' : 'Fast & Reliable Delivery',
+      desc: language === 'ta' ? 'கனடா முழுவதும் விநியோகம்.' : language === 'si' ? 'කැනඩාව පුරා බෙදාහැරීම.' : 'Delivery across Canada.',
     },
     {
       icon: Award,
-      title: language === 'ta' ? 'தர உறுதிப்பாடு' : 'Quality Assurance',
-      desc: language === 'ta' ? 'உங்களுக்காக சிறந்த தயாரிப்புகள் மட்டுமே.' : 'Only the best for you.',
+      title: language === 'ta' ? 'தர உறுதிப்பாடு' : language === 'si' ? 'ගුණාත්මකභාවය' : 'Quality Assurance',
+      desc: language === 'ta' ? 'உங்களுக்காக சிறந்த தயாரிப்புகள் மட்டுமே.' : language === 'si' ? 'ඔබ සඳහා හොඳම දේ පමණි.' : 'Only the best for you.',
     },
     {
       icon: Headphones,
-      title: language === 'ta' ? 'வாடிக்கையாளர் ஆதரவு' : 'Customer Support',
-      desc: language === 'ta' ? 'உங்களுக்கு உதவ நாங்கள் தயாராக உள்ளோம்.' : "We're here to help you.",
+      title: language === 'ta' ? 'வாடிக்கையாளர் ஆதரவு' : language === 'si' ? 'පාරිභෝගික සහාය' : 'Customer Support',
+      desc: language === 'ta' ? 'உங்களுக்கு உதவ நாங்கள் தயாராக உள்ளோம்.' : language === 'si' ? 'ඔබට උපකාර කිරීමට අපි සූදානම්.' : "We're here to help you.",
     },
     {
       icon: RotateCcw,
-      title: language === 'ta' ? 'எளிதான ரிட்டர்ன்ஸ்' : 'Easy Returns',
-      desc: language === 'ta' ? 'சிரமமில்லாத பணத்தைத் திரும்பப்பெறுதல்.' : 'Hassle free returns & refunds.',
+      title: language === 'ta' ? 'எளிதான ரிட்டர்ன்ஸ்' : language === 'si' ? 'පහසු ආපසු ලබාදීම්' : 'Easy Returns',
+      desc: language === 'ta' ? 'சிரமமில்லாத பணத்தைத் திரும்பப்பெறுதல்.' : language === 'si' ? 'කරදරයකින් තොර මුදල් ආපසු ලබාදීම.' : 'Hassle free returns & refunds.',
     },
   ];
 

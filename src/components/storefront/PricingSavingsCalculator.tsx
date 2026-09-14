@@ -32,7 +32,11 @@ export default function PricingSavingsCalculator() {
             <span>Interactive Savings Calculator</span>
           </div>
           <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-white uppercase">
-            {language === 'ta' ? 'உங்கள் சேமிப்பைக் கணக்கிடுங்கள்' : 'Calculate Your Membership Savings'}
+            {language === 'ta'
+              ? 'உங்கள் சேமிப்பைக் கணக்கிடுங்கள்'
+              : language === 'si'
+              ? 'ඔබේ සාප්පු සවාරි ඉතිරිය ගණනය කරන්න'
+              : 'Calculate Your Membership Savings'}
           </h2>
           <p className="text-xs sm:text-sm text-gray-300 font-semibold leading-relaxed">
             See how much you save on groceries, feeds, and supplies with our multi-tier member pricing structure.

@@ -153,7 +153,7 @@ export default function ShopContent() {
   };
 
   const getLocalizedCategoryName = (cat: ICategoryData) => {
-    if (language === 'ta') {
+    if (language === 'ta' || language === 'si') {
       if (cat.slug === 'groceries') return t('navGroceries');
       if (cat.slug === 'animal-feed') return t('navAnimalFeed');
       if (cat.slug === 'books') return t('navBooks');
@@ -167,24 +167,24 @@ export default function ShopContent() {
   const getVirtualShopName = (slug: string) => {
     switch (slug) {
       case 'groceries':
-        return language === 'ta' ? '🛒 வர்ச்சுவல் சூப்பர் மார்க்கெட்' : '🛒 Virtual Supermarket';
+        return language === 'ta' ? '🛒 வர்ச்சுவல் சூப்பர் மார்க்கெட்' : language === 'si' ? '🛒 වර්චුවල් සුපර්මාර්කට්' : '🛒 Virtual Supermarket';
       case 'footwear':
       case 'shoes':
-        return language === 'ta' ? '👟 வர்ச்சுவல் ஷூ ஷாப்' : '👟 Virtual Shoe Shop';
+        return language === 'ta' ? '👟 வர்ச்சுவல் ஷூ ஷாப்' : language === 'si' ? '👟 වර්චුවල් සපත්තු කඩේ' : '👟 Virtual Shoe Shop';
       case 'books':
-        return language === 'ta' ? '📚 வர்ச்சுவல் புக் ஷாப்' : '📚 Virtual Book Shop';
+        return language === 'ta' ? '📚 வர்ச்சுவல் புக் ஷாப்' : language === 'si' ? '📚 වර්චුවල් පොත් කඩේ' : '📚 Virtual Book Shop';
       case 'computers':
-        return language === 'ta' ? '💻 வர்ச்சுவல் கணினி மையம்' : '💻 Virtual Computer Center';
+        return language === 'ta' ? '💻 வர்ச்சுவல் கணினி மையம்' : language === 'si' ? '💻 වර්චුවල් පරිගණක මධ්‍යස්ථානය' : '💻 Virtual Computer Center';
       case 'phones':
       case 'mobiles':
-        return language === 'ta' ? '📱 வர்ச்சுவல் போன் ஷாப்' : '📱 Virtual Phone Shop';
+        return language === 'ta' ? '📱 வர்ச்சுவல் போன் ஷாப்' : language === 'si' ? '📱 වර්චුවල් ජංගම දුරකථන කඩේ' : '📱 Virtual Phone Shop';
       case 'clothing':
       case 'fashion':
-        return language === 'ta' ? '👕 வர்ச்சுவல் ஃபேஷன் ஸ்டோர்' : '👕 Virtual Fashion Store';
+        return language === 'ta' ? '👕 வர்ச்சுவல் ஃபேஷன் ஸ்டோர்' : language === 'si' ? '👕 වර්චුවල් ඇඳුම් සාප්පුව' : '👕 Virtual Fashion Store';
       case 'electronics':
-        return language === 'ta' ? '📺 வர்ச்சுவல் எலக்ட்ரானிக்ஸ் ஷாப்' : '📺 Virtual Electronics Shop';
+        return language === 'ta' ? '📺 வர்ச்சுவல் எலக்ட்ரானிக்ஸ் ஷாப்' : language === 'si' ? '📺 වර්චුවල් විදුලි උපකරණ සාප්පුව' : '📺 Virtual Electronics Shop';
       case 'animal-feed':
-        return language === 'ta' ? '🌾 ராணி கால்நடை தீவனம்' : '🌾 Rani Animal Feed';
+        return language === 'ta' ? '🌾 ராணி கால்நடை தீவனம்' : language === 'si' ? '🌾 රාණි සතුන්ගේ ආහාර' : '🌾 Rani Animal Feed';
       default:
         return null;
     }
@@ -197,18 +197,18 @@ export default function ShopContent() {
         <div className="mb-6 bg-gradient-to-r from-[#801414] via-[#991B1B] to-[#700000] text-white p-5 sm:p-6 rounded-2xl shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-red-900/30">
           <div>
             <span className="text-[10px] font-black uppercase tracking-widest text-amber-300 block">
-              {language === 'ta' ? 'தேர்ந்தெடுக்கப்பட்ட வர்ச்சுவல் கடை' : 'SELECTED VIRTUAL SHOP'}
+              {language === 'ta' ? 'தேர்ந்தெடுக்கப்பட்ட வர்ச்சுவல் கடை' : language === 'si' ? 'තෝරාගත් වර්චුවල් කඩే' : 'SELECTED VIRTUAL SHOP'}
             </span>
             <h1 className="text-xl sm:text-2xl font-black mt-0.5">{getVirtualShopName(selectedCategory)}</h1>
             <p className="text-xs text-red-100/90 mt-1 font-semibold">
-              {language === 'ta' ? 'இந்த கடையில் உள்ள அனைத்து பிரத்யேக பொருட்களையும் பார்வையிடுகிறீர்கள்.' : 'Browsing products exclusively available in this virtual shop outlet.'}
+              {language === 'ta' ? 'இந்த கடையில் உள்ள அனைத்து பிரத்யேக பொருட்களையும் பார்வையிடுகிறீர்கள்.' : language === 'si' ? 'මෙම සාප්පුවේ ඇති සියලුම විශේෂිත නිෂ්පාදන ඔබ නරඹමින් සිටී.' : 'Browsing products exclusively available in this virtual shop outlet.'}
             </p>
           </div>
           <button
             onClick={() => handleCategorySelect('all')}
             className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-xl text-xs font-black transition-all shrink-0 cursor-pointer"
           >
-            {language === 'ta' ? 'அனைத்து கடைகளும்' : 'View All Shops'}
+            {language === 'ta' ? 'அனைத்து கடைகளும்' : language === 'si' ? 'සියලුම සාප්පු' : 'View All Shops'}
           </button>
         </div>
       )}
@@ -218,20 +218,20 @@ export default function ShopContent() {
         <div className="mb-6 bg-gradient-to-r from-[#7D0000] via-[#901414] to-[#6A0000] text-white p-5 sm:p-6 rounded-2xl shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-red-900/30">
           <div>
             <span className="text-[10px] font-black uppercase tracking-widest text-yellow-300 block">
-              🔥 {language === 'ta' ? 'சிறப்பு சலுகைகள்' : 'SPECIAL OFFERS & PROMOTIONS'}
+              🔥 {language === 'ta' ? 'சிறப்பு சலுகைகள்' : language === 'si' ? 'විශේෂ දීමනා' : 'SPECIAL OFFERS & PROMOTIONS'}
             </span>
             <h1 className="text-xl sm:text-2xl font-black mt-0.5">
-              {language === 'ta' ? 'சிறப்பு சலுகைகள் & தள்ளுபடி பொருட்கள்' : 'Special Offers & Exclusive Deals'}
+              {language === 'ta' ? 'சிறப்பு சலுகைகள் & தள்ளுபடி பொருட்கள்' : language === 'si' ? 'විශේෂ දීමනා සහ වට්ටම් නිෂ්පාදන' : 'Special Offers & Exclusive Deals'}
             </h1>
             <p className="text-xs text-red-100/90 mt-1 font-semibold">
-              {language === 'ta' ? 'அனைத்து சிறப்பு சலுகைகள் மற்றும் தள்ளுபடி தயாரிப்புகளை பார்வையிடுகிறீர்கள்.' : 'Browsing all promotional deals, vouchers, and discounted products across VenterShop.'}
+              {language === 'ta' ? 'அனைத்து சிறப்பு சலுகைகள் மற்றும் தள்ளுபடி தயாரிப்புகளை பார்வையிடுகிறீர்கள்.' : language === 'si' ? 'VenterShop හි සියලුම විශේෂ දීමනා සහ වට්ටම් සහිත නිෂ්පාදන නරඹන්න.' : 'Browsing all promotional deals, vouchers, and discounted products across VenterShop.'}
             </p>
           </div>
           <button
             onClick={() => router.push('/shop')}
             className="px-4 py-2 bg-white text-[#801414] hover:bg-yellow-300 rounded-xl text-xs font-black transition-all shrink-0 cursor-pointer shadow-sm"
           >
-            {language === 'ta' ? 'அனைத்து பொருட்களும்' : 'All Products'}
+            {language === 'ta' ? 'அனைத்து பொருட்களும்' : language === 'si' ? 'සියලුම නිෂ්පාදන' : 'All Products'}
           </button>
         </div>
       )}
@@ -251,7 +251,7 @@ export default function ShopContent() {
           {/* Categories Filter Block */}
           <div className="bg-white p-5 rounded-xl border border-gray-150 shadow-xs space-y-4">
             <h3 className="font-extrabold text-sm text-[#101A2D] uppercase tracking-wider border-b border-gray-100 pb-2">
-              {language === 'ta' ? 'வகைகள்' : 'Categories'}
+              {language === 'ta' ? 'வகைகள்' : language === 'si' ? 'ප්‍රභේද' : 'Categories'}
             </h3>
             <div className="flex flex-col space-y-1.5">
               <button
@@ -262,7 +262,7 @@ export default function ShopContent() {
                     : 'text-[#333333] hover:bg-gray-100'
                 }`}
               >
-                {language === 'ta' ? 'அனைத்து தயாரிப்புகள்' : 'All Products'}
+                {language === 'ta' ? 'அனைத்து தயாரிப்புகள்' : language === 'si' ? 'සියලුම නිෂ්පාදන' : 'All Products'}
               </button>
               {categories.map((cat) => (
                 <button
@@ -283,7 +283,7 @@ export default function ShopContent() {
           {/* Price Range Filter Block */}
           <div className="bg-white p-5 rounded-xl border border-gray-150 shadow-xs space-y-4">
             <h3 className="font-extrabold text-sm text-[#101A2D] uppercase tracking-wider border-b border-gray-100 pb-2">
-              {language === 'ta' ? 'விலை வரம்பு (LKR)' : 'Price Range (LKR)'}
+              {language === 'ta' ? 'விலை வரம்பு (LKR)' : language === 'si' ? 'මිල පරාසය (LKR)' : 'Price Range (LKR)'}
             </h3>
             <form onSubmit={handleApplyPriceFilter} className="space-y-3">
               <div className="flex gap-2">
@@ -307,7 +307,7 @@ export default function ShopContent() {
                 className="w-full flex items-center justify-center gap-1.5 py-1.5 bg-[#1A2A4A] hover:bg-[#101A2D] text-white font-bold text-xs rounded-md shadow-xs transition-colors"
               >
                 <Filter className="w-3.5 h-3.5" />
-                <span>{language === 'ta' ? 'வடிகட்டு' : 'Apply Price'}</span>
+                <span>{language === 'ta' ? 'வடிகட்டு' : language === 'si' ? 'යොදන්න' : 'Apply Price'}</span>
               </button>
             </form>
           </div>
@@ -315,7 +315,7 @@ export default function ShopContent() {
           {/* Availability Block */}
           <div className="bg-white p-5 rounded-xl border border-gray-150 shadow-xs space-y-4">
             <h3 className="font-extrabold text-sm text-[#101A2D] uppercase tracking-wider border-b border-gray-100 pb-2">
-              {language === 'ta' ? 'கிடைக்கும் தன்மை' : 'Availability'}
+              {language === 'ta' ? 'கிடைக்கும் தன்மை' : language === 'si' ? 'ලබාගත හැකි බව' : 'Availability'}
             </h3>
             <label className="flex items-center gap-2 text-xs font-semibold text-[#333333] cursor-pointer">
               <input
@@ -324,7 +324,7 @@ export default function ShopContent() {
                 onChange={(e) => handleToggleStock(e.target.checked)}
                 className="w-4 h-4 accent-[#1A2A4A] border-gray-300 rounded-sm focus:ring-[#1A2A4A]"
               />
-              <span>{language === 'ta' ? 'இருப்பில் உள்ளவை மட்டும்' : 'In Stock Only'}</span>
+              <span>{language === 'ta' ? 'இருப்பில் உள்ளவை மட்டும்' : language === 'si' ? 'තොග ඇති දේවල් පමණි' : 'In Stock Only'}</span>
             </label>
           </div>
 
@@ -334,7 +334,7 @@ export default function ShopContent() {
             className="w-full flex items-center justify-center gap-1.5 py-2 border border-gray-300 hover:bg-gray-50 text-[#333333] hover:text-[#000000] font-bold text-xs rounded-lg transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>{language === 'ta' ? 'வடிகட்டல்களை நீக்கு' : 'Reset All Filters'}</span>
+            <span>{language === 'ta' ? 'வடிகட்டல்களை நீக்கு' : language === 'si' ? 'පෙරහන් ඉවත් කරන්න' : 'Reset All Filters'}</span>
           </button>
         </aside>
 

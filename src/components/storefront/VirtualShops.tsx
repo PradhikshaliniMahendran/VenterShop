@@ -19,14 +19,16 @@ import {
 } from 'lucide-react';
 
 export default function VirtualShops() {
+export default function VirtualShops() {
   const { language } = useTranslation();
   const isTa = language === 'ta';
+  const isSi = language === 'si';
 
   const virtualShops = [
     {
       id: 'supermarket',
-      title: isTa ? 'வர்ச்சுவல் சூப்பர் மார்க்கெட்' : 'Virtual Supermarket',
-      desc: isTa ? 'மளிகை & அன்றாட அத்தியாவசிய பொருட்கள்' : 'Groceries & Daily Essentials',
+      title: isTa ? 'வர்ச்சுவல் சூப்பர் மார்க்கெட்' : isSi ? 'වर्चුවල් සුපර්මාර්කට්' : 'Virtual Supermarket',
+      desc: isTa ? 'மளிகை & அன்றாட அத்தியாவசிய பொருட்கள்' : isSi ? 'බඩු බාහිරාදිය සහ එදිනෙදා අවශ්‍යතා' : 'Groceries & Daily Essentials',
       icon: ShoppingBag,
       image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#EBF3FE]',
@@ -36,13 +38,13 @@ export default function VirtualShops() {
       descColor: 'text-[#4A607A]',
       ctaColor: 'text-[#007AFF]',
       href: '/shop?category=groceries',
-      buttonText: isTa ? 'இப்போதே வாங்கு' : 'Shop Now',
+      buttonText: isTa ? 'இப்போதே வாங்கு' : isSi ? 'දැන් මිලදී ගන්න' : 'Shop Now',
       isAvailable: true,
     },
     {
       id: 'shoe-shop',
-      title: isTa ? 'வர்ச்சுவல் ஷூ ஷாப்' : 'Virtual Shoe Shop',
-      desc: isTa ? 'காலணிகள், செருப்புகள் & ஆக்சஸரீஸ்' : 'Shoes, Slippers & Accessories',
+      title: isTa ? 'வர்ச்சுவல் ஷூ ஷாப்' : isSi ? 'වर्चුවල් සපත්තු සාප්පුව' : 'Virtual Shoe Shop',
+      desc: isTa ? 'காலணிகள், செருப்புகள் & ஆக்சஸரீஸ்' : isSi ? 'සපත්තු, සෙරෙප්පු සහ උපාංග' : 'Shoes, Slippers & Accessories',
       icon: Footprints,
       image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#FCE8ED]',
@@ -52,13 +54,13 @@ export default function VirtualShops() {
       descColor: 'text-[#7A4A56]',
       ctaColor: 'text-gray-500',
       href: '#',
-      buttonText: isTa ? 'விரைவில்' : 'Coming Soon',
+      buttonText: isTa ? 'விரைவில்' : isSi ? 'ළඟදීම' : 'Coming Soon',
       isAvailable: false,
     },
     {
       id: 'book-shop',
-      title: isTa ? 'வர்ச்சுவல் புக் லேப்' : 'Virtual Book Lab',
-      desc: isTa ? 'புத்தகங்கள், எழுதுபொருட்கள் & கல்வி' : 'Books, Stationery & Educational Items',
+      title: isTa ? 'வர்ச்சுவல் புக் லேப்' : isSi ? 'වर्चුවල් පොත් සාප්පුව' : 'Virtual Book Lab',
+      desc: isTa ? 'புத்தகங்கள், எழுதுபொருட்கள் & கல்வி' : isSi ? 'පොත්, ලිපිද්‍රව්‍ය සහ අධ්‍යාපනික' : 'Books, Stationery & Educational Items',
       icon: BookOpen,
       image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#F0E6FF]',
@@ -68,13 +70,13 @@ export default function VirtualShops() {
       descColor: 'text-[#5E4A7A]',
       ctaColor: 'text-[#7C3AED]',
       href: '/shop?category=books-stationery',
-      buttonText: isTa ? 'இப்போதே வாங்கு' : 'Shop Now',
+      buttonText: isTa ? 'இப்போதே வாங்கு' : isSi ? 'දැන් මිලදී ගන්න' : 'Shop Now',
       isAvailable: true,
     },
     {
       id: 'computer-center',
-      title: isTa ? 'வர்ச்சுவல் கணினி மையம்' : 'Virtual Computer Center',
-      desc: isTa ? 'கணினிகள், லேப்டாப்கள் & சாதனங்கள்' : 'Computers, Laptops & Accessories',
+      title: isTa ? 'வர்ச்சுவல் கணினி மையம்' : isSi ? 'වर्चුවල් පරිගණක මධ්‍යස්ථානය' : 'Virtual Computer Center',
+      desc: isTa ? 'கணினிகள், லேப்டாப்கள் & சாதனங்கள்' : isSi ? 'පරිගණක, ලැප්ටොප් සහ උපාංග' : 'Computers, Laptops & Accessories',
       icon: Laptop,
       image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#E1F5FE]',
@@ -84,13 +86,13 @@ export default function VirtualShops() {
       descColor: 'text-[#4A6B7A]',
       ctaColor: 'text-gray-500',
       href: '#',
-      buttonText: isTa ? 'விரைவில்' : 'Coming Soon',
+      buttonText: isTa ? 'விரைவில்' : isSi ? 'ළඟදීම' : 'Coming Soon',
       isAvailable: false,
     },
     {
       id: 'phone-shop',
-      title: isTa ? 'வர்ச்சுவல் போன் ஷாப்' : 'Virtual Phone Shop',
-      desc: isTa ? 'மொபைல் போன்கள் & ஆக்சஸரீஸ்' : 'Mobile Phones & Accessories',
+      title: isTa ? 'வர்ச்சுவல் போன் ஷாப்' : isSi ? 'වर्चුවල් දුරකථන සාප්පුව' : 'Virtual Phone Shop',
+      desc: isTa ? 'மொபைல் போன்கள் & ஆக்சஸரீஸ்' : isSi ? 'ජංගම දුරකථන සහ උපාංග' : 'Mobile Phones & Accessories',
       icon: Smartphone,
       image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#E6F4EA]',
@@ -100,13 +102,13 @@ export default function VirtualShops() {
       descColor: 'text-[#4A7A5A]',
       ctaColor: 'text-gray-500',
       href: '#',
-      buttonText: isTa ? 'விரைவில்' : 'Coming Soon',
+      buttonText: isTa ? 'விரைவில்' : isSi ? 'ළඟදීම' : 'Coming Soon',
       isAvailable: false,
     },
     {
       id: 'fashion-store',
-      title: isTa ? 'வர்ச்சுவல் ஃபேஷன் ஸ்டோர்' : 'Virtual Fashion Store',
-      desc: isTa ? 'ஆடைகள், பேக்குகள் & ஃபேஷன்' : 'Clothing, Bags & Accessories',
+      title: isTa ? 'வர்ச்சுவல் ஃபேஷன் ஸ்டோர்' : isSi ? 'වर्चුවල් ඇඳුම් සාප්පුව' : 'Virtual Fashion Store',
+      desc: isTa ? 'ஆடைகள், பேக்குகள் & ஃபேஷன்' : isSi ? 'ඇඳුම් පැළඳුම්, බෑග් සහ උපාංග' : 'Clothing, Bags & Accessories',
       icon: Shirt,
       image: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#FFE4E6]',
@@ -116,13 +118,13 @@ export default function VirtualShops() {
       descColor: 'text-[#7A4A56]',
       ctaColor: 'text-gray-500',
       href: '#',
-      buttonText: isTa ? 'விரைவில்' : 'Coming Soon',
+      buttonText: isTa ? 'விரைவில்' : isSi ? 'ළඟදීම' : 'Coming Soon',
       isAvailable: false,
     },
     {
       id: 'electronics-shop',
-      title: isTa ? 'வர்ச்சுவல் எலக்ட்ரானிக்ஸ்' : 'Virtual Electronics Shop',
-      desc: isTa ? 'வீட்டு உபயோக & மின்னணு பொருட்கள்' : 'Home Appliances & Electronics',
+      title: isTa ? 'வர்ச்சுவல் எலக்ட்ரானிக்ஸ்' : isSi ? 'වर्चුවල් ඉලෙක්ට්‍රොනික්ස්' : 'Virtual Electronics Shop',
+      desc: isTa ? 'வீட்டு உபயோக & மின்னணு பொருட்கள்' : isSi ? 'ගෘහස්ථ සහ විද්‍යුත් උපකරණ' : 'Home Appliances & Electronics',
       icon: Settings,
       image: 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#FFF8E1]',
@@ -132,13 +134,13 @@ export default function VirtualShops() {
       descColor: 'text-[#7A6B4A]',
       ctaColor: 'text-gray-500',
       href: '#',
-      buttonText: isTa ? 'விரைவில்' : 'Coming Soon',
+      buttonText: isTa ? 'விரைவில்' : isSi ? 'ළඟදීම' : 'Coming Soon',
       isAvailable: false,
     },
     {
       id: 'more-shops',
-      title: isTa ? 'மேலும் கடைகள் விரைவில்' : 'More Shops Coming Soon',
-      desc: isTa ? 'காத்திருங்கள்!' : 'Stay Tuned!',
+      title: isTa ? 'மேலும் கடைகள் விரைவில்' : isSi ? 'තවත් සාප්පු ළඟදීම' : 'More Shops Coming Soon',
+      desc: isTa ? 'காத்திருங்கள்!' : isSi ? 'රැඳී සිටින්න!' : 'Stay Tuned!',
       icon: MoreHorizontal,
       image: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=400&q=80',
       cardBg: 'bg-[#EDE9FE]',
@@ -148,7 +150,7 @@ export default function VirtualShops() {
       descColor: 'text-[#5E4A7A]',
       ctaColor: 'text-gray-500',
       href: '#',
-      buttonText: isTa ? 'விரைவில்' : 'Coming Soon',
+      buttonText: isTa ? 'விரைவில்' : isSi ? 'ළඟදීම' : 'Coming Soon',
       isAvailable: false,
     },
   ];
@@ -159,6 +161,13 @@ export default function VirtualShops() {
         'ஏற்றுமதிக்கு தயார்நிலையில் உள்ள பொருட்கள்',
         'மொத்த வியாபாரம் & பல்க் ஆர்டர்கள்',
         'உலகளாவிய ஷிப்பிங் ஆதரவு',
+      ]
+    : isSi
+    ? [
+        'ශ්‍රී ලාංකික සැපයුම්කරුවන්ගෙන් සෘජුවම',
+        'අපනයනයට සූදානම් නිෂ්පාදන',
+        'තොග සහ විශාල ඇණවුම්',
+        'ලොව පුරා බෙදාහැරීමේ සහාය',
       ]
     : [
         'Direct from Sri Lankan Suppliers',

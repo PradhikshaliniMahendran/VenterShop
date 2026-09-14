@@ -75,17 +75,17 @@ export default function FeaturedDeals() {
           <div className="space-y-2">
             <span className="text-xs uppercase font-black tracking-[0.25em] text-[#E53935] inline-flex items-center gap-1.5">
               <Flame className="w-4 h-4 text-[#E53935] animate-bounce" />
-              {language === 'ta' ? 'இன்றைய சிறப்பு சலுகைகள்' : "TODAY'S SPECIAL OFFERS"}
+              {language === 'ta' ? 'இன்றைய சிறப்பு சலுகைகள்' : language === 'si' ? 'අද දින විශේෂ දීමනා' : "TODAY'S SPECIAL OFFERS"}
             </span>
             <h2 className="font-serif text-4xl sm:text-6xl font-extrabold text-[#1A2A4A] mt-1">
-              {language === 'ta' ? 'பிரத்தியேக சலுகைகள்' : 'Exclusive Daily Deals'}
+              {language === 'ta' ? 'பிரத்தியேக சலுகைகள்' : language === 'si' ? 'විශේෂ දිනපතා දීමනා' : 'Exclusive Daily Deals'}
             </h2>
           </div>
           <Link
             href="/shop"
             className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#1A2A4A] hover:text-[#E53935] transition-colors"
           >
-            <span>{language === 'ta' ? 'அனைத்து தயாரிப்புகளும்' : 'VIEW ALL PRODUCTS'}</span>
+            <span>{language === 'ta' ? 'அனைத்து தயாரிப்புகளும்' : language === 'si' ? 'සියලුම නිෂ්පාදන' : 'VIEW ALL PRODUCTS'}</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
