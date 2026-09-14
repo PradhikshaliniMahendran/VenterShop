@@ -19,7 +19,6 @@ import {
 } from 'lucide-react';
 
 export default function VirtualShops() {
-export default function VirtualShops() {
   const { language } = useTranslation();
   const isTa = language === 'ta';
   const isSi = language === 'si';
