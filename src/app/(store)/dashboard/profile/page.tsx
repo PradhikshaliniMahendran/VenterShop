@@ -13,7 +13,7 @@ export default function DashboardProfilePage() {
     firstName: '',
     lastName: '',
     phone: '',
-    preferredLanguage: 'en' as 'en' | 'ta',
+    preferredLanguage: 'en' as 'en' | 'ta' | 'si',
   });
 
   const [submitting, setSubmitting] = useState(false);
@@ -223,6 +223,7 @@ export default function DashboardProfilePage() {
               >
                 <option value="en">English (default)</option>
                 <option value="ta">தமிழ் (Tamil)</option>
+                <option value="si">සිංහල (Sinhala)</option>
               </select>
             </div>
           </div>

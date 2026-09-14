@@ -30,7 +30,7 @@ export default function AdminSidebar() {
     { label: 'Orders', href: '/admin/orders', icon: <ShoppingBag className="w-4 h-4" /> },
     { label: 'Products', href: '/admin/products', icon: <Package className="w-4 h-4" /> },
     { label: 'Categories', href: '/admin/categories', icon: <Layers className="w-4 h-4" /> },
-    { label: 'Communities', href: '/admin/communities', icon: <Users className="w-4 h-4" /> },
+    { label: 'V2CC-PMS Members', href: '/admin/communities', icon: <Users className="w-4 h-4" /> },
     { label: 'Customers', href: '/admin/customers', icon: <Users className="w-4 h-4" /> },
     { label: 'Vouchers & Offers', href: '/admin/vouchers', icon: <Ticket className="w-4 h-4" /> },
     { label: 'Global Settings', href: '/admin/settings', icon: <Settings className="w-4 h-4" /> },

@@ -11,7 +11,7 @@ export interface IUserSession {
   customerType: 'BUYER' | 'V2CC_PMS_MEMBER' | 'WHOLESALE_BUYER' | 'SELLER_SUPPLIER' | 'PARTNER_STORE' | 'NORMAL' | 'COMMUNITY' | 'WHOLESALE' | 'ADMIN' | string;
   communityId?: string | null;
   communityStatus?: string;
-  preferredLanguage?: 'en' | 'ta';
+  preferredLanguage?: 'en' | 'ta' | 'si';
   phone?: string;
   createdAt?: string;
   addresses?: {

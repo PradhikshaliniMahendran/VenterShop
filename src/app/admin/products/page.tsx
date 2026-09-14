@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Package, Plus, Search, Edit, Trash2, CheckCircle, AlertTriangle } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils/currency';
+import { compressImageFile } from '@/lib/utils/imageCompressor';
 
 interface ICategory {
   _id: string;
@@ -331,12 +332,7 @@ export default function AdminProductsPage() {
                         setUploadingImages(true);
                         try {
                           for (const file of files) {
-                            const reader = new FileReader();
-                            const base64Promise = new Promise<string>((resolve) => {
-                              reader.onloadend = () => resolve(reader.result as string);
-                              reader.readAsDataURL(file);
-                            });
-                            const base64Str = await base64Promise;
+                            const base64Str = await compressImageFile(file);
                             if (base64Str) {
                               const res = await fetch('/api/admin/upload-image', {
                                 method: 'POST',
@@ -354,11 +350,15 @@ export default function AdminProductsPage() {
                                     imagesStr: [...currentList, data.url].join(', '),
                                   };
                                 });
+                              } else {
+                                const errData = await res.json().catch(() => ({}));
+                                alert(`Upload failed: ${errData.error || res.statusText}`);
                               }
                             }
                           }
-                        } catch (err) {
+                        } catch (err: any) {
                           console.error('Failed to upload image to Cloudinary:', err);
+                          alert(`Upload failed: ${err?.message || 'Unknown error'}`);
                         } finally {
                           setUploadingImages(false);
                         }

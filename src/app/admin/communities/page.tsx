@@ -146,7 +146,7 @@ export default function AdminCommunitiesPage() {
       <div className="flex justify-between items-center border-b border-gray-150 pb-4">
         <h1 className="text-xl font-black text-[#101A2D] tracking-tight uppercase flex items-center gap-2">
           <Users className="w-5 h-5 text-[#E53935]" />
-          Community Groups Administration
+          V2CC-PMS Members & Groups Administration
         </h1>
         
         {!formOpen && activeTab === 'communities' && (
@@ -155,7 +155,7 @@ export default function AdminCommunitiesPage() {
             className="flex items-center gap-1.5 py-1.5 px-4 bg-[#1A2A4A] hover:bg-[#101A2D] text-white rounded-lg text-xs font-bold uppercase tracking-wider shadow-xs transition-colors"
           >
             <Plus className="w-4 h-4" />
-            <span>Add Community Group</span>
+            <span>Add V2CC-PMS Group</span>
           </button>
         )}
       </div>
@@ -166,7 +166,7 @@ export default function AdminCommunitiesPage() {
           onClick={() => { setActiveTab('communities'); setFormOpen(false); resetForm(); }}
           className={`flex-1 py-2 text-center text-xs font-bold uppercase tracking-wider rounded-md transition-colors ${activeTab === 'communities' ? 'bg-[#1A2A4A] text-white shadow-xs' : 'text-gray-500 hover:text-black'}`}
         >
-          Community Groups
+          V2CC-PMS Groups
         </button>
         <button
           onClick={() => { setActiveTab('pending'); setFormOpen(false); }}

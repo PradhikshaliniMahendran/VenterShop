@@ -26,7 +26,7 @@ export interface IUser extends Document {
   communityId: mongoose.Types.ObjectId | null;
   communityStatus: 'NONE' | 'PENDING' | 'APPROVED';
   communityJoinDate?: Date;
-  preferredLanguage: 'en' | 'ta';
+  preferredLanguage: 'en' | 'ta' | 'si';
   addresses: IAddress[];
   createdAt: Date;
   updatedAt: Date;
@@ -62,7 +62,7 @@ const UserSchema = new Schema<IUser>(
     communityId: { type: Schema.Types.ObjectId, ref: 'Community', default: null },
     communityStatus: { type: String, enum: ['NONE', 'PENDING', 'APPROVED'], default: 'NONE' },
     communityJoinDate: { type: Date },
-    preferredLanguage: { type: String, enum: ['en', 'ta'], default: 'en' },
+    preferredLanguage: { type: String, enum: ['en', 'ta', 'si'], default: 'en' },
     addresses: [AddressSchema],
   },
   { timestamps: true }

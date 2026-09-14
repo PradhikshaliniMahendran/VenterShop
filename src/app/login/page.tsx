@@ -30,7 +30,7 @@ function LoginContent() {
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
   const [customerType, setCustomerType] = useState('BUYER');
-  const [prefLang, setPrefLang] = useState<'en' | 'ta'>('en');
+  const [prefLang, setPrefLang] = useState<'en' | 'ta' | 'si'>('en');
   
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
@@ -357,11 +357,12 @@ function LoginContent() {
                   <Globe className="absolute left-3 w-4 h-4 text-gray-400" />
                   <select
                     value={prefLang}
-                    onChange={(e) => setPrefLang(e.target.value as 'en' | 'ta')}
+                    onChange={(e) => setPrefLang(e.target.value as 'en' | 'ta' | 'si')}
                     className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:bg-white focus:border-[#1A2A4A] text-gray-900 appearance-none bg-no-repeat cursor-pointer"
                   >
                     <option value="en">English</option>
                     <option value="ta">தமிழ் (Tamil)</option>
+                    <option value="si">සිංහල (Sinhala)</option>
                   </select>
                 </div>
               </div>

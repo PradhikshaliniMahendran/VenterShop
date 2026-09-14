@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { translations, TranslationKeys } from './translations';
 
-type Language = 'en' | 'ta';
+type Language = 'en' | 'ta' | 'si';
 
 interface LanguageContextType {
   language: Language;
@@ -19,13 +19,15 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // 1. Check cookies for language preference
     const match = document.cookie.match(new RegExp('(^| )preferred_lang=([^;]+)'));
-    if (match && (match[2] === 'en' || match[2] === 'ta')) {
+    if (match && (match[2] === 'en' || match[2] === 'ta' || match[2] === 'si')) {
       setLanguageState(match[2] as Language);
     } else {
       // 2. Check browser navigator language
       const browserLang = navigator.language.split('-')[0];
       if (browserLang === 'ta') {
         setLanguageState('ta');
+      } else if (browserLang === 'si') {
+        setLanguageState('si');
       }
     }
   }, []);

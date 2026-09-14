@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Users, Briefcase, CheckCircle, XCircle, ShieldAlert, Edit2 } from 'lucide-react';
+import { Users, Briefcase, CheckCircle, XCircle, ShieldAlert, Edit2, Filter, Search } from 'lucide-react';
 
 interface ICustomer {
   _id: string;
@@ -42,6 +42,10 @@ export default function AdminCustomersPage() {
   const [activeTab, setActiveTab] = useState<'customers' | 'wholesale'>('customers');
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
+  // Customer Filters State
+  const [selectedTypeFilter, setSelectedTypeFilter] = useState<string>('ALL');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
   const loadData = async () => {
     try {
       const res = await fetch('/api/admin/customers');
@@ -61,6 +65,18 @@ export default function AdminCustomersPage() {
   useEffect(() => {
     loadData();
   }, []);
+
+  const getCountForType = (type: string) => {
+    if (type === 'ALL') return customers.length;
+    return customers.filter((c) => {
+      if (type === 'BUYER') return c.customerType === 'BUYER' || c.customerType === 'NORMAL';
+      if (type === 'V2CC_PMS_MEMBER') return c.customerType === 'V2CC_PMS_MEMBER' || c.customerType === 'COMMUNITY';
+      if (type === 'WHOLESALE_BUYER') return c.customerType === 'WHOLESALE_BUYER' || c.customerType === 'WHOLESALE';
+      if (type === 'SELLER_SUPPLIER') return c.customerType === 'SELLER_SUPPLIER';
+      if (type === 'PARTNER_STORE') return c.customerType === 'PARTNER_STORE';
+      return c.customerType === type;
+    }).length;
+  };
 
   // Suspend or Reactivate Customer
   const handleToggleSuspension = async (userId: string, currentStatus: string) => {
@@ -256,109 +272,217 @@ export default function AdminCustomersPage() {
 
       {/* DIRECTORY VIEW TAB */}
       {activeTab === 'customers' && (
-        <div className="bg-white rounded-xl border border-gray-150 shadow-2xs overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[700px]">
-            <thead>
-              <tr className="bg-gray-100 text-gray-500 uppercase font-bold border-b border-gray-150">
-                <th className="p-4">Client Name</th>
-                <th className="p-4">Email / Mobile</th>
-                <th className="p-4">Pricing Tier</th>
-                <th className="p-4">Community Scope</th>
-                <th className="p-4">Status</th>
-                <th className="p-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-150 font-semibold text-gray-700">
-              {customers.map((cust) => (
-                <tr key={cust._id} className="hover:bg-gray-50">
-                  <td className="p-4 font-bold text-[#101A2D]">{cust.firstName} {cust.lastName}</td>
-                  <td className="p-4 text-gray-500">
-                    <p>{cust.email}</p>
-                    <p className="text-[10px] text-gray-400 font-bold">{cust.phone || 'No phone'}</p>
-                  </td>
-                  
-                  {/* Pricing tier badges */}
-                  <td className="p-4">
-                    <span className={`inline-block px-2.5 py-0.5 border text-[9px] font-extrabold uppercase rounded-full ${
-                      cust.customerType === 'WHOLESALE_BUYER' || cust.customerType === 'WHOLESALE'
-                        ? 'text-emerald-700 bg-emerald-50 border-emerald-100'
-                        : cust.customerType === 'V2CC_PMS_MEMBER' || cust.customerType === 'COMMUNITY'
-                        ? 'text-red-700 bg-red-50 border-red-100'
-                        : cust.customerType === 'SELLER_SUPPLIER'
-                        ? 'text-purple-700 bg-purple-50 border-purple-100'
-                        : cust.customerType === 'PARTNER_STORE'
-                        ? 'text-blue-700 bg-blue-50 border-blue-100'
-                        : 'text-gray-600 bg-gray-50 border-gray-250'
-                    }`}>
-                      {cust.customerType === 'V2CC_PMS_MEMBER'
-                        ? 'V2CC-PMS Member'
-                        : cust.customerType === 'WHOLESALE_BUYER'
-                        ? 'Wholesale Buyer'
-                        : cust.customerType === 'SELLER_SUPPLIER'
-                        ? 'Seller / Supplier'
-                        : cust.customerType === 'PARTNER_STORE'
-                        ? 'Partner Store'
-                        : cust.customerType === 'BUYER'
-                        ? 'Buyer'
-                        : cust.customerType}
-                    </span>
-                  </td>
+        <div className="space-y-4">
+          {/* Customer Type Quick Filter Pills & Search Bar */}
+          <div className="bg-white rounded-xl border border-gray-150 p-4 shadow-2xs space-y-3">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              {/* Search Bar */}
+              <div className="relative flex-1 max-w-md">
+                <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="Search by name, email, or phone number..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs font-semibold outline-none focus:bg-white focus:border-[#1A2A4A] text-gray-900"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black font-bold text-xs"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
 
-                  {/* Community select picker */}
-                  <td className="p-4">
-                    <select
-                      value={cust.communityId?._id || ''}
-                      onChange={(e) => handleAssignCommunity(cust._id, e.target.value)}
-                      disabled={cust.customerType === 'WHOLESALE' || updatingId === cust._id}
-                      className="bg-gray-50 border border-gray-250 rounded-lg py-1 px-2.5 outline-none cursor-pointer text-xs"
-                    >
-                      <option value="">No Community</option>
-                      {communities.map((c) => (
-                        <option key={c._id} value={c._id}>{c.name}</option>
-                      ))}
-                    </select>
-                  </td>
+              {/* Customer Type Select Dropdown */}
+              <div className="flex items-center gap-2">
+                <Filter className="w-4 h-4 text-gray-500" />
+                <span className="text-xs font-bold text-gray-600 uppercase">Customer Type:</span>
+                <select
+                  value={selectedTypeFilter}
+                  onChange={(e) => setSelectedTypeFilter(e.target.value)}
+                  className="bg-gray-50 border border-gray-250 font-bold text-xs text-[#101A2D] rounded-lg py-1.5 px-3 outline-none cursor-pointer focus:border-[#1A2A4A]"
+                >
+                  <option value="ALL">All Types ({getCountForType('ALL')})</option>
+                  <option value="BUYER">Buyer / Retail ({getCountForType('BUYER')})</option>
+                  <option value="V2CC_PMS_MEMBER">V2CC-PMS Member ({getCountForType('V2CC_PMS_MEMBER')})</option>
+                  <option value="WHOLESALE_BUYER">Wholesale Buyer ({getCountForType('WHOLESALE_BUYER')})</option>
+                  <option value="SELLER_SUPPLIER">Seller / Supplier ({getCountForType('SELLER_SUPPLIER')})</option>
+                  <option value="PARTNER_STORE">Partner Store ({getCountForType('PARTNER_STORE')})</option>
+                </select>
+              </div>
+            </div>
 
-                  {/* Suspension status badge */}
-                  <td className="p-4">
-                    {cust.status === 'ACTIVE' ? (
-                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 px-2 py-0.5 rounded-sm font-extrabold flex items-center gap-1 w-fit">
-                        <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
-                        Active
-                      </span>
-                    ) : (
-                      <span className="bg-red-50 text-red-700 border border-red-100 px-2 py-0.5 rounded-sm font-extrabold flex items-center gap-1 w-fit">
-                        <XCircle className="w-3.5 h-3.5 text-red-650" />
-                        Suspended
-                      </span>
-                    )}
-                  </td>
+            {/* Customer Type Quick Filter Badges */}
+            <div className="flex flex-wrap gap-1.5 pt-1 border-t border-gray-100">
+              {[
+                { key: 'ALL', label: 'All Customers' },
+                { key: 'BUYER', label: 'Buyers (Retail)' },
+                { key: 'V2CC_PMS_MEMBER', label: 'V2CC-PMS Members' },
+                { key: 'WHOLESALE_BUYER', label: 'Wholesale Buyers' },
+                { key: 'SELLER_SUPPLIER', label: 'Sellers / Suppliers' },
+                { key: 'PARTNER_STORE', label: 'Partner Stores' },
+              ].map((btn) => {
+                const isSelected = selectedTypeFilter === btn.key;
+                const count = getCountForType(btn.key);
+                return (
+                  <button
+                    key={btn.key}
+                    onClick={() => setSelectedTypeFilter(btn.key)}
+                    className={`py-1 px-3 rounded-full text-[10px] font-bold uppercase transition-all cursor-pointer border ${
+                      isSelected
+                        ? 'bg-[#1A2A4A] text-white border-[#1A2A4A] shadow-2xs'
+                        : 'bg-gray-50 hover:bg-gray-150 text-gray-700 border-gray-200'
+                    }`}
+                  >
+                    {btn.label} <span className="opacity-80">({count})</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
-                  {/* Actions: Edit Details & Suspend */}
-                  <td className="p-4 text-right space-x-2">
-                    <button
-                      onClick={() => openEditModal(cust)}
-                      className="py-1 px-2.5 rounded-lg border border-gray-300 hover:bg-gray-100 font-bold text-[10px] uppercase text-gray-700 transition-colors inline-flex items-center gap-1 cursor-pointer"
-                    >
-                      <Edit2 className="w-3 h-3" />
-                      <span>Edit</span>
-                    </button>
-                    <button
-                      onClick={() => handleToggleSuspension(cust._id, cust.status)}
-                      disabled={updatingId === cust._id}
-                      className={`py-1 px-2.5 rounded-lg border font-bold text-[10px] uppercase transition-colors cursor-pointer ${
-                        cust.status === 'ACTIVE'
-                          ? 'border-red-250 text-red-650 hover:bg-red-50'
-                          : 'border-emerald-250 text-emerald-700 hover:bg-emerald-50'
-                      }`}
-                    >
-                      {cust.status === 'ACTIVE' ? 'Suspend' : 'Activate'}
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {/* Customer Directory Table */}
+          <div className="bg-white rounded-xl border border-gray-150 shadow-2xs overflow-x-auto">
+            {(() => {
+              const filteredCustomers = customers.filter((cust) => {
+                if (selectedTypeFilter !== 'ALL') {
+                  if (selectedTypeFilter === 'BUYER' && cust.customerType !== 'BUYER' && cust.customerType !== 'NORMAL') return false;
+                  if (selectedTypeFilter === 'V2CC_PMS_MEMBER' && cust.customerType !== 'V2CC_PMS_MEMBER' && cust.customerType !== 'COMMUNITY') return false;
+                  if (selectedTypeFilter === 'WHOLESALE_BUYER' && cust.customerType !== 'WHOLESALE_BUYER' && cust.customerType !== 'WHOLESALE') return false;
+                  if (selectedTypeFilter === 'SELLER_SUPPLIER' && cust.customerType !== 'SELLER_SUPPLIER') return false;
+                  if (selectedTypeFilter === 'PARTNER_STORE' && cust.customerType !== 'PARTNER_STORE') return false;
+                }
+                if (searchQuery.trim()) {
+                  const q = searchQuery.toLowerCase().trim();
+                  const fullName = `${cust.firstName} ${cust.lastName}`.toLowerCase();
+                  const email = (cust.email || '').toLowerCase();
+                  const phone = (cust.phone || '').toLowerCase();
+                  if (!fullName.includes(q) && !email.includes(q) && !phone.includes(q)) {
+                    return false;
+                  }
+                }
+                return true;
+              });
+
+              if (filteredCustomers.length === 0) {
+                return (
+                  <div className="p-12 text-center text-xs text-gray-500 font-semibold space-y-2">
+                    <Users className="w-8 h-8 text-gray-300 mx-auto" />
+                    <p className="font-bold text-gray-700">No customers found</p>
+                    <p className="text-[11px] text-gray-400">Try adjusting your search query or customer type filter.</p>
+                  </div>
+                );
+              }
+
+              return (
+                <table className="w-full text-left border-collapse min-w-[700px]">
+                  <thead>
+                    <tr className="bg-gray-100 text-gray-500 uppercase font-bold border-b border-gray-150">
+                      <th className="p-4">Client Name</th>
+                      <th className="p-4">Email / Mobile</th>
+                      <th className="p-4">Pricing Tier</th>
+                      <th className="p-4">Community Scope</th>
+                      <th className="p-4">Status</th>
+                      <th className="p-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-150 font-semibold text-gray-700">
+                    {filteredCustomers.map((cust) => (
+                      <tr key={cust._id} className="hover:bg-gray-50">
+                        <td className="p-4 font-bold text-[#101A2D]">{cust.firstName} {cust.lastName}</td>
+                        <td className="p-4 text-gray-500">
+                          <p>{cust.email}</p>
+                          <p className="text-[10px] text-gray-400 font-bold">{cust.phone || 'No phone'}</p>
+                        </td>
+                        
+                        {/* Pricing tier badges */}
+                        <td className="p-4">
+                          <span className={`inline-block px-2.5 py-0.5 border text-[9px] font-extrabold uppercase rounded-full ${
+                            cust.customerType === 'WHOLESALE_BUYER' || cust.customerType === 'WHOLESALE'
+                              ? 'text-emerald-700 bg-emerald-50 border-emerald-100'
+                              : cust.customerType === 'V2CC_PMS_MEMBER' || cust.customerType === 'COMMUNITY'
+                              ? 'text-red-700 bg-red-50 border-red-100'
+                              : cust.customerType === 'SELLER_SUPPLIER'
+                              ? 'text-purple-700 bg-purple-50 border-purple-100'
+                              : cust.customerType === 'PARTNER_STORE'
+                              ? 'text-blue-700 bg-blue-50 border-blue-100'
+                              : 'text-gray-600 bg-gray-50 border-gray-250'
+                          }`}>
+                            {cust.customerType === 'V2CC_PMS_MEMBER'
+                              ? 'V2CC-PMS Member'
+                              : cust.customerType === 'WHOLESALE_BUYER'
+                              ? 'Wholesale Buyer'
+                              : cust.customerType === 'SELLER_SUPPLIER'
+                              ? 'Seller / Supplier'
+                              : cust.customerType === 'PARTNER_STORE'
+                              ? 'Partner Store'
+                              : cust.customerType === 'BUYER'
+                              ? 'Buyer'
+                              : cust.customerType}
+                          </span>
+                        </td>
+
+                        {/* Community select picker */}
+                        <td className="p-4">
+                          <select
+                            value={cust.communityId?._id || ''}
+                            onChange={(e) => handleAssignCommunity(cust._id, e.target.value)}
+                            disabled={cust.customerType === 'WHOLESALE' || updatingId === cust._id}
+                            className="bg-gray-50 border border-gray-250 rounded-lg py-1 px-2.5 outline-none cursor-pointer text-xs"
+                          >
+                            <option value="">No Community</option>
+                            {communities.map((c) => (
+                              <option key={c._id} value={c._id}>{c.name}</option>
+                            ))}
+                          </select>
+                        </td>
+
+                        {/* Suspension status badge */}
+                        <td className="p-4">
+                          {cust.status === 'ACTIVE' ? (
+                            <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 px-2 py-0.5 rounded-sm font-extrabold flex items-center gap-1 w-fit">
+                              <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
+                              Active
+                            </span>
+                          ) : (
+                            <span className="bg-red-50 text-red-700 border border-red-100 px-2 py-0.5 rounded-sm font-extrabold flex items-center gap-1 w-fit">
+                              <XCircle className="w-3.5 h-3.5 text-red-650" />
+                              Suspended
+                            </span>
+                          )}
+                        </td>
+
+                        {/* Actions: Edit Details & Suspend */}
+                        <td className="p-4 text-right space-x-2">
+                          <button
+                            onClick={() => openEditModal(cust)}
+                            className="py-1 px-2.5 rounded-lg border border-gray-300 hover:bg-gray-100 font-bold text-[10px] uppercase text-gray-700 transition-colors inline-flex items-center gap-1 cursor-pointer"
+                          >
+                            <Edit2 className="w-3 h-3" />
+                            <span>Edit</span>
+                          </button>
+                          <button
+                            onClick={() => handleToggleSuspension(cust._id, cust.status)}
+                            disabled={updatingId === cust._id}
+                            className={`py-1 px-2.5 rounded-lg border font-bold text-[10px] uppercase transition-colors cursor-pointer ${
+                              cust.status === 'ACTIVE'
+                                ? 'border-red-250 text-red-650 hover:bg-red-50'
+                                : 'border-emerald-250 text-emerald-700 hover:bg-emerald-50'
+                            }`}
+                          >
+                            {cust.status === 'ACTIVE' ? 'Suspend' : 'Activate'}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              );
+            })()}
+          </div>
         </div>
       )}
 

@@ -84,6 +84,8 @@ export default function Header() {
             <span>
               {language === 'ta'
                 ? 'தொழில்முனைவோரை வலுப்படுத்துதல் • சந்தைகளை இணைத்தல் • ஒன்றாக வளர்வது'
+                : language === 'si'
+                ? 'ව්‍යවසායකයින් බලගැන්වීම • වෙළඳපල සම්බන්ධ කිරීම • එක්ව වර්ධනය වීම'
                 : 'Empowering Entrepreneurs • Connecting Markets • Growing Together'}
             </span>
           </div>
@@ -122,12 +124,16 @@ export default function Header() {
             )}
             <span className="text-white/40">|</span>
             <button
-              onClick={toggleLanguage}
+              onClick={() => {
+                if (language === 'en') setLanguage('ta');
+                else if (language === 'ta') setLanguage('si');
+                else setLanguage('en');
+              }}
               className="flex items-center gap-1 text-[11px] font-bold text-amber-300 hover:text-white transition-colors cursor-pointer"
               title="Switch Language"
             >
               <Globe className="w-3 h-3" />
-              <span>{language === 'en' ? 'தமிழ்' : 'English'}</span>
+              <span>{language === 'en' ? 'English (EN)' : language === 'ta' ? 'தமிழ் (TA)' : 'සිංහල (SI)'}</span>
             </button>
           </div>
         </div>

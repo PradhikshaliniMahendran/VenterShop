@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Layers, Plus, Edit, Trash2, CheckCircle, XCircle } from 'lucide-react';
+import { compressImageFile } from '@/lib/utils/imageCompressor';
 
 interface ICategory {
   _id: string;
@@ -230,12 +231,7 @@ export default function AdminCategoriesPage() {
                       if (!file) return;
                       setUploadingImage(true);
                       try {
-                        const reader = new FileReader();
-                        const base64Promise = new Promise<string>((resolve) => {
-                          reader.onloadend = () => resolve(reader.result as string);
-                          reader.readAsDataURL(file);
-                        });
-                        const base64Str = await base64Promise;
+                        const base64Str = await compressImageFile(file);
                         if (base64Str) {
                           const res = await fetch('/api/admin/upload-image', {
                             method: 'POST',
@@ -245,10 +241,14 @@ export default function AdminCategoriesPage() {
                           if (res.ok) {
                             const data = await res.json();
                             setFormValues((prev) => ({ ...prev, image: data.url }));
+                          } else {
+                            const errData = await res.json().catch(() => ({}));
+                            alert(`Upload failed: ${errData.error || res.statusText}`);
                           }
                         }
-                      } catch (err) {
+                      } catch (err: any) {
                         console.error('Failed to upload category image:', err);
+                        alert(`Upload failed: ${err?.message || 'Unknown error'}`);
                       } finally {
                         setUploadingImage(false);
                       }

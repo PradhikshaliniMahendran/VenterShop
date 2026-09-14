@@ -17,9 +17,21 @@ import { formatCurrency } from '@/lib/utils/currency';
 
 interface IStatsMetrics {
   totalRevenue: number;
+  overallRevenue?: number;
+  filteredOrderCount?: number;
   activeOrders: number;
   totalCustomers: number;
   pendingWholesale: number;
+  selectedMonth?: string;
+}
+
+interface IMonthlyBreakdown {
+  key: string;
+  label: string;
+  year: number;
+  month: number;
+  totalRevenue: number;
+  orderCount: number;
 }
 
 interface ILowStockProduct {
@@ -48,19 +60,23 @@ interface IRecentB2BApp {
 
 export default function AdminOverviewDashboard() {
   const [metrics, setMetrics] = useState<IStatsMetrics | null>(null);
+  const [monthlyBreakdown, setMonthlyBreakdown] = useState<IMonthlyBreakdown[]>([]);
+  const [selectedMonth, setSelectedMonth] = useState<string>('ALL');
   const [lowStock, setLowStock] = useState<ILowStockProduct[]>([]);
   const [recentOrders, setRecentOrders] = useState<IRecentOrder[]>([]);
   const [recentB2B, setRecentB2B] = useState<IRecentB2BApp[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch admin dashboard info
+  // Fetch admin dashboard info when selectedMonth changes
   useEffect(() => {
     async function loadStats() {
       try {
-        const res = await fetch('/api/admin/stats');
+        const query = selectedMonth ? `?month=${selectedMonth}` : '';
+        const res = await fetch(`/api/admin/stats${query}`);
         if (res.ok) {
           const data = await res.json();
           setMetrics(data.metrics);
+          setMonthlyBreakdown(data.monthlyBreakdown || []);
           setLowStock(data.lowStockAlerts || []);
           setRecentOrders(data.recentOrders || []);
           setRecentB2B(data.recentB2BApplications || []);
@@ -72,7 +88,7 @@ export default function AdminOverviewDashboard() {
       }
     }
     loadStats();
-  }, []);
+  }, [selectedMonth]);
 
   const formatDate = (dateStr: string) => {
     return new Date(dateStr).toLocaleDateString('en-CA', {
@@ -115,15 +131,34 @@ export default function AdminOverviewDashboard() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      {/* Page Header */}
-      <div>
-        <h1 className="text-2xl font-black text-[#101A2D] tracking-tight uppercase flex items-center gap-2">
-          <ShieldCheck className="w-6 h-6 text-[#E53935]" />
-          Operations Overview
-        </h1>
-        <p className="text-xs text-gray-500 font-bold mt-1">
-          Back-Office Statistics and Administration Console
-        </p>
+      {/* Page Header with Monthly Revenue Filter */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-150 pb-4">
+        <div>
+          <h1 className="text-2xl font-black text-[#101A2D] tracking-tight uppercase flex items-center gap-2">
+            <ShieldCheck className="w-6 h-6 text-[#E53935]" />
+            Operations Overview
+          </h1>
+          <p className="text-xs text-gray-500 font-bold mt-1">
+            Back-Office Statistics and Administration Console
+          </p>
+        </div>
+
+        {/* Monthly Wise Revenue Filter Dropdown */}
+        <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl p-2 shadow-2xs">
+          <span className="text-xs font-bold text-gray-500 uppercase tracking-wider pl-2">Filter Revenue:</span>
+          <select
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+            className="bg-gray-50 border border-gray-250 font-extrabold text-xs text-[#101A2D] rounded-lg py-1.5 px-3 outline-none cursor-pointer focus:border-[#1A2A4A]"
+          >
+            <option value="ALL">All Time Revenue</option>
+            {monthlyBreakdown.map((m) => (
+              <option key={m.key} value={m.key}>
+                {m.label} ({formatCurrency(m.totalRevenue)})
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       {/* Stats KPI Grid */}
@@ -135,8 +170,15 @@ export default function AdminOverviewDashboard() {
               <TrendingUp className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Total Sales Revenue</p>
+              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">
+                {selectedMonth === 'ALL' ? 'Total Sales Revenue' : `Revenue (${selectedMonth})`}
+              </p>
               <h4 className="text-xl font-black text-[#101A2D]">{formatCurrency(metrics.totalRevenue)}</h4>
+              {selectedMonth !== 'ALL' && metrics.overallRevenue !== undefined && (
+                <p className="text-[10px] text-gray-400 font-semibold mt-0.5">
+                  Overall: {formatCurrency(metrics.overallRevenue)}
+                </p>
+              )}
             </div>
           </div>
 
@@ -181,6 +223,48 @@ export default function AdminOverviewDashboard() {
               <h4 className="text-xl font-black text-[#101A2D]">{metrics.pendingWholesale}</h4>
             </div>
           </Link>
+        </div>
+      )}
+
+      {/* Monthly Revenue Breakdown Card */}
+      {monthlyBreakdown.length > 0 && (
+        <div className="bg-white rounded-xl border border-gray-150 shadow-2xs p-5 space-y-4">
+          <div className="flex justify-between items-center border-b border-gray-100 pb-3">
+            <h3 className="font-extrabold text-xs text-[#101A2D] uppercase tracking-wider flex items-center gap-1.5">
+              <TrendingUp className="w-4 h-4 text-emerald-600" />
+              Monthly Revenue Performance Breakdown
+            </h3>
+            <span className="text-[10px] font-bold text-gray-400 uppercase">
+              Click month to filter
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {monthlyBreakdown.map((m) => {
+              const isSelected = selectedMonth === m.key;
+              return (
+                <button
+                  key={m.key}
+                  onClick={() => setSelectedMonth(isSelected ? 'ALL' : m.key)}
+                  className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                    isSelected
+                      ? 'bg-[#1A2A4A] text-white border-[#1A2A4A] shadow-md ring-2 ring-[#1A2A4A]/20'
+                      : 'bg-gray-50/70 hover:bg-gray-100 border-gray-200 text-[#101A2D]'
+                  }`}
+                >
+                  <p className={`text-[10px] font-extrabold uppercase ${isSelected ? 'text-gray-300' : 'text-gray-400'}`}>
+                    {m.label}
+                  </p>
+                  <h5 className="text-sm font-black mt-1">
+                    {formatCurrency(m.totalRevenue)}
+                  </h5>
+                  <p className={`text-[10px] font-bold mt-0.5 ${isSelected ? 'text-emerald-300' : 'text-emerald-700'}`}>
+                    {m.orderCount} {m.orderCount === 1 ? 'Order' : 'Orders'}
+                  </p>
+                </button>
+              );
+            })}
+          </div>
         </div>
       )}
 

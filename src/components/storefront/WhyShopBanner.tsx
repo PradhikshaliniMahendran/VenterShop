@@ -20,11 +20,13 @@ export default function WhyShopBanner() {
             </div>
             <div className="space-y-2">
               <h3 className="text-base sm:text-lg font-black text-[#B05A12] uppercase tracking-wide">
-                {language === 'ta' ? 'வெண்டர்ஷாப்பில் ஏன் வாங்க வேண்டும்?' : 'WHY SHOP WITH VENTERSHOP?'}
+                {language === 'ta' ? 'வெண்டர்ஷாப்பில் ஏன் வாங்க வேண்டும்?' : language === 'si' ? 'VENTERSHOP වෙතින් මිලදී ගන්නේ ඇයි?' : 'WHY SHOP WITH VENTERSHOP?'}
               </h3>
               <p className="text-xs sm:text-sm text-gray-700 font-medium leading-relaxed max-w-xl">
                 {language === 'ta'
                   ? 'கனடா முழுவதும் உள்ள எங்கள் வாடிக்கையாளர்களுக்கு தரமான பொருட்கள், கட்டுப்படியாகும் விலை மற்றும் சிறந்த சேவையை வழங்க நாங்கள் கடமைப்பட்டுள்ளோம்!'
+                  : language === 'si'
+                  ? 'කැනඩාව පුරා සිටින අපගේ පාරිභෝගිකයින් සඳහා ගුණාත්මක නිෂ්පාදන, සාධාරණ මිල ගණන් සහ හොඳම සේවාව ලබා දීමට අපි බැඳී සිටිමු!'
                   : 'We are committed to providing quality products, affordable prices and the best service to our customers across Canada!'}
               </p>
             </div>
@@ -45,7 +47,7 @@ export default function WhyShopBanner() {
               href="/about"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-xs font-bold text-white bg-[#1B5E20] hover:bg-[#144718] transition-all shadow-md"
             >
-              <span>{language === 'ta' ? 'மேலும் அறிய' : 'Learn More'}</span>
+              <span>{language === 'ta' ? 'மேலும் அறிய' : language === 'si' ? 'තව දැනගන්න' : 'Learn More'}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
