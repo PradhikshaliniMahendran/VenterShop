@@ -123,18 +123,29 @@ export default function Header() {
               </Link>
             )}
             <span className="text-white/40">|</span>
-            <button
-              onClick={() => {
-                if (language === 'en') setLanguage('ta');
-                else if (language === 'ta') setLanguage('si');
-                else setLanguage('en');
-              }}
-              className="flex items-center gap-1 text-[11px] font-bold text-amber-300 hover:text-white transition-colors cursor-pointer"
-              title="Switch Language"
-            >
-              <Globe className="w-3 h-3" />
-              <span>{language === 'en' ? 'English (EN)' : language === 'ta' ? 'தமிழ் (TA)' : 'සිංහල (SI)'}</span>
-            </button>
+            <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-300">
+              <Globe className="w-3.5 h-3.5 text-amber-400" />
+              <button
+                onClick={() => setLanguage('en')}
+                className={`px-1.5 py-0.5 rounded transition-colors cursor-pointer ${language === 'en' ? 'bg-amber-400 text-[#801414] font-black' : 'hover:text-white'}`}
+              >
+                EN
+              </button>
+              <span className="text-white/30">|</span>
+              <button
+                onClick={() => setLanguage('ta')}
+                className={`px-1.5 py-0.5 rounded transition-colors cursor-pointer ${language === 'ta' ? 'bg-amber-400 text-[#801414] font-black' : 'hover:text-white'}`}
+              >
+                தமிழ்
+              </button>
+              <span className="text-white/30">|</span>
+              <button
+                onClick={() => setLanguage('si')}
+                className={`px-1.5 py-0.5 rounded transition-colors cursor-pointer ${language === 'si' ? 'bg-amber-400 text-[#801414] font-black' : 'hover:text-white'}`}
+              >
+                සිංහල
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -365,15 +376,41 @@ export default function Header() {
               ))}
             </div>
 
-            {/* Language & Account */}
-            <div className="mt-auto pt-6 border-t border-gray-100 space-y-3">
-              <button
-                onClick={toggleLanguage}
-                className="w-full py-2 bg-gray-100 rounded-lg text-xs font-bold text-gray-800 flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <Globe className="w-4 h-4 text-[#801414]" />
-                <span>Switch to {language === 'en' ? 'தமிழ்' : 'English'}</span>
-              </button>
+            {/* Language & Account Footer */}
+            <div className="mt-auto pt-6 border-t border-gray-100 space-y-4">
+              {/* Language Selector */}
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-1.5 text-gray-500 font-bold text-[11px] uppercase tracking-wider px-1">
+                  <Globe className="w-3.5 h-3.5 text-[#801414]" />
+                  <span>Select Language</span>
+                </div>
+                <div className="grid grid-cols-3 gap-1">
+                  <button
+                    onClick={() => setLanguage('en')}
+                    className={`py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                      language === 'en' ? 'bg-[#801414] text-white shadow-xs' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    English
+                  </button>
+                  <button
+                    onClick={() => setLanguage('ta')}
+                    className={`py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                      language === 'ta' ? 'bg-[#801414] text-white shadow-xs' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    தமிழ்
+                  </button>
+                  <button
+                    onClick={() => setLanguage('si')}
+                    className={`py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                      language === 'si' ? 'bg-[#801414] text-white shadow-xs' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    සිංහල
+                  </button>
+                </div>
+              </div>
 
               {!user ? (
                 <Link
