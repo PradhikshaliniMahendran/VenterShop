@@ -26,7 +26,7 @@ export default function VirtualShops() {
   const virtualShops = [
     {
       id: 'supermarket',
-      title: isTa ? 'வர்ச்சுவல் சூப்பர் மார்க்கெட்' : isSi ? 'වर्चුවල් සුපර්මාර්කට්' : 'Virtual Supermarket',
+      title: isTa ? 'வர்ச்சுவல் சூப்பர் மார்க்கெட்' : isSi ? 'වර්චුවල් සුපර්මාර්කට්' : 'Virtual Supermarket',
       desc: isTa ? 'மளிகை & அன்றாட அத்தியாவசிய பொருட்கள்' : isSi ? 'බඩු බාහිරාදිය සහ එදිනෙදා අවශ්‍යතා' : 'Groceries & Daily Essentials',
       icon: ShoppingBag,
       image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80',
@@ -42,7 +42,7 @@ export default function VirtualShops() {
     },
     {
       id: 'shoe-shop',
-      title: isTa ? 'வர்ச்சுவல் ஷூ ஷாப்' : isSi ? 'වर्चුවල් සපත්තු සාප්පුව' : 'Virtual Shoe Shop',
+      title: isTa ? 'வர்ச்சுவல் ஷூ ஷாப்' : isSi ? 'වර්චුවල් සපත්තු සාප්පුව' : 'Virtual Shoe Shop',
       desc: isTa ? 'காலணிகள், செருப்புகள் & ஆக்சஸரீஸ்' : isSi ? 'සපත්තු, සෙරෙප්පු සහ උපාංග' : 'Shoes, Slippers & Accessories',
       icon: Footprints,
       image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80',
@@ -58,7 +58,7 @@ export default function VirtualShops() {
     },
     {
       id: 'book-shop',
-      title: isTa ? 'வர்ச்சுவல் புக் லேப்' : isSi ? 'වर्चුවල් පොත් සාප්පුව' : 'Virtual Book Lab',
+      title: isTa ? 'வர்ச்சுவல் புக் லேப்' : isSi ? 'වර්චුවල් පොත් සාප්පුව' : 'Virtual Book Lab',
       desc: isTa ? 'புத்தகங்கள், எழுதுபொருட்கள் & கல்வி' : isSi ? 'පොත්, ලිපිද්‍රව්‍ය සහ අධ්‍යාපනික' : 'Books, Stationery & Educational Items',
       icon: BookOpen,
       image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80',
@@ -74,7 +74,7 @@ export default function VirtualShops() {
     },
     {
       id: 'computer-center',
-      title: isTa ? 'வர்ச்சுவல் கணினி மையம்' : isSi ? 'වर्चුවල් පරිගණක මධ්‍යස්ථානය' : 'Virtual Computer Center',
+      title: isTa ? 'வர்ச்சுவல் கணினி மையம்' : isSi ? 'වර්චුවල් පරිගණක මධ්‍යස්ථානය' : 'Virtual Computer Center',
       desc: isTa ? 'கணினிகள், லேப்டாப்கள் & சாதனங்கள்' : isSi ? 'පරිගණක, ලැප්ටොප් සහ උපාංග' : 'Computers, Laptops & Accessories',
       icon: Laptop,
       image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=400&q=80',
@@ -90,7 +90,7 @@ export default function VirtualShops() {
     },
     {
       id: 'phone-shop',
-      title: isTa ? 'வர்ச்சுவல் போன் ஷாப்' : isSi ? 'වर्चුවල් දුරකථන සාප්පුව' : 'Virtual Phone Shop',
+      title: isTa ? 'வர்ச்சுவல் போன் ஷாப்' : isSi ? 'වර්චුවල් දුරකථන සාප්පුව' : 'Virtual Phone Shop',
       desc: isTa ? 'மொபைல் போன்கள் & ஆக்சஸரீஸ்' : isSi ? 'ජංගම දුරකථන සහ උපාංග' : 'Mobile Phones & Accessories',
       icon: Smartphone,
       image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80',
@@ -106,7 +106,7 @@ export default function VirtualShops() {
     },
     {
       id: 'fashion-store',
-      title: isTa ? 'வர்ச்சுவல் ஃபேஷன் ஸ்டோர்' : isSi ? 'වर्चුවල් ඇඳුම් සාප්පුව' : 'Virtual Fashion Store',
+      title: isTa ? 'வர்ச்சுவல் ஃபேஷன் ஸ்டோர்' : isSi ? 'වර්චුවල් ඇඳුම් සාප්පුව' : 'Virtual Fashion Store',
       desc: isTa ? 'ஆடைகள், பேக்குகள் & ஃபேஷன்' : isSi ? 'ඇඳුම් පැළඳුම්, බෑග් සහ උපාංග' : 'Clothing, Bags & Accessories',
       icon: Shirt,
       image: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=400&q=80',
@@ -122,7 +122,7 @@ export default function VirtualShops() {
     },
     {
       id: 'electronics-shop',
-      title: isTa ? 'வர்ச்சுவல் எலக்ட்ரானிக்ஸ்' : isSi ? 'වर्चුවල් ඉලෙක්ට්‍රොනික්ස්' : 'Virtual Electronics Shop',
+      title: isTa ? 'வர்ச்சுவல் எலக்ட்ரானிக்ஸ்' : isSi ? 'වර්චුවල් ඉලෙක්ට්‍රොනික්ස්' : 'Virtual Electronics Shop',
       desc: isTa ? 'வீட்டு உபயோக & மின்னணு பொருட்கள்' : isSi ? 'ගෘහස්ථ සහ විද්‍යුත් උපකරණ' : 'Home Appliances & Electronics',
       icon: Settings,
       image: 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=400&q=80',
