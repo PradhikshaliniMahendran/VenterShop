@@ -2,13 +2,15 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShieldCheck, Lock, Mail, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { ShieldCheck, Lock, Mail, ArrowRight, Eye, EyeOff } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const router = useRouter();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -99,17 +101,35 @@ export default function AdminLoginPage() {
 
           {/* Password input */}
           <div className="space-y-1.5">
-            <label className="text-gray-300 font-bold block">Password</label>
+            <div className="flex items-center justify-between">
+              <label className="text-gray-300 font-bold block">Password</label>
+              <Link
+                href="/login"
+                className="text-[11px] font-bold text-red-400 hover:text-red-300 hover:underline"
+              >
+                Reset via OTP?
+              </Link>
+            </div>
             <div className="relative">
               <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 required
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-[#101A2D] border border-white/10 rounded-xl outline-none focus:border-[#E53935] text-white font-bold text-xs"
+                className="w-full pl-10 pr-10 py-3 bg-[#101A2D] border border-white/10 rounded-xl outline-none focus:border-[#E53935] text-white font-bold text-xs"
               />
+              <button
+                type="button"
+                tabIndex={-1}
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white cursor-pointer p-0.5"
+                title={showPassword ? 'Hide password' : 'Show password'}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
             </div>
           </div>
 
@@ -117,7 +137,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 bg-[#E53935] hover:bg-[#c62828] text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all flex items-center justify-center gap-2 mt-2 disabled:bg-gray-600"
+            className="w-full py-3.5 bg-[#E53935] hover:bg-[#c62828] text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all flex items-center justify-center gap-2 mt-2 disabled:bg-gray-600 cursor-pointer"
           >
             <span>{loading ? 'Authenticating...' : 'Login to Admin Console'}</span>
             <ArrowRight className="w-4 h-4" />
@@ -127,12 +147,12 @@ export default function AdminLoginPage() {
       </div>
 
       {/* Footer Return Link */}
-      <a
+      <Link
         href="/"
         className="mt-6 text-gray-400 hover:text-white text-xs font-bold uppercase tracking-wider transition-colors"
       >
         ← Return to Storefront
-      </a>
+      </Link>
 
     </div>
   );
